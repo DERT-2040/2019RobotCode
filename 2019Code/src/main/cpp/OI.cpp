@@ -11,4 +11,5 @@
 
 OI::OI() {
   // Process operator interface input here.
+  gamepad = new frc::Joystick(0);
 }

@@ -30,5 +30,10 @@ void DriveTrain::Periodic()
 {
 
 }
+
+void DriveTrain::CurveDrive()
+{
+  drive->CurvatureDrive(Robot::m_oi.gamepad->GetRawAxis(0), Robot::m_oi.gamepad->GetRawAxis(1), false);
+}
 // Put methods for controlling this subsystem
 // here. Call these from Commands.

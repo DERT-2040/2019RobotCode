@@ -11,6 +11,8 @@
 #include "ctre/Phoenix.h"
 #include "frc/WPILib.h"
 #include "RobotMap.h"
+#include "../Robot.h"
+
 
 class DriveTrain : public frc::Subsystem {
  
@@ -31,4 +33,5 @@ class DriveTrain : public frc::Subsystem {
   DriveTrain();
   void Periodic() override;
   void InitDefaultCommand() override;
+  void CurveDrive();
 };
