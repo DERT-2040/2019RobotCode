@@ -7,6 +7,7 @@
 
 #include "subsystems/DriveTrain.h"
 #include "Robot.h"
+#include "commands/DriveWithJoySticks.h"
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
@@ -25,6 +26,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 void DriveTrain::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
+  SetDefaultCommand(new DriveWithJoySticks);
 }
 
 void DriveTrain::Periodic()

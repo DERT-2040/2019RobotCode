@@ -17,7 +17,10 @@ DriveWithJoySticks::DriveWithJoySticks() {
 void DriveWithJoySticks::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void DriveWithJoySticks::Execute() {}
+void DriveWithJoySticks::Execute() 
+{
+  Robot::m_driveTrain.CurveDrive();
+}
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveWithJoySticks::IsFinished() { return false; }
