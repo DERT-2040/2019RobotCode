@@ -6,10 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/DriveWithJoySticks.h"
+#include "Robot.h"
 
 DriveWithJoySticks::DriveWithJoySticks() {
   // Use Requires() here to declare subsystem dependencies
-  // eg. Requires(Robot::chassis.get());
+  Requires(&Robot::m_driveTrain);
 }
 
 // Called just before this Command runs the first time

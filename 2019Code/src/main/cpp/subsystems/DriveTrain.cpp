@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/DriveTrain.h"
-#include "../Robot.h"
+#include "Robot.h"
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {

@@ -15,7 +15,7 @@
 #include "commands/ExampleCommand.h"
 #include "commands/MyAutoCommand.h"
 #include "subsystems/ExampleSubsystem.h"
-#include "subsystems/Drivetrain.h"
+#include "subsystems/DriveTrain.h"
 
 class Robot : public frc::TimedRobot {
  public:
