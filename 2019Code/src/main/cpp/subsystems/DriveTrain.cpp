@@ -6,8 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/DriveTrain.h"
+#include "Robot.h"
 
-DriveTrain::DriveTrain() : Subsystem("DriveTrain")
+DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
   frontLeftDrive = new WPI_TalonSRX(kFrontLeftMotorPort);
   frontRightDrive = new WPI_TalonSRX(kFrontRightMotorPort);

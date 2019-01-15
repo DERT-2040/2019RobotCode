@@ -7,29 +7,15 @@
 
 #pragma once
 
-#include <frc/commands/Subsystem.h>
-#include "ctre/Phoenix.h"
-#include "frc/WPILib.h"
-#include "RobotMap.h"
+#include <frc/commands/Command.h>
 
-class DriveTrain : public frc::Subsystem {
+class DriveWithJoySticks : public frc::Command {
  
- private:
-
-  WPI_TalonSRX *frontLeftDrive;
-  WPI_TalonSRX *frontRightDrive;
-  WPI_TalonSRX *backLeftDrive;
-  WPI_TalonSRX *backRightDrive;
-
-  frc::SpeedControllerGroup *leftSide;
-  frc::SpeedControllerGroup *rightSide;
-
-  frc::DifferentialDrive *drive;
-
  public:
-
-  DriveTrain();
-  void Periodic() override;
-  void InitDefaultCommand() override;
-  void CurveDrive();
+  DriveWithJoySticks();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
 };
