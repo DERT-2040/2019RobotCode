@@ -26,6 +26,8 @@
 
 //DriveTrain
 constexpr int kFrontLeftMotorPort = 0;
-constexpr int kFrontRightMotorPort = 1;
+constexpr int kFrontRightMotorPort = 7;
 constexpr int kBackLeftMotorPort = 2;
 constexpr int kBackRightMotorPort = 3;
+
+constexpr int kLightSensorPort = 0;

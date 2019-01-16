@@ -20,11 +20,13 @@ class DriveTrain : public frc::Subsystem {
   WPI_TalonSRX *frontRightDrive;
   WPI_TalonSRX *backLeftDrive;
   WPI_TalonSRX *backRightDrive;
-
+  
   frc::SpeedControllerGroup *leftSide;
   frc::SpeedControllerGroup *rightSide;
 
   frc::DifferentialDrive *drive;
+
+  frc::AnalogInput * lightSensor;
 
  public:
 
