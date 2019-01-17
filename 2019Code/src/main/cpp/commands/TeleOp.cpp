@@ -8,7 +8,8 @@
 #include "commands/TeleOp.h"
 
 TeleOp::TeleOp() {
-  //AddParallel(Te)
+  AddParallel(new DriveWithJoySticks);
+  //AddParallel(new DisplayMode)
   // Add Commands here:
   // e.g. AddSequential(new Command1());
   //      AddSequential(new Command2());
