@@ -24,25 +24,29 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
-  lightSensor = new frc::AnalogInput(kLightSensorPort);
+  lightSensorArray[0] = new frc::AnalogInput(kLightSensorPort);
+  lightSensorArray[1] = new frc::AnalogInput(kLightSensor2Port);
 
+  ultrasonic = new frc::AnalogInput(kUltrasonicPort);
 }
 
 void DriveTrain::InitDefaultCommand() {
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
   SetDefaultCommand(new DriveWithJoySticks);
-  std::cout << "started" << std::endl;
 }
 
 void DriveTrain::Periodic()
 {
-  std::cout << lightSensor->GetVoltage() << std::endl;
+  updateLightSensorArray();
+  frc::SmartDashboard::PutNumber("UltraSonic (inches)", ultrasonic->GetVoltage() / 4.885 * 196.85);
 }
 
 void DriveTrain::CurveDrive()
 {
   drive->CurvatureDrive(Robot::m_oi.gamepad->GetRawAxis(5), -1*Robot::m_oi.gamepad->GetRawAxis(0), true);
 }
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+
+void DriveTrain::updateLightSensorArray()
+{
+  frc::SmartDashboard::PutNumber("Light Sensor 0", lightSensorArray[0]->GetVoltage());
+  frc::SmartDashboard::PutNumber("Light Sensor 1", lightSensorArray[1]->GetVoltage());
+}

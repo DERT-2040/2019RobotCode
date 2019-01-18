@@ -26,7 +26,11 @@ class DriveTrain : public frc::Subsystem {
 
   frc::DifferentialDrive *drive;
 
-  frc::AnalogInput * lightSensor;
+  frc::AnalogInput * lightSensorArray[2];
+
+  frc::AnalogInput * ultrasonic;
+
+  void updateLightSensorArray();
 
  public:
 

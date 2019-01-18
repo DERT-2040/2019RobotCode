@@ -31,3 +31,6 @@ constexpr int kBackLeftMotorPort = 2;
 constexpr int kBackRightMotorPort = 3;
 
 constexpr int kLightSensorPort = 0;
+constexpr int kLightSensor2Port = 1;
+
+constexpr int kUltrasonicPort = 2;
