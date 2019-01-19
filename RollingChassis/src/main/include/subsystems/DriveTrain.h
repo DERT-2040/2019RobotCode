@@ -24,11 +24,14 @@ class DriveTrain : public frc::Subsystem {
   
   frc::SpeedControllerGroup *leftSide;
   frc::SpeedControllerGroup *rightSide;
-
   frc::DifferentialDrive *drive;
 
   frc::AnalogInput * lightSensor;
-
+  
+  frc::Compressor *compressor;
+  frc::DoubleSolenoid *leftSolenoid;
+  frc::DoubleSolenoid *rightSolenoid;
+  int gear;
  public:
 
   DriveTrain();
@@ -36,4 +39,5 @@ class DriveTrain : public frc::Subsystem {
   void InitDefaultCommand() override;
   void CurveDrive();
   void DriveSpeed(float speed);
+  void ShiftGear(int gear);// 0 = first gear, 1 = second gear
 };

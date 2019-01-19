@@ -27,6 +27,11 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
   lightSensor = new frc::AnalogInput(kLightSensorPort);
 
+  compressor = new frc::Compressor(kCompressor);
+
+  rightSolenoid = new frc::DoubleSolenoid(kForwardRightSolenoid,kReverseRightSolenoid);
+  leftSolenoid = new frc::DoubleSolenoid(kForwardLeftSolenoid,kReverseLeftSolenoid);
+
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -47,6 +52,19 @@ void DriveTrain::CurveDrive()
 }
 void DriveTrain::DriveSpeed(float speed){
   drive->CurvatureDrive(0.5,0,false);
+}
+void DriveTrain::ShiftGear(int _gear){
+  if (gear != _gear){
+    gear = _gear;
+    if(gear == 1){
+      leftSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+      rightSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+    }
+    else if (gear == 0){
+      leftSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+      rightSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+    }
+  }
 }
 // Put methods for controlling this subsystem
 // here. Call these from Commands.W

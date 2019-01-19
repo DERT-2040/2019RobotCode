@@ -12,8 +12,6 @@
 #include "commands/Auto.h"
 class ModeChooser : public frc::Subsystem {
  private:
-  int mode;
-  int newMode;
 	frc::Command* commandToRun = nullptr;
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
