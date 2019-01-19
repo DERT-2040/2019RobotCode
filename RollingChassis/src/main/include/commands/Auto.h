@@ -8,9 +8,9 @@
 #pragma once
 
 #include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
+#include "commands/DriveForwardSpeed.h"
 #include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
+class Auto : public frc::CommandGroup {
  public:
-  TeleOp();
+  Auto();
 };

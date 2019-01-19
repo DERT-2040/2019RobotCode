@@ -17,11 +17,12 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   backLeftDrive = new WPI_TalonSRX(kBackLeftMotorPort);
   backRightDrive = new WPI_TalonSRX(kBackRightMotorPort);
 
-  backRightDrive->SetInverted(true);
+  frontLeftDrive->SetInverted(true);
 
   leftSide = new frc::SpeedControllerGroup(*frontLeftDrive, *backLeftDrive);
   rightSide = new frc::SpeedControllerGroup(*frontRightDrive, *backRightDrive);
-
+  leftSide -> SetInverted(true);
+  rightSide -> SetInverted(true);
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
   lightSensor = new frc::AnalogInput(kLightSensorPort);
@@ -42,10 +43,10 @@ void DriveTrain::Periodic()
 
 void DriveTrain::CurveDrive()
 {
-  drive->CurvatureDrive(Robot::m_oi.gamepad->GetRawAxis(5), -1*Robot::m_oi.gamepad->GetRawAxis(0), true);
+  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0), true);
 }
 void DriveTrain::DriveSpeed(float speed){
   drive->CurvatureDrive(0.5,0,false);
 }
 // Put methods for controlling this subsystem
-// here. Call these from Commands.
+// here. Call these from Commands.W

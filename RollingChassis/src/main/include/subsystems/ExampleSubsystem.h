@@ -7,10 +7,14 @@
 
 #pragma once
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
+#include <frc/commands/Subsystem.h>
+
+class ExampleSubsystem : public frc::Subsystem {
  public:
-  TeleOp();
+  ExampleSubsystem();
+  void InitDefaultCommand() override;
+
+ private:
+  // It's desirable that everything possible under private except
+  // for methods that implement subsystem capabilities
 };

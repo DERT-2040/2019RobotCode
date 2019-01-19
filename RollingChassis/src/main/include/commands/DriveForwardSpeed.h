@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,10 +7,16 @@
 
 #pragma once
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
+#include <frc/commands/Command.h>
+class DriveForwardSpeed  : public frc::Command {
+ 
  public:
-  TeleOp();
+  DriveForwardSpeed(float _speed);
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+ private:
+  float speed;
 };

@@ -7,10 +7,15 @@
 
 #pragma once
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
+#include <frc/commands/Command.h>
+
+class DriveWithJoySticks : public frc::Command {
+ 
  public:
-  TeleOp();
+  DriveWithJoySticks();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
 };

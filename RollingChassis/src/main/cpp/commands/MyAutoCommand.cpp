@@ -5,33 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/DriveWithJoySticks.h"
+#include "commands/MyAutoCommand.h"
+
 #include "Robot.h"
-#include <iostream>
-DriveWithJoySticks::DriveWithJoySticks() {
+
+MyAutoCommand::MyAutoCommand() {
   // Use Requires() here to declare subsystem dependencies
-  Requires(&Robot::m_driveTrain);
+  Requires(&Robot::m_subsystem);
 }
 
 // Called just before this Command runs the first time
-void DriveWithJoySticks::Initialize() {
-  }
+void MyAutoCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void DriveWithJoySticks::Execute() 
-{
-  Robot::m_driveTrain.CurveDrive();
-}
+void MyAutoCommand::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
-bool DriveWithJoySticks::IsFinished() { return false; }
+bool MyAutoCommand::IsFinished() { return false; }
 
 // Called once after isFinished returns true
-void DriveWithJoySticks::End() {}
+void MyAutoCommand::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void DriveWithJoySticks::Interrupted() {
-  std::cout << "YE" << std::endl;
-
-}
+void MyAutoCommand::Interrupted() {}

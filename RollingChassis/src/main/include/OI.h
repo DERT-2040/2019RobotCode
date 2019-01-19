@@ -6,11 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
+#include <frc/Joystick.h>
+class OI 
+{
+ 
+  public:
+    OI();
+    frc::Joystick * gamepad;
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
- public:
-  TeleOp();
 };

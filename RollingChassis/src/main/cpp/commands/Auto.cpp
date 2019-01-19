@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TeleOp.h"
+#include "commands/Auto.h"
 
-TeleOp::TeleOp() {
-  AddSequential(new DriveWithJoySticks());
-  frc::SmartDashboard::PutString("Mode", "TeleOp");
+Auto::Auto() {
+  AddSequential(new DriveForwardSpeed(0.15));
+  frc::SmartDashboard::PutString("Mode", "Auto");
   // Add Commands here:
   // e.g. AddSequential(new Command1());
   //      AddSequential(new Command2());

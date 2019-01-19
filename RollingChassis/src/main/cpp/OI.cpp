@@ -5,12 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "OI.h"
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
- public:
-  TeleOp();
-};
+#include <frc/WPILib.h>
+
+OI::OI() {
+  // Process operator interface input here.
+  gamepad = new frc::Joystick(0);
+}

@@ -7,10 +7,20 @@
 
 #pragma once
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
+#include <frc/commands/Subsystem.h>
+#include "commands/TeleOp.h"
+#include "commands/Auto.h"
+class ModeChooser : public frc::Subsystem {
+ private:
+  int mode;
+  int newMode;
+  bool firstRun;
+	frc::Command* commandToRun = nullptr;
+  // It's desirable that everything possible under private except
+  // for methods that implement subsystem capabilities
+
  public:
-  TeleOp();
+  ModeChooser();
+  void Periodic() override;
+  void InitDefaultCommand() override;
 };

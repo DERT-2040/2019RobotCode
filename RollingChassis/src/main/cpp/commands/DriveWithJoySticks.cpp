@@ -24,7 +24,7 @@ void DriveWithJoySticks::Execute()
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool DriveWithJoySticks::IsFinished() { return false; }
+bool DriveWithJoySticks::IsFinished() { return true; }
 
 // Called once after isFinished returns true
 void DriveWithJoySticks::End() {}
@@ -32,6 +32,5 @@ void DriveWithJoySticks::End() {}
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void DriveWithJoySticks::Interrupted() {
-  std::cout << "YE" << std::endl;
 
 }

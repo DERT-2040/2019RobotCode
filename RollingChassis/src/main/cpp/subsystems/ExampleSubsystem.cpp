@@ -5,12 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "subsystems/ExampleSubsystem.h"
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "frc/WPILib.h"
-class TeleOp : public frc::CommandGroup {
- public:
-  TeleOp();
-};
+#include "RobotMap.h"
+
+ExampleSubsystem::ExampleSubsystem() : frc::Subsystem("ExampleSubsystem") {}
+
+void ExampleSubsystem::InitDefaultCommand() {
+  // Set the default command for a subsystem here.
+  // SetDefaultCommand(new MySpecialCommand());
+}
+
+// Put methods for controlling this subsystem
+// here. Call these from Commands.
