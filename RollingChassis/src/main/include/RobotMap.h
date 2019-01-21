@@ -33,10 +33,8 @@ constexpr int kBackRightMotorPort = 1;
 constexpr int kLightSensorPort = 0;
 
 
-constexpr int kForwardRightSolenoid = 0;
-constexpr int kReverseRightSolenoid = 1;
-constexpr int kForwardLeftSolenoid = 2;
-constexpr int kReverseLeftSolenoid = 3;
+constexpr int kForwardDriveSolenoid = 6;
+constexpr int kReverseDriveSolenoid = 7;
 
 constexpr int kCompressor = 0;
 

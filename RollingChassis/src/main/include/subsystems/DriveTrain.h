@@ -29,8 +29,7 @@ class DriveTrain : public frc::Subsystem {
   frc::AnalogInput * lightSensor;
   
   frc::Compressor *compressor;
-  frc::DoubleSolenoid *leftSolenoid;
-  frc::DoubleSolenoid *rightSolenoid;
+  frc::DoubleSolenoid *driveSolenoid;
   int gear;
  public:
 

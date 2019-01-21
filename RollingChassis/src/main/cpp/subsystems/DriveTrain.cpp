@@ -29,8 +29,9 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
   compressor = new frc::Compressor(kCompressor);
 
-  rightSolenoid = new frc::DoubleSolenoid(kForwardRightSolenoid,kReverseRightSolenoid);
-  leftSolenoid = new frc::DoubleSolenoid(kForwardLeftSolenoid,kReverseLeftSolenoid);
+	compressor->SetClosedLoopControl(true);
+  driveSolenoid = new frc::DoubleSolenoid(kForwardDriveSolenoid,kReverseDriveSolenoid);
+
 
 }
 
@@ -57,12 +58,10 @@ void DriveTrain::ShiftGear(int _gear){
   if (gear != _gear){
     gear = _gear;
     if(gear == 1){
-      leftSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
-      rightSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
     }
     else if (gear == 0){
-      leftSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
-      rightSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
     }
   }
 }
