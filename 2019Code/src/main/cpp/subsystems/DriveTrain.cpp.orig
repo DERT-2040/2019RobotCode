@@ -1,0 +1,71 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+#include "subsystems/DriveTrain.h"
+#include "Robot.h"
+#include "commands/DriveWithJoySticks.h"
+#include <iostream>
+
+DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
+{
+  frontLeftDrive = new WPI_TalonSRX(kFrontLeftMotorPort);
+  frontRightDrive = new WPI_TalonSRX(kFrontRightMotorPort);
+  backLeftDrive = new WPI_TalonSRX(kBackLeftMotorPort);
+  backRightDrive = new WPI_TalonSRX(kBackRightMotorPort);
+
+  backRightDrive->SetInverted(true);
+
+  leftSide = new frc::SpeedControllerGroup(*frontLeftDrive, *backLeftDrive);
+  rightSide = new frc::SpeedControllerGroup(*frontRightDrive, *backRightDrive);
+
+  drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
+
+  lightSensorArray[0] = new frc::AnalogInput(kLightSensorPort);
+  lightSensorArray[1] = new frc::AnalogInput(kLightSensor2Port);
+
+  ultrasonic = new frc::AnalogInput(kUltrasonicPort);
+}
+
+void DriveTrain::InitDefaultCommand() {
+<<<<<<< HEAD
+  // Set the default command for a subsystem here.
+  // SetDefaultCommand(new MySpecialCommand());
+  //SetDefaultCommand(new DriveWithJoySticks);
+  //std::cout << "started" << std::endl;
+=======
+  SetDefaultCommand(new DriveWithJoySticks);
+>>>>>>> origin/master
+}
+
+void DriveTrain::Periodic()
+{
+<<<<<<< HEAD
+  //std::cout << lightSensor->GetVoltage() << std::endl;
+=======
+  updateLightSensorArray();
+  frc::SmartDashboard::PutNumber("UltraSonic (inches)", ultrasonic->GetVoltage() / 4.885 * 196.85);
+>>>>>>> origin/master
+}
+
+void DriveTrain::CurveDrive()
+{
+  drive->CurvatureDrive(Robot::m_oi.gamepad->GetRawAxis(5), -1*Robot::m_oi.gamepad->GetRawAxis(0), true);
+}
+<<<<<<< HEAD
+void DriveTrain::DriveSpeed(float speed){
+  drive->CurvatureDrive(0.5,0,false);
+}
+// Put methods for controlling this subsystem
+// here. Call these from Commands.
+=======
+
+void DriveTrain::updateLightSensorArray()
+{
+  frc::SmartDashboard::PutNumber("Light Sensor 0", lightSensorArray[0]->GetVoltage());
+  frc::SmartDashboard::PutNumber("Light Sensor 1", lightSensorArray[1]->GetVoltage());
+}
+>>>>>>> origin/master
