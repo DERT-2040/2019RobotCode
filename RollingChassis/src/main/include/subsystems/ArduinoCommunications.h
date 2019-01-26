@@ -8,7 +8,8 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include <I2C.h>
+#include <frc/I2C.h>
+#include "frc/WPILib.h"
 class ArduinoCommunications : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except

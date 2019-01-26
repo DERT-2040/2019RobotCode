@@ -14,6 +14,7 @@ ExampleSubsystem Robot::m_subsystem;
 OI Robot::m_oi;
 DriveTrain Robot::m_driveTrain;
 ModeChooser Robot::m_modeChooser;
+ArduinoCommunications Robot::m_arduinoCommunications;
 
 
 void Robot::RobotInit() {

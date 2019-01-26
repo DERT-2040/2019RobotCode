@@ -22,15 +22,20 @@ void ArduinoCommunications::Periodic(){
 float* ArduinoCommunications::getValues(){
   
     byte* data = new byte[32];//create a byte array to hold the incoming data
-		wire->Read(4, 32, data);//use address 4 on i2c and store it in data
-		char* output = new char[sizeof(data)];
+		uint8_t test = 't';
+    wire->Read(4, 32, data);//use address 4 on i2c and store it in data
+    wire->Write(4,test);
+    char* output = new char[12];
     int size = 1;
-    for (int i = 0; i < sizeof(data); i++){
-      output[i] = (char)data[i];
-      if ((char)data[i] == '|'){
+    for (int i = 0; i < 12; i++){
+      output[i] = data[i];
+      /*if ((char)data[i] == '|'){
         size++;
-      }
+      }*/
     }
+    output[11] = 0;//Terminating String so it doesn't overflow
+    frc::SmartDashboard::PutString("I2C",output);
+    /*
     std::string s = output;
     std::string delimiter = "|";
     char * pch;
@@ -43,8 +48,8 @@ float* ArduinoCommunications::getValues(){
       pch = strtok(NULL,"|");
     }
     return floatData;
+    */
     //create a string from the byte array
-    //im not sure what these last two lines do
 }
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
