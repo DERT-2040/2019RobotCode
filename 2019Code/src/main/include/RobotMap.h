@@ -23,18 +23,31 @@
 // number and the module. For example you with a rangefinder:
 // constexpr int kRangeFinderPort = 1;
 // constexpr int kRangeFinderModule = 1;
+//Talons
+    //DriveTrain
+        constexpr int kFrontLeftMotorPort = 1;
+        constexpr int kFrontRightMotorPort = 2;
+        constexpr int kBackLeftMotorPort = 3;
+        constexpr int kBackRightMotorPort = 4;
+    //Intake
+        constexpr int kRightIntakeWheel = 5;
+        constexpr int kLeftIntakeWheel = 6;
+    //Hatch Pickup
+        constexpr int kHatchIntake = 7;
 
-//DriveTrain
-constexpr int kFrontLeftMotorPort = 7;
-constexpr int kFrontRightMotorPort = 5;
-constexpr int kBackLeftMotorPort = 3;
-constexpr int kBackRightMotorPort = 1;
 
+//Analog Inputs
 constexpr int kLightSensorPort = 0;
 
+//Digital Inputs
+constexpr int kPickupUprightSwitch = 0;
+constexpr int kPickupRetractedSwitch = 1;
+constexpr int kPickupDeployedSwitch = 2;
 
+//Pneumatics
 constexpr int kForwardDriveSolenoid = 6;
 constexpr int kReverseDriveSolenoid = 7;
-
+constexpr int kForwardIntakeSolenoid = 1;
+constexpr int kReverseIntakeSolenoid = 1;
 constexpr int kCompressor = 0;
 

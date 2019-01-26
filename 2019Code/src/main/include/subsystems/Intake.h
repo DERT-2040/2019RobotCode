@@ -15,13 +15,16 @@ class Intake : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  //WPI_TalonSRX *LeftIntake;
-  //WPI_TalonSRX *RightIntake;
- 
+  WPI_TalonSRX *leftIntake;
+  WPI_TalonSRX *rightIntake;
+  frc::DoubleSolenoid *intakeSolenoid;
+  bool state;
  public:
   Intake();
   void Periodic() override;
   void InitDefaultCommand() override;
   void SetWheelSpeed(float speed);
+  void SetState(bool _state);// 0 is open and 1 is closed
+  bool IsClosed();
   //void S
 };

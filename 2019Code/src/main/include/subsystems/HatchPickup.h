@@ -8,25 +8,28 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include <frc/I2C.h>
+#include "ctre/Phoenix.h"
 #include "frc/WPILib.h"
-class ArduinoCommunications : public frc::Subsystem {
+#include "RobotMap.h"
+class HatchPickup : public frc::Subsystem {
  private:
+  WPI_TalonSRX *hatchIntake;
+	frc::DigitalInput *uprightSwitch;
+	frc::DigitalInput *retractedSwitch;
+	frc::DigitalInput *deployedSwitch;
+  int desiredState = 0;
+  int state = 0;
+  int previousState = 0;
+  float motorOutput = 0;
+
+  void SetSpeed();
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  float* inputArray;
-  float inchesOffLine;
-  float angle;
-  float distance;
-  frc::I2C* wire;
-  float bytesToFloat(uint8_t b0,uint8_t b1,uint8_t b2,uint8_t b3);
- public:
-  ArduinoCommunications();
-  void InitDefaultCommand() override;
-  void Periodic() override;
-  void getValues();
-  float getInchesOffLine();
-  float getAngle();
-  float getUltrasonicDistance();
 
+ public:
+  HatchPickup();
+  void Periodic() override;
+  void InitDefaultCommand() override;
+  void SetState(int _state);// 0 is fully retracted, 1 is upright, 2 is completely down
+  int GetState();
 };
