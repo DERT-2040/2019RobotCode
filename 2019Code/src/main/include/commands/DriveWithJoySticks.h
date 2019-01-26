@@ -10,7 +10,7 @@
 #include <frc/commands/Command.h>
 
 class DriveWithJoySticks : public frc::Command {
- 
+ private:
  public:
   DriveWithJoySticks();
   void Initialize() override;

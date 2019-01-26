@@ -25,12 +25,16 @@
 // constexpr int kRangeFinderModule = 1;
 
 //DriveTrain
-constexpr int kFrontLeftMotorPort = 0;
-constexpr int kFrontRightMotorPort = 7;
-constexpr int kBackLeftMotorPort = 2;
-constexpr int kBackRightMotorPort = 3;
+constexpr int kFrontLeftMotorPort = 7;
+constexpr int kFrontRightMotorPort = 5;
+constexpr int kBackLeftMotorPort = 3;
+constexpr int kBackRightMotorPort = 1;
 
 constexpr int kLightSensorPort = 0;
-constexpr int kLightSensor2Port = 1;
 
-constexpr int kUltrasonicPort = 2;
+
+constexpr int kForwardDriveSolenoid = 6;
+constexpr int kReverseDriveSolenoid = 7;
+
+constexpr int kCompressor = 0;
+

@@ -8,33 +8,17 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include "ctre/Phoenix.h"
+#include <frc/I2C.h>
 #include "frc/WPILib.h"
-#include "RobotMap.h"
-class DriveTrain : public frc::Subsystem {
- 
+class ArduinoCommunications : public frc::Subsystem {
  private:
-
-  WPI_TalonSRX *frontLeftDrive;
-  WPI_TalonSRX *frontRightDrive;
-  WPI_TalonSRX *backLeftDrive;
-  WPI_TalonSRX *backRightDrive;
-  
-  frc::SpeedControllerGroup *leftSide;
-  frc::SpeedControllerGroup *rightSide;
-  frc::DifferentialDrive *drive;
-
-  frc::AnalogInput * lightSensor;
-  
-  frc::Compressor *compressor;
-  frc::DoubleSolenoid *driveSolenoid;
-  int gear;
+  // It's desirable that everything possible under private except
+  // for methods that implement subsystem capabilities
+  float* inputArray;
+  frc::I2C* wire;
  public:
-
-  DriveTrain();
-  void Periodic() override;
+  ArduinoCommunications();
   void InitDefaultCommand() override;
-  void CurveDrive();
-  void DriveSpeed(float speed);
-  void ShiftGear(int gear);// 0 = first gear, 1 = second gear
+  void Periodic() override;
+  float* getValues();
 };

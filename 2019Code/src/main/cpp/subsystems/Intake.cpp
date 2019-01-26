@@ -5,22 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "subsystems/Intake.h"
 
-#include <frc/commands/Subsystem.h>
-#include "commands/TeleOp.h"
-#include "commands/Auto.h"
-class ModeChooser : public frc::Subsystem {
- private:
-  int mode;
-  int newMode;
-  bool firstRun;
-	frc::Command* commandToRun = nullptr;
-  // It's desirable that everything possible under private except
-  // for methods that implement subsystem capabilities
+Intake::Intake() : frc::Subsystem("Intake") {}
 
- public:
-  ModeChooser();
-  void Periodic() override;
-  void InitDefaultCommand() override;
-};
+void Intake::InitDefaultCommand() {
+  // Set the default command for a subsystem here.
+  // SetDefaultCommand(new MySpecialCommand());
+}
+void Intake::Periodic(){
+  
+}
+// Put methods for controlling this subsystem
+// here. Call these from Commands.

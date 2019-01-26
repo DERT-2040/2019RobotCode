@@ -16,6 +16,7 @@
 #include "commands/MyAutoCommand.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "subsystems/DriveTrain.h"
+#include "subsystems/ArduinoCommunications.h"
 #include "subsystems/ModeChooser.h"
 
 class Robot : public frc::TimedRobot {
@@ -24,7 +25,8 @@ class Robot : public frc::TimedRobot {
   static OI m_oi;
   static DriveTrain m_driveTrain;
   static ModeChooser m_modeChooser;
-  
+  static ArduinoCommunications m_arduinoCommunications;
+
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;

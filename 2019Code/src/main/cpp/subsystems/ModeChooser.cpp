@@ -8,7 +8,7 @@
 #include "subsystems/ModeChooser.h"
 #include "Robot.h"
 ModeChooser::ModeChooser() : Subsystem("ModeChooser") {
-  
+  firstRun = true;
 }
 void ModeChooser::Periodic() {
   if(Robot::m_oi.gamepad->GetRawButton(1)){
@@ -19,6 +19,21 @@ void ModeChooser::Periodic() {
       commandToRun = new TeleOp();
       commandToRun->Start();
   }
+  /*if(mode != newMode){
+    if(newMode == 0){s
+    }
+    if(newMode == 1){
+    }
+    mode = newMode;
+  }
+  if (firstRun){
+      mode = 0;
+      newMode = 0;
+      frc::SmartDashboard::PutString("FirstRun", "Activated");
+      commandToRun = new TeleOp();
+      commandToRun->Start();
+      firstRun = false;
+  }*/
 }
 void ModeChooser::InitDefaultCommand() {
   // Set the default command for a subsystem here.

@@ -17,41 +17,58 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   backLeftDrive = new WPI_TalonSRX(kBackLeftMotorPort);
   backRightDrive = new WPI_TalonSRX(kBackRightMotorPort);
 
-  backRightDrive->SetInverted(true);
+  frontLeftDrive->SetInverted(true);
 
   leftSide = new frc::SpeedControllerGroup(*frontLeftDrive, *backLeftDrive);
   rightSide = new frc::SpeedControllerGroup(*frontRightDrive, *backRightDrive);
-
+  leftSide -> SetInverted(true);
+  rightSide -> SetInverted(true);
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
-  ultrasonic = new frc::AnalogInput(kUltrasonicPort);
+  lightSensor = new frc::AnalogInput(kLightSensorPort);
+
+  compressor = new frc::Compressor(kCompressor);
+
+	compressor->SetClosedLoopControl(true);
+  driveSolenoid = new frc::DoubleSolenoid(kForwardDriveSolenoid,kReverseDriveSolenoid);
+
+
 }
 
 void DriveTrain::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
   //SetDefaultCommand(new DriveWithJoySticks);
-  std::cout << "started" << std::endl;
+  //std::cout << "started" << std::endl;
+  backLeftDrive->GetSensorCollection().SetQuadraturePosition(0);
+  backRightDrive->GetSensorCollection().SetQuadraturePosition(0);
 }
 
 void DriveTrain::Periodic()
 {
-  updateLightSensorArray();
-  frc::SmartDashboard::PutNumber("UltraSonic (inches)", ultrasonic->GetVoltage() / 4.885 * 196.85);
-  frc::SmartDashboard::PutNumber("left encoder", frontLeftDrive->GetSensorCollection().GetQuadraturePosition())
-  frc::SmartDashboard::PutNumber("right encoder", ->GetSensorCollection().GetQuadraturePosition())
-
+  //std::cout << lightSensor->GetVoltage() << std::endl;
+  std::cout << backLeftDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << backRightDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << "" << std::endl;
 }
 
 void DriveTrain::CurveDrive()
 {
-  drive->CurvatureDrive(Robot::m_oi.gamepad->GetRawAxis(5), -1*Robot::m_oi.gamepad->GetRawAxis(0), true);
+  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0)*.45, true);
 }
 void DriveTrain::DriveSpeed(float speed){
   drive->CurvatureDrive(0.5,0,false);
 }
-
-void DriveTrain::updateLightSensorArray()
-{
-
+void DriveTrain::ShiftGear(int _gear){
+  if (gear != _gear){
+    gear = _gear;
+    if(gear == 1){
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+    }
+    else if (gear == 0){
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+    }
+  }
 }
+// Put methods for controlling this subsystem
+// here. Call these from Commands.W

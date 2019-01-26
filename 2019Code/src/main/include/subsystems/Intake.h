@@ -11,30 +11,17 @@
 #include "ctre/Phoenix.h"
 #include "frc/WPILib.h"
 #include "RobotMap.h"
-class DriveTrain : public frc::Subsystem {
- 
+class Intake : public frc::Subsystem {
  private:
-
-  WPI_TalonSRX *frontLeftDrive;
-  WPI_TalonSRX *frontRightDrive;
-  WPI_TalonSRX *backLeftDrive;
-  WPI_TalonSRX *backRightDrive;
-  
-  frc::SpeedControllerGroup *leftSide;
-  frc::SpeedControllerGroup *rightSide;
-  frc::DifferentialDrive *drive;
-
-  frc::AnalogInput * lightSensor;
-  
-  frc::Compressor *compressor;
-  frc::DoubleSolenoid *driveSolenoid;
-  int gear;
+  // It's desirable that everything possible under private except
+  // for methods that implement subsystem capabilities
+  //WPI_TalonSRX *LeftIntake;
+  //WPI_TalonSRX *RightIntake;
+ 
  public:
-
-  DriveTrain();
+  Intake();
   void Periodic() override;
   void InitDefaultCommand() override;
-  void CurveDrive();
-  void DriveSpeed(float speed);
-  void ShiftGear(int gear);// 0 = first gear, 1 = second gear
+  void SetWheelSpeed(float speed);
+  //void S
 };
