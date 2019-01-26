@@ -40,16 +40,21 @@ void DriveTrain::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
   //SetDefaultCommand(new DriveWithJoySticks);
   //std::cout << "started" << std::endl;
+  backLeftDrive->GetSensorCollection().SetQuadraturePosition(0);
+  backRightDrive->GetSensorCollection().SetQuadraturePosition(0);
 }
 
 void DriveTrain::Periodic()
 {
   //std::cout << lightSensor->GetVoltage() << std::endl;
+  std::cout << backLeftDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << backRightDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << "" << std::endl;
 }
 
 void DriveTrain::CurveDrive()
 {
-  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0), true);
+  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0)*.45, true);
 }
 void DriveTrain::DriveSpeed(float speed){
   drive->CurvatureDrive(0.5,0,false);

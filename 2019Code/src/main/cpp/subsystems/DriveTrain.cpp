@@ -24,9 +24,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
-  lightSensorArray[0] = new frc::AnalogInput(kLightSensorPort);
-  lightSensorArray[1] = new frc::AnalogInput(kLightSensor2Port);
-
   ultrasonic = new frc::AnalogInput(kUltrasonicPort);
 }
 
@@ -41,6 +38,9 @@ void DriveTrain::Periodic()
 {
   updateLightSensorArray();
   frc::SmartDashboard::PutNumber("UltraSonic (inches)", ultrasonic->GetVoltage() / 4.885 * 196.85);
+  frc::SmartDashboard::PutNumber("left encoder", frontLeftDrive->GetSensorCollection().GetQuadraturePosition())
+  frc::SmartDashboard::PutNumber("right encoder", ->GetSensorCollection().GetQuadraturePosition())
+
 }
 
 void DriveTrain::CurveDrive()
@@ -53,6 +53,5 @@ void DriveTrain::DriveSpeed(float speed){
 
 void DriveTrain::updateLightSensorArray()
 {
-  frc::SmartDashboard::PutNumber("Light Sensor 0", lightSensorArray[0]->GetVoltage());
-  frc::SmartDashboard::PutNumber("Light Sensor 1", lightSensorArray[1]->GetVoltage());
+
 }
