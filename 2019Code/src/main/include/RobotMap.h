@@ -23,6 +23,7 @@
 // number and the module. For example you with a rangefinder:
 // constexpr int kRangeFinderPort = 1;
 // constexpr int kRangeFinderModule = 1;
+
 //Talons
     //DriveTrain
         constexpr int kFrontLeftMotorPort = 1;
@@ -34,6 +35,8 @@
         constexpr int kLeftIntakeWheel = 6;
     //Hatch Pickup
         constexpr int kHatchIntake = 7;
+    //Slider
+        constexpr int kSliderMotorPort = 8;
 
 
 //Analog Inputs
