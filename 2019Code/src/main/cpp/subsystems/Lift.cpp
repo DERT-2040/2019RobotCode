@@ -38,7 +38,15 @@ Lift::Lift() : Subsystem("Lift")
   secondLiftMotor->Follow(*masterLiftMotor);
 
   fourBarMotor = new WPI_TalonSRX(kFourBarMotorPort);
+  fourBarMotor->SetInverted(false);
   fourBarMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::Analog, kPIDLoopIdx, talonTimeoutMs);
+  
+  fourBarMotor->Config_kP(kSlotIdx, fbkP, talonTimeoutMs);
+  fourBarMotor->Config_kI(kSlotIdx, fbkI, talonTimeoutMs);
+  fourBarMotor->Config_kD(kSlotIdx, fbkD, talonTimeoutMs);
+  fourBarMotor->Config_kF(kSlotIdx, fbkF, talonTimeoutMs);
+  fourBarMotor->ConfigMotionCruiseVelocity(fourBarCruiseVelocity);
+  fourBarMotor->ConfigMotionAcceleration(fourBarAcceleration);
 
 }
 
@@ -50,6 +58,12 @@ void Lift::InitDefaultCommand()
 void Lift::setElevatorHeight(double height)
 {
   masterLiftMotor->Set(ControlMode::MotionMagic, height*heightToTickRatio);
+}
+
+void Lift::setFourBarHeight(double height)
+{
+  double angle = asin(height/fourBarLength) * 180 / M_PI;
+  
 }
 
 

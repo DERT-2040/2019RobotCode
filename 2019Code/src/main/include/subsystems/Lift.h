@@ -11,6 +11,8 @@
 #include <ctre/Phoenix.h>
 #include "RobotMap.h"
 
+# define M_PI 3.14159265358979323846
+
 class Lift : public frc::Subsystem 
 {
  
@@ -22,17 +24,21 @@ class Lift : public frc::Subsystem
 
   double talonTimeoutMs;
   double liftkP, liftkI, liftkD, liftkF;
+  double fbkP, fbkI, fbkD, fbkF;
   double liftCruiseVelocity, liftAcceleration;
+  double fourBarCruiseVelocity, fourBarAcceleration;
 
   //constants
   const int kPIDLoopIdx = 0;
   const int kSlotIdx = 0;
   const double heightToTickRatio = 0;
+  const double angleToUnitRatio = 0;
+  const double fourBarLength = 0;
 
  public:
 
   Lift();
   void InitDefaultCommand() override;
   void setElevatorHeight(double height);
-
+  void setFourBarHeight(double height);
 };
