@@ -37,7 +37,11 @@
         constexpr int kHatchIntake = 7;
     //Slider
         constexpr int kSliderMotorPort = 8;
-
+    //Lift
+        constexpr int kMasterLiftMotorPort = 9;
+        constexpr int kSecondLiftMotorPort = 10;
+    //Four-bar
+        constexpr int kFourBarMotorPort = 11;
 
 //Analog Inputs
 constexpr int kLightSensorPort = 0;
