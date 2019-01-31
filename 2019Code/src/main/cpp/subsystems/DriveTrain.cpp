@@ -12,6 +12,30 @@
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
+  masterRightMotor->Config_kP(kSlotIdx, kP, 30);
+  masterRightMotor->Config_kI(kSlotIdx, kI, 30);
+  masterRightMotor->Config_kD(kSlotIdx, kD, 30);
+  masterRightMotor->Config_kF(kSlotIdx, kF, 30);
+
+  masterLeftMotor->Config_kP(kSlotIdx, kP, 30);
+  masterLeftMotor->Config_kI(kSlotIdx, kI, 30);
+  masterLeftMotor->Config_kD(kSlotIdx, kD, 30);
+  masterLeftMotor->Config_kF(kSlotIdx, kF, 30);
+
+  masterLeftMotor->ConfigMotionCruiseVelocity(cruiseVelocity);
+  masterLeftMotor->ConfigMotionAcceleration(acceleration);
+  masterLeftMotor->ConfigAllowableClosedloopError(kSlotIdx, .50, 30);
+
+  masterRightMotor->ConfigMotionCruiseVelocity(cruiseVelocity);
+  masterRightMotor->ConfigMotionAcceleration(acceleration);
+  masterRightMotor->ConfigAllowableClosedloopError(kSlotIdx, .50, 30);
+
+  masterLeftMotor->ConfigSelectedFeedbackSensor(CTRE_MagEncoder_Relative, kPIDSlotIdx, 30);
+  masterLeftMotor->SetSelectedSensorPosition(0, kPIDSlotIdx, 30);
+
+  masterRightMotor->ConfigSelectedFeedbackSensor(CTRE_MagEncoder_Relative, kPIDSlotIdx, 30);
+  masterRightMotor->SetSelectedSensorPosition(0, kPIDSlotIdx, 30);
+
   secondLeftMotor = new WPI_TalonSRX(kSecondLeftMotorPort);
   secondRightMotor = new WPI_TalonSRX(kSecondRightMotorPort);
   masterLeftMotor = new WPI_TalonSRX(kMasterLeftMotorPort);
@@ -19,19 +43,26 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
   secondLeftMotor->SetInverted(true);
 
+  secondLeftMotor->Follow(*masterLeftMotor);
+  secondRightMotor->Follow(*masterRightMotor);
+
+  /*
   leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
   rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
   leftSide -> SetInverted(true);
   rightSide -> SetInverted(true);
-  drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
+  */
 
-  lightSensor = new frc::AnalogInput(kLightSensorPort);
+  masterLeftMotor->SetInverted(true);
+  masterRightMotor->SetInverted(true);
+
+  //drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
+  drive = new frc::DifferentialDrive(*masterLeftMotor, *masterRightMotor);
 
   compressor = new frc::Compressor(kCompressor);
 
 	compressor->SetClosedLoopControl(true);
   driveSolenoid = new frc::DoubleSolenoid(kForwardDriveSolenoid,kReverseDriveSolenoid);
-
 
 }
 
@@ -56,10 +87,14 @@ void DriveTrain::CurveDrive()
 {
   drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0)*.45, true);
 }
-void DriveTrain::DriveSpeed(float speed){
+
+void DriveTrain::DriveSpeed(float speed)
+{
   drive->CurvatureDrive(0.5,0,false);
 }
-void DriveTrain::ShiftGear(int _gear){
+
+void DriveTrain::ShiftGear(int _gear)
+{
   if (gear != _gear){
     gear = _gear;
     if(gear == 1){
@@ -70,5 +105,10 @@ void DriveTrain::ShiftGear(int _gear){
     }
   }
 }
-// Put methods for controlling this subsystem
-// here. Call these from Commands.W
+
+void DriveTrain::driveFeet(float feet)
+{
+
+}
+
+

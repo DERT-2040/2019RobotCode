@@ -15,20 +15,28 @@ class DriveTrain : public frc::Subsystem {
  
  private:
 
-  WPI_TalonSRX *secondLeftMotor;
-  WPI_TalonSRX *secondRightMotor;
   WPI_TalonSRX *masterLeftMotor;
   WPI_TalonSRX *masterRightMotor;
+  WPI_TalonSRX *secondLeftMotor;
+  WPI_TalonSRX *secondRightMotor;
   
   frc::SpeedControllerGroup *leftSide;
   frc::SpeedControllerGroup *rightSide;
   frc::DifferentialDrive *drive;
 
-  frc::AnalogInput * lightSensor;
-  
   frc::Compressor *compressor;
   frc::DoubleSolenoid *driveSolenoid;
   int gear;
+
+  double kP = 0;
+  double kI = 0;
+  double kD = 0;
+  double kF = 0;
+  double cruiseVelocity = 10000;
+  double acceleration = 5000;
+  const int kSlotIdx = 0;
+  const int kPIDSlotIdx = 0;
+
  public:
 
   DriveTrain();
@@ -37,4 +45,5 @@ class DriveTrain : public frc::Subsystem {
   void CurveDrive();
   void DriveSpeed(float speed);
   void ShiftGear(int gear);// 0 = first gear, 1 = second gear
+  void driveFeet(float feet);
 };
