@@ -57,13 +57,27 @@ void Lift::InitDefaultCommand()
 
 void Lift::setElevatorHeight(double height)
 {
+  elevatorHeightTarget = height;
   masterLiftMotor->Set(ControlMode::MotionMagic, height*heightToTickRatio);
 }
 
 void Lift::setFourBarHeight(double height)
 {
+  fbHeightTarget = height;
   double angle = asin(height/fourBarLength) * 180 / M_PI;
-  
+}
+
+bool Lift::atElevatorHeight(){
+ if(abs(secondLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
+    return true;
+ }
+ return false;
+}
+bool Lift::atFourBarHeight(){
+ if(abs(masterLiftMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
+    return true;
+ }
+ return false;
 }
 
 

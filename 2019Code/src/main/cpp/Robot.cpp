@@ -15,6 +15,8 @@ OI Robot::m_oi;
 DriveTrain Robot::m_driveTrain;
 ModeChooser Robot::m_modeChooser;
 ArduinoCommunications Robot::m_arduinoCommunications;
+Intake Robot::m_intake;
+Lift Robot::m_lift;
 
 
 void Robot::RobotInit() {

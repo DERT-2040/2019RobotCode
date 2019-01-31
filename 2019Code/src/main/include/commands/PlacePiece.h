@@ -5,10 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TeleOp.h"
+#pragma once
 
-TeleOp::TeleOp() {
-  AddSequential(new DriveWithJoySticks());
-  frc::SmartDashboard::PutString("Mode", "TeleOp");
- 
-}
+#include <frc/commands/CommandGroup.h>
+#include "commands/SetElevatorHeight.h"
+#include "frc/WPILib.h"
+#include "Robot.h"
+class PlacePiece : public frc::CommandGroup {
+ public:
+  PlacePiece(int level);// 0 for ground, 1 for 1st level, 2 for second level 
+};

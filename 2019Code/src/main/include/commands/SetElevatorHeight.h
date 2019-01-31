@@ -5,10 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TeleOp.h"
+#pragma once
 
-TeleOp::TeleOp() {
-  AddSequential(new DriveWithJoySticks());
-  frc::SmartDashboard::PutString("Mode", "TeleOp");
- 
-}
+#include <frc/commands/Command.h>
+
+class SetElevatorHeight : public frc::Command {
+ private:
+  float height;
+ public:
+  SetElevatorHeight(float height);
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+};
