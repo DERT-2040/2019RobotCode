@@ -12,15 +12,15 @@
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
-  frontLeftDrive = new WPI_TalonSRX(kFrontLeftMotorPort);
-  frontRightDrive = new WPI_TalonSRX(kFrontRightMotorPort);
-  backLeftDrive = new WPI_TalonSRX(kBackLeftMotorPort);
-  backRightDrive = new WPI_TalonSRX(kBackRightMotorPort);
+  secondLeftMotor = new WPI_TalonSRX(kSecondLeftMotorPort);
+  secondRightMotor = new WPI_TalonSRX(kSecondRightMotorPort);
+  masterLeftMotor = new WPI_TalonSRX(kMasterLeftMotorPort);
+  masterRightMotor = new WPI_TalonSRX(kMasterRightMotorPort);
 
-  frontLeftDrive->SetInverted(true);
+  secondLeftMotor->SetInverted(true);
 
-  leftSide = new frc::SpeedControllerGroup(*frontLeftDrive, *backLeftDrive);
-  rightSide = new frc::SpeedControllerGroup(*frontRightDrive, *backRightDrive);
+  leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
+  rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
   leftSide -> SetInverted(true);
   rightSide -> SetInverted(true);
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
@@ -40,15 +40,15 @@ void DriveTrain::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
   //SetDefaultCommand(new DriveWithJoySticks);
   //std::cout << "started" << std::endl;
-  backLeftDrive->GetSensorCollection().SetQuadraturePosition(0);
-  backRightDrive->GetSensorCollection().SetQuadraturePosition(0);
+  masterLeftMotor->GetSensorCollection().SetQuadraturePosition(0);
+  masterRightMotor->GetSensorCollection().SetQuadraturePosition(0);
 }
 
 void DriveTrain::Periodic()
 {
   //std::cout << lightSensor->GetVoltage() << std::endl;
-  std::cout << backLeftDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  std::cout << backRightDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
   std::cout << "" << std::endl;
 }
 

@@ -26,10 +26,10 @@
 
 //Talons
     //DriveTrain
-        constexpr int kFrontLeftMotorPort = 1;
-        constexpr int kFrontRightMotorPort = 2;
-        constexpr int kBackLeftMotorPort = 3;
-        constexpr int kBackRightMotorPort = 4;
+        constexpr int kMasterLeftMotorPort = 1;
+        constexpr int kMasterRightMotorPort = 2;
+        constexpr int kSecondLeftMotorPort = 3;
+        constexpr int kSecondRightMotorPort = 4;
     //Intake
         constexpr int kRightIntakeWheel = 5;
         constexpr int kLeftIntakeWheel = 6;

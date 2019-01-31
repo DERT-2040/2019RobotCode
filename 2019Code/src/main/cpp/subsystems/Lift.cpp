@@ -52,7 +52,7 @@ Lift::Lift() : Subsystem("Lift")
 
 void Lift::InitDefaultCommand() 
 {
-  // SetDefaultCommand(new MySpecialCommand());
+  //SetDefaultCommand(new MySpecialCommand());
 }
 
 void Lift::setElevatorHeight(double height)
@@ -63,7 +63,7 @@ void Lift::setElevatorHeight(double height)
 void Lift::setFourBarHeight(double height)
 {
   double angle = asin(height/fourBarLength) * 180 / M_PI;
-  
+
 }
 
 

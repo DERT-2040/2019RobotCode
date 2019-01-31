@@ -15,10 +15,10 @@ class DriveTrain : public frc::Subsystem {
  
  private:
 
-  WPI_TalonSRX *frontLeftDrive;
-  WPI_TalonSRX *frontRightDrive;
-  WPI_TalonSRX *backLeftDrive;
-  WPI_TalonSRX *backRightDrive;
+  WPI_TalonSRX *secondLeftMotor;
+  WPI_TalonSRX *secondRightMotor;
+  WPI_TalonSRX *masterLeftMotor;
+  WPI_TalonSRX *masterRightMotor;
   
   frc::SpeedControllerGroup *leftSide;
   frc::SpeedControllerGroup *rightSide;
