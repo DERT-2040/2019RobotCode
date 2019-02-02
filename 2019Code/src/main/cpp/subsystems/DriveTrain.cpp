@@ -21,8 +21,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
   leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
   rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
+
   leftSide -> SetInverted(true);
   rightSide -> SetInverted(true);
+  
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
   lightSensor = new frc::AnalogInput(kLightSensorPort);
