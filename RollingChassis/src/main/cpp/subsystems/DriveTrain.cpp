@@ -56,10 +56,14 @@ void DriveTrain::CurveDrive()
 {
   drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0)*.45, true);
 }
-void DriveTrain::DriveSpeed(float speed){
+
+void DriveTrain::DriveSpeed(float speed)
+{
   drive->CurvatureDrive(0.5,0,false);
 }
-void DriveTrain::ShiftGear(int _gear){
+
+void DriveTrain::ShiftGear(int _gear)
+{
   if (gear != _gear){
     gear = _gear;
     if(gear == 1){

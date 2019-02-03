@@ -43,12 +43,22 @@ class Lift : public frc::Subsystem
 
   const double heightToTickRatio = 0;
   const double angleToUnitRatio = 0;
-  const double fourBarLength = 0;
   const double maxLiftSpeed = 10000;
-
   const double liftPIDError = .01;
   const double fourBarPIDError = .01;
 
+  const double voltsPerDegree = 0.02222222;
+  const double ticksPerVolt = 255.75;
+  
+  //In inches
+  const float maxElevatorHeight =  32;
+  const float minElevatorHeight = 0;
+  const float distanceToFourBarRotation = 6;
+  const float fourBarLength = 13;
+  const float inchesPerRotationElevator = 2.635 * M_PI;
+  const float ticksPerRotation = 4096;
+  const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
+  const float minElevatorTickHeight = 0;
 
 
  public:
@@ -58,4 +68,8 @@ class Lift : public frc::Subsystem
   void setElevatorHeight(double height);
   void setFourBarHeight(double height);
   void joystickElevatorControl(double speed);
+  void setFourBarX(double x); 
+  void setFourBarAngle(double angle);
+  void constantHeightLift(float totalHeight, float fourBarXLength);
+  double getFourBarAngle();
 };

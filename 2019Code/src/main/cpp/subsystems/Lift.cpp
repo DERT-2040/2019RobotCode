@@ -87,15 +87,20 @@ void Lift::InitDefaultCommand()
   //SetDefaultCommand(new MySpecialCommand());
 }
 
-void Lift::setElevatorHeight(double height)
+double Lift::getFourBarAngle()
 {
-  masterLiftMotor->SelectProfileSlot(kElevatorMotionSlotIdx, kPIDLoopIdx);
-  masterLiftMotor->Set(ControlMode::MotionMagic, height*heightToTickRatio);
+  return fourBarMotor->GetSensorCollection().GetAnalogIn()/ticksPerVolt/voltsPerDegree;
 }
 
-void Lift::setFourBarHeight(double height)
+void Lift::setElevatorHeight(double height)
 {
-  double angle = asin(height/fourBarLength) * 180 / M_PI;
+  height = height/2;
+  double ticks = height/inchesPerRotationElevator*ticksPerRotation;
+  if(ticks < maxElevatorTickHeight && ticks > minElevatorTickHeight)
+  {
+    masterLiftMotor->SelectProfileSlot(kElevatorMotionSlotIdx, kPIDLoopIdx);
+    masterLiftMotor->Set(ControlMode::MotionMagic, ticks);
+  }
 }
 
 void Lift::joystickElevatorControl(double speed)
@@ -104,5 +109,80 @@ void Lift::joystickElevatorControl(double speed)
   masterLiftMotor->Set(ControlMode::Velocity, speed*maxLiftSpeed);
 }
 
+void Lift::setFourBarHeight(double height)
+{
+  double angle = asin(height/fourBarLength) * 180 / M_PI;
+  angle += 90; 
+  double volts = angle*voltsPerDegree;
+  double ticks = volts*ticksPerVolt;
+  fourBarMotor->Set(ControlMode::MotionMagic, ticks);
+}
 
+void Lift::setFourBarAngle(double angle)
+{
+  angle += 90;
+  float ticks = angle * voltsPerDegree * ticksPerVolt;
+  fourBarMotor->Set(ControlMode::MotionMagic, ticks);
+}
+
+void Lift::setFourBarX(double x)
+{ 
+  double angle = acos(x/fourBarLength) * 180 / M_PI;
+  double inverseAngle = -angle;
+  double ticks;
+  if(abs(angle) < 90)
+  {
+    if(angle - (getFourBarAngle() - 90) < inverseAngle - (getFourBarAngle() - 90))
+    {
+      ticks = (angle*voltsPerDegree)*ticksPerVolt;
+    }
+    else
+    {
+      ticks = (inverseAngle*voltsPerDegree)*ticksPerVolt;
+    }
+    fourBarMotor->Set(ControlMode::MotionMagic, ticks);
+
+  }
+}
+
+void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
+{
+  double angle;
+  double elevatorHeight;
+  angle = acos(fourBarXLength/fourBarLength) * 180 / M_PI - 90;
+
+  if(abs(angle) < 90)
+  {
+
+    float aElevatorHeight = totalHeight - fourBarLength*(sin(angle*M_PI/180));
+    float iAElevatorHeight = totalHeight - fourBarLength*(sin(-1*angle*M_PI/180));
+
+    if(aElevatorHeight < maxElevatorHeight && aElevatorHeight > minElevatorHeight 
+      && iAElevatorHeight < maxElevatorHeight && iAElevatorHeight > minElevatorHeight)
+    {
+      if(angle - (getFourBarAngle() - 90) < -angle - (getFourBarAngle() - 90))
+      {
+        angle = angle;
+      }
+      else
+      {
+        angle = -angle;
+      }
+      setElevatorHeight(totalHeight - fourBarLength*(sin(angle*M_PI/180)));
+      setFourBarAngle(angle);
+    }
+    else if(aElevatorHeight < maxElevatorHeight && aElevatorHeight > minElevatorHeight)
+    {
+      setElevatorHeight(aElevatorHeight);
+      setFourBarAngle(angle);
+    }
+    else
+    {
+      setElevatorHeight(iAElevatorHeight);
+      setFourBarAngle(-angle);
+    }
+
+    
+  }  
+}
 
