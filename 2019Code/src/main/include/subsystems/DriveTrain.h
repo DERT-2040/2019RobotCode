@@ -23,12 +23,11 @@ class DriveTrain : public frc::Subsystem {
   frc::SpeedControllerGroup *leftSide;
   frc::SpeedControllerGroup *rightSide;
   frc::DifferentialDrive *drive;
-
-  frc::AnalogInput * lightSensor;
   
   frc::Compressor *compressor;
   frc::DoubleSolenoid *driveSolenoid;
   int gear;
+  
  public:
 
   DriveTrain();

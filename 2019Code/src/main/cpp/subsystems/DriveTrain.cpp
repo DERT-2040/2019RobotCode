@@ -27,8 +27,6 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
-  lightSensor = new frc::AnalogInput(kLightSensorPort);
-
   compressor = new frc::Compressor(kCompressor);
 
 	compressor->SetClosedLoopControl(true);
