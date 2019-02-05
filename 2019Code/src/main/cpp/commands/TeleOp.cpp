@@ -6,9 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/TeleOp.h"
+#include "Robot.h"
 
 TeleOp::TeleOp() {
   AddSequential(new DriveWithJoySticks());
   frc::SmartDashboard::PutString("Mode", "TeleOp");
- 
 }

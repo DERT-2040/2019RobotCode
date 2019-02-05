@@ -66,7 +66,9 @@ void Lift::setFourBarHeight(double height)
   fbHeightTarget = height;
   double angle = asin(height/fourBarLength) * 180 / M_PI;
 }
-
+void Lift::setLiftHeight(double height, double distance){
+  
+}
 bool Lift::atElevatorHeight(){
  if(abs(secondLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
     return true;
@@ -79,5 +81,6 @@ bool Lift::atFourBarHeight(){
  }
  return false;
 }
+
 
 

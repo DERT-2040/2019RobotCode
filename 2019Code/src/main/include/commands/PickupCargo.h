@@ -9,11 +9,9 @@
 
 #include <frc/commands/Command.h>
 
-class SetElevatorHeight : public frc::Command {
- private:
-  float height;
+class PickupCargo : public frc::Command {
  public:
-  SetElevatorHeight(float height);
+  PickupCargo();
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

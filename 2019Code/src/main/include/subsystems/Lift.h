@@ -43,6 +43,7 @@ class Lift : public frc::Subsystem
   void InitDefaultCommand() override;
   void setElevatorHeight(double height);
   void setFourBarHeight(double height);
+  void setLiftHeight(double height,double distance);
   bool atElevatorHeight();
   bool atFourBarHeight();
 };

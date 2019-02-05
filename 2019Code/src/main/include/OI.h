@@ -7,11 +7,14 @@
 
 #pragma once
 #include <frc/Joystick.h>
+#include "commands/PickupCargo.h"
+#include "commands/PickupHatch.h"
 class OI 
 {
  
   public:
     OI();
     frc::Joystick * gamepad;
-
+    frc::JoystickButton * AButton,
+				* BButton;
 };
