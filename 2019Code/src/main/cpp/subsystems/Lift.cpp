@@ -111,6 +111,7 @@ void Lift::joystickElevatorControl(double speed)
 
 void Lift::setFourBarHeight(double height)
 {
+  fbHeightTarget = height;
   double angle = asin(height/fourBarLength) * 180 / M_PI;
   angle += 90; 
   double volts = angle*voltsPerDegree;
@@ -176,11 +177,18 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
       setElevatorHeight(aElevatorHeight);
       setFourBarAngle(angle);
     }
-    else
-    {
-      setElevatorHeight(iAElevatorHeight);
-      setFourBarAngle(-angle);
-    }
+bool Lift::atElevatorHeight(){
+ if(abs(secondLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
+    return true;
+ }
+ return false;
+}
+bool Lift::atFourBarHeight(){
+ if(abs(masterLiftMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
+    return true;
+ }
+ return false;
+}
 
     
   }  

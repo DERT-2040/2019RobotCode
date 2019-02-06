@@ -32,6 +32,8 @@ class Lift : public frc::Subsystem
   double liftCruiseVelocity, liftAcceleration;
   double fourBarCruiseVelocity, fourBarAcceleration;
 
+  double elevatorHeightTarget = 0;
+  double fbHeightTarget = 0;
   //constants
   const int kPIDLoopIdx = 0;
 
@@ -67,6 +69,9 @@ class Lift : public frc::Subsystem
   void InitDefaultCommand() override;
   void setElevatorHeight(double height);
   void setFourBarHeight(double height);
+  void setLiftHeight(double height,double distance);
+  bool atElevatorHeight();
+  bool atFourBarHeight();
   void joystickElevatorControl(double speed);
   void setFourBarX(double x); 
   void setFourBarAngle(double angle);

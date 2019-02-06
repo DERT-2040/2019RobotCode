@@ -18,7 +18,9 @@
 #include "subsystems/DriveTrain.h"
 #include "subsystems/ArduinoCommunications.h"
 #include "subsystems/ModeChooser.h"
-
+#include "subsystems/HatchPickup.h"
+#include "subsystems/Intake.h"
+#include "subsystems/Lift.h"
 class Robot : public frc::TimedRobot {
  public:
   static ExampleSubsystem m_subsystem;
@@ -26,6 +28,8 @@ class Robot : public frc::TimedRobot {
   static DriveTrain m_driveTrain;
   static ModeChooser m_modeChooser;
   static ArduinoCommunications m_arduinoCommunications;
+  static Intake m_intake;
+  static Lift m_lift;
 
   void RobotInit() override;
   void RobotPeriodic() override;

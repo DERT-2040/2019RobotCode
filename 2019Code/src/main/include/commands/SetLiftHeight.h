@@ -5,18 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
+#pragma once
 
-#include <frc/WPILib.h>
-#include "commands/PickupCargo.h"
-#include "commands/PickupHatch.h"
+#include <frc/commands/Command.h>
 
-OI::OI() {
-  // Process operator interface input here.
-  gamepad = new frc::Joystick(0);
-  BButton = new frc::JoystickButton(gamepad,3);
-  AButton = new frc::JoystickButton(gamepad,2);
-
-  BButton->WhenPressed(new PickupCargo());
-  AButton->WhenPressed(new PickupHatch());
-}
+class SetLiftHeight : public frc::Command {
+ private:
+  float height;
+  float distance;
+ public:
+  SetLiftHeight(float height, float distance);
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+};

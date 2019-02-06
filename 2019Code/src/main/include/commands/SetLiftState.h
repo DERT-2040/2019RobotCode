@@ -5,18 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
+#pragma once
 
-#include <frc/WPILib.h>
-#include "commands/PickupCargo.h"
-#include "commands/PickupHatch.h"
-
-OI::OI() {
-  // Process operator interface input here.
-  gamepad = new frc::Joystick(0);
-  BButton = new frc::JoystickButton(gamepad,3);
-  AButton = new frc::JoystickButton(gamepad,2);
-
-  BButton->WhenPressed(new PickupCargo());
-  AButton->WhenPressed(new PickupHatch());
-}
+#include <frc/commands/CommandGroup.h>
+#include "commands/SetLiftHeight.h"
+#include "frc/WPILib.h"
+#include "Robot.h"
+class SetLiftState : public frc::CommandGroup {
+ public:
+  SetLiftState(int level);// 0 for ground ball pickup, 1 for hatch pickup
+                          // 2 for ground level, 3 for 1st level, 4 for second level 
+};
