@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SetLift.h"
+#include "commands/SetLiftHeight.h"
 #include "Robot.h"
 
-SetLift::SetLift(float _height, float _distance) {
+SetLiftHeight::SetLiftHeight(float _height, float _distance) {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
   height = _height;
@@ -17,21 +17,20 @@ SetLift::SetLift(float _height, float _distance) {
 }
 
 // Called just before this Command runs the first time
-void SetLift::Initialize() {
-  Robot::m_lift.setElevatorHeight(height);
+void SetLiftHeight::Initialize() {
+  Robot::m_lift.setLiftHeight(height,distance);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void SetLift::Execute() {}
+void SetLiftHeight::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
-bool SetLift::IsFinished() { return true; }
+bool SetLiftHeight::IsFinished() { return  Robot::m_lift.atElevatorHeight() && Robot::m_lift.atFourBarHeight(); }
 
 // Called once after isFinished returns true
-void SetLift::End() {
-      Robot::m_lift.atElevatorHeight();
+void SetLiftHeight::End() {
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void SetLift::Interrupted() {}
+void SetLiftHeight::Interrupted() {}

@@ -8,10 +8,11 @@
 #pragma once
 
 #include <frc/commands/CommandGroup.h>
-#include "commands/SetElevatorHeight.h"
+#include "commands/SetLiftHeight.h"
 #include "frc/WPILib.h"
 #include "Robot.h"
-class PlacePiece : public frc::CommandGroup {
+class SetLiftState : public frc::CommandGroup {
  public:
-  PlacePiece(int level);// 0 for ground, 1 for 1st level, 2 for second level 
+  SetLiftState(int level);// 0 for ground ball pickup, 1 for hatch pickup
+                          // 2 for ground level, 3 for 1st level, 4 for second level 
 };

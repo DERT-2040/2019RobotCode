@@ -8,6 +8,8 @@
 #include "OI.h"
 
 #include <frc/WPILib.h>
+#include "commands/PickupCargo.h"
+#include "commands/PickupHatch.h"
 
 OI::OI() {
   // Process operator interface input here.

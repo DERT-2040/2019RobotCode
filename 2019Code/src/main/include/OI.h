@@ -7,8 +7,7 @@
 
 #pragma once
 #include <frc/Joystick.h>
-#include "commands/PickupCargo.h"
-#include "commands/PickupHatch.h"
+#include <frc/WPILib.h>
 class OI 
 {
  

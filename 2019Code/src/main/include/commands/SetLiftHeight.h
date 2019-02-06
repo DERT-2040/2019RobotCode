@@ -9,12 +9,12 @@
 
 #include <frc/commands/Command.h>
 
-class SetLift : public frc::Command {
+class SetLiftHeight : public frc::Command {
  private:
   float height;
   float distance;
  public:
-  SetLift(float height, float distance);
+  SetLiftHeight(float height, float distance);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;
