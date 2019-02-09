@@ -178,10 +178,6 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
     }
   }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 3ee5df988a06d3f5ddc0b8a4eeeaabd63cc4b30a
 bool Lift::atElevatorHeight(){
  if(abs(secondLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
     return true;
@@ -195,10 +191,6 @@ bool Lift::atFourBarHeight(){
  }
  return false;
 }
-<<<<<<< HEAD
-  
-=======
 
     
->>>>>>> 3ee5df988a06d3f5ddc0b8a4eeeaabd63cc4b30a
 
