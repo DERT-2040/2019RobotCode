@@ -5,32 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SetLiftHeight.h"
+#include "commands/DeployGamePiece.h"
 #include "Robot.h"
-
-SetLiftHeight::SetLiftHeight(float _height, float _distance) {
+DeployGamePiece::DeployGamePiece() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  height = _height;
-  distance = _distance;
-  Requires(&Robot::m_lift);
+  Requires(&Robot::m_intake);
 }
 
 // Called just before this Command runs the first time
-void SetLiftHeight::Initialize() {
-  Robot::m_lift.constantHeightLift(height,distance);
+void DeployGamePiece::Initialize() {
+  if(Robot::m_intake.IsClosed()){ 
+    SetTimeout(1);
+  }
+  else{
+    SetTimeout(4);
+  }
 }
 
 // Called repeatedly when this Command is scheduled to run
-void SetLiftHeight::Execute() {}
+void DeployGamePiece::Execute() {
+  if(Robot::m_slider.atPosition()){
+    if(Robot::m_intake.IsClosed()){
+      Robot::m_intake.SetWheelSpeed(-0.6);
+    }
+    else{
+      Robot::m_intake.SetState(true);
+      complete = true;  
+    }
+  }
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool SetLiftHeight::IsFinished() { return  Robot::m_lift.atElevatorHeight() && Robot::m_lift.atFourBarHeight(); }
+bool DeployGamePiece::IsFinished() { return complete; }
 
 // Called once after isFinished returns true
-void SetLiftHeight::End() {
-}
+void DeployGamePiece::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void SetLiftHeight::Interrupted() {}
+void DeployGamePiece::Interrupted() {}

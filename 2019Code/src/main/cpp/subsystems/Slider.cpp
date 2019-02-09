@@ -45,3 +45,7 @@ double Slider::getPosition()
   return slideMotor->GetSelectedSensorPosition();
 }
 
+bool Slider::atPosition()
+{
+  return true;
+}

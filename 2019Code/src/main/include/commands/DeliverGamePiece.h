@@ -8,14 +8,11 @@
 #pragma once
 
 #include <frc/commands/CommandGroup.h>
-#include "commands/SetLiftHeight.h"
+#include "commands/SetLiftState.h"
 #include "frc/WPILib.h"
 #include "Robot.h"
-class SetLiftState : public frc::CommandGroup {
- private:
-  float xDist;
+
+class DeliverGamePiece : public frc::CommandGroup {
  public:
-  SetLiftState(int level, bool onApproach);// 0 for ground ball pickup, 1 for hatch pickup
-                          // 2 for starting position, 3 for ground level, 4 for 1st level, 5 for second level
-                          // If on Approach, four bar  will be extended out ready to place 
+  DeliverGamePiece(int level);//1 for first level, 2 for second level, 3 for third level
 };

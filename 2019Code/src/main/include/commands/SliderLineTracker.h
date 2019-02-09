@@ -7,15 +7,18 @@
 
 #pragma once
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/SetLiftHeight.h"
+#include <frc/commands/Command.h>
 #include "frc/WPILib.h"
 #include "Robot.h"
-class SetLiftState : public frc::CommandGroup {
+
+class SliderLineTracker : public frc::Command {
  private:
-  float xDist;
+  float inchesOffLine;
  public:
-  SetLiftState(int level, bool onApproach);// 0 for ground ball pickup, 1 for hatch pickup
-                          // 2 for starting position, 3 for ground level, 4 for 1st level, 5 for second level
-                          // If on Approach, four bar  will be extended out ready to place 
+  SliderLineTracker();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
 };

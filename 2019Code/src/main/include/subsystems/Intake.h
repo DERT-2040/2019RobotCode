@@ -24,7 +24,7 @@ class Intake : public frc::Subsystem {
   void Periodic() override;
   void InitDefaultCommand() override;
   void SetWheelSpeed(float speed);
-  void SetState(bool _state);// 0 is open and 1 is closed
+  void SetState(bool _state);// false is open and true is closed
   bool IsClosed();
   //void S
 };

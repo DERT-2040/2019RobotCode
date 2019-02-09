@@ -177,6 +177,8 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
       setElevatorHeight(aElevatorHeight);
       setFourBarAngle(angle);
     }
+  }
+}
 bool Lift::atElevatorHeight(){
  if(abs(secondLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
     return true;
@@ -191,6 +193,4 @@ bool Lift::atFourBarHeight(){
 }
 
     
-  }  
-}
 

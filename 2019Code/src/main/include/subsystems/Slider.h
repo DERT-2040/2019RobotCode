@@ -36,5 +36,6 @@ class Slider : public frc::Subsystem
   void InitDefaultCommand() override;
   void setPosition(double _position);
   double getPosition();
+  bool atPosition();
 
 };

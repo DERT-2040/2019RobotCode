@@ -8,10 +8,13 @@
 #pragma once
 
 #include <frc/commands/Command.h>
+#include "frc/WPILib.h"
+#include "Robot.h"
 
-class ExampleCommand : public frc::Command {
+
+class ResetSlider : public frc::Command {
  public:
-  ExampleCommand();
+  ResetSlider();
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

@@ -8,10 +8,16 @@
 #pragma once
 
 #include <frc/commands/Command.h>
+#include "frc/WPILib.h"
+#include "Robot.h"
 
-class MyAutoCommand : public frc::Command {
+class WaitForButtonPress : public frc::Command {
+ private:
+  bool finished = false;
+  int buttonNum;
+  bool pressed;
  public:
-  MyAutoCommand();
+  WaitForButtonPress(int buttonNum, bool pressed);// if pressed is true waits for press, if false waits for release
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;
