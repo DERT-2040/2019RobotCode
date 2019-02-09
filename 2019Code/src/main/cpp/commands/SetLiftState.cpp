@@ -7,28 +7,39 @@
 
 #include "commands/SetLiftState.h"
 
-SetLiftState::SetLiftState(int level) {
-  if (Robot::m_intake.IsClosed() == true && level>1){//If it has the ball it will be closed
+SetLiftState::SetLiftState(int level,bool onApproach) {
+  if (level==1){
+    level = 3;
+  }
+
+  if (Robot::m_intake.IsClosed() == true && level>2){//If it has the ball it will be closed
     level = level+3;//The level now stretches between 0 to 5 to signify whether the intake has a hatch or cargo
   }
-  if (level==1){
-    level = 2;
+  
+  if(onApproach){
+    xDist = 4;//Four bar is straight up
   }
+  else{
+    xDist = 5;//Four bar is extended and ready to place
+  }
+
   switch (level)
   {
     case 0://Ground Ball Pickup
-      AddSequential(new SetLiftHeight(5,6),4);
-    case 2://Hatch Low Goal (Rocket and Cargo Ship) and pickup
-      AddSequential(new SetLiftHeight(5,6),4);//Replace with height and distance
-    case 3://Hatch Medium Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,6),4);//Replace with height and distance
-    case 4://Hatch Tall Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,6),4);//Replace with height and distance
-    case 5:// Cargo Low Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,6),4);//Replace with height and distance
-    case 6:// Cargo Medium Goal (Rocket and Cargo Ship)
-      AddSequential(new SetLiftHeight(5,6),4);//Replace with height and distance
-    case 7:// Cargo Tall Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,6),4);//Replace with height and distance
+      AddSequential(new SetLiftHeight(5,xDist),4);
+    case 2://Starting State
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height and distance
+    case 3://Hatch Low Goal (Rocket and Cargo Ship) and pickup
+      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+    case 4://Hatch Medium Goal (Rocket)
+      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+    case 5://Hatch Tall Goal (Rocket)
+      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+    case 6:// Cargo Low Goal (Rocket)
+      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+    case 7:// Cargo Medium Goal (Rocket and Cargo Ship)
+      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+    case 8:// Cargo Tall Goal (Rocket)
+      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
   }
 }

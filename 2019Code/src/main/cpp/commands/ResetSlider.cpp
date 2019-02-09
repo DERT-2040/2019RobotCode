@@ -5,27 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ExampleCommand.h"
+#include "commands/ResetSlider.h"
 
-#include "Robot.h"
-
-ExampleCommand::ExampleCommand() {
+ResetSlider::ResetSlider() {
   // Use Requires() here to declare subsystem dependencies
-  Requires(&Robot::m_subsystem);
+  // eg. Requires(Robot::chassis.get());
+  Requires(&Robot::m_slider);
 }
 
 // Called just before this Command runs the first time
-void ExampleCommand::Initialize() {}
+void ResetSlider::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ExampleCommand::Execute() {}
+void ResetSlider::Execute() {
+  Robot::m_slider.setPosition(0); 
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool ExampleCommand::IsFinished() { return false; }
+bool ResetSlider::IsFinished() { return Robot::m_slider.atPosition(); }
 
 // Called once after isFinished returns true
-void ExampleCommand::End() {}
+void ResetSlider::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ExampleCommand::Interrupted() {}
+void ResetSlider::Interrupted() {}

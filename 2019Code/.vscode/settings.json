@@ -58,5 +58,6 @@
     "xstring": "cpp",
     "xutility": "cpp"
   },
-  "C_Cpp.configurationWarnings": "Disabled"
+  "C_Cpp.configurationWarnings": "Disabled",
+  "C_Cpp.default.configurationProvider": "vscode-wpilib"
 }
