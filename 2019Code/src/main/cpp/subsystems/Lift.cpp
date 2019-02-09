@@ -142,7 +142,6 @@ void Lift::setFourBarX(double x)
       ticks = (inverseAngle*voltsPerDegree)*ticksPerVolt;
     }
     fourBarMotor->Set(ControlMode::MotionMagic, ticks);
-
   }
 }
 
@@ -177,20 +176,21 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
       setElevatorHeight(aElevatorHeight);
       setFourBarAngle(angle);
     }
+  }
+}
+
 bool Lift::atElevatorHeight(){
  if(abs(secondLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
     return true;
  }
  return false;
 }
+
 bool Lift::atFourBarHeight(){
  if(abs(masterLiftMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
     return true;
  }
  return false;
 }
-
-    
-  }  
-}
+  
 
