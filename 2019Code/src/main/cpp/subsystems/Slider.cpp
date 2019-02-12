@@ -37,7 +37,7 @@ void Slider::setPosition(double _position)
 {
   position = _position;
   tickPosition = position*inchToTickRatio;
-  slideMotor->Set(ControlMode::MotionMagic, tickPosition);
+  //slideMotor->Set(ControlMode::MotionMagic, tickPosition);
 }
 
 double Slider::getPosition()

@@ -7,11 +7,11 @@
 
 #include "commands/WaitForButtonPress.h"
 
-WaitForButtonPress::WaitForButtonPress(int _buttonNum, bool _pressed) {
+WaitForButtonPress::WaitForButtonPress(int _buttonNum, bool _button) {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
   buttonNum = _buttonNum;
-  pressed = _pressed;
+  button = _button;
   finished = false;
 }
 
@@ -20,8 +20,8 @@ void WaitForButtonPress::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void WaitForButtonPress::Execute() {
-  if (pressed){
-    if(Robot::m_oi.gamepad->GetRawButton(buttonNum)){
+  if (button){
+    if(Robot::m_oi.gamepad->GetRawAxis(buttonNum)>0.75){
       finished = true;
     }
   }

@@ -14,6 +14,6 @@ class OI
   public:
     OI();
     frc::Joystick * gamepad;
-    frc::JoystickButton * AButton,
-				* BButton;
+    frc::JoystickButton * LBButton,
+				* RBButton;
 };

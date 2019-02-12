@@ -22,7 +22,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
   rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
 
-  leftSide -> SetInverted(true);
+  leftSide -> SetInverted(false);
   rightSide -> SetInverted(true);
   
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
@@ -30,7 +30,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   compressor = new frc::Compressor(kCompressor);
 
 	compressor->SetClosedLoopControl(true);
-  driveSolenoid = new frc::DoubleSolenoid(kForwardDriveSolenoid,kReverseDriveSolenoid);
+  driveSolenoid = new frc::DoubleSolenoid(1,kForwardDriveSolenoid,kReverseDriveSolenoid);
 
 
 }
@@ -54,7 +54,7 @@ void DriveTrain::Periodic()
 
 void DriveTrain::CurveDrive()
 {
-  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0)*.45, true);
+  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0), true);
 }
 void DriveTrain::DriveSpeed(float speed){
   drive->CurvatureDrive(0.5,0,false);

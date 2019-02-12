@@ -15,8 +15,8 @@ class Intake : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  WPI_TalonSRX *leftIntake;
-  WPI_TalonSRX *rightIntake;
+  WPI_VictorSPX *leftIntake;
+  WPI_VictorSPX *rightIntake;
   frc::DoubleSolenoid *intakeSolenoid;
   bool state;
  public:

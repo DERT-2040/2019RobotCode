@@ -8,8 +8,6 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include "commands/TeleOp.h"
-#include "commands/Auto.h"
 class ModeChooser : public frc::Subsystem {
  private:
   int mode;

@@ -9,6 +9,23 @@
 #include "Robot.h"
 
 TeleOp::TeleOp() {
-  AddSequential(new DriveWithJoySticks());
+  AddParallel(new DriveWithJoySticks());
+  ///*
+  if(Robot::m_oi.gamepad->GetRawButton(1)){
+    AddParallel(new DeliverGamePiece(1));
+  }
+  else if(Robot::m_oi.gamepad->GetRawButton(2)){
+    AddParallel(new DeliverGamePiece(2));
+  }
+  else if(Robot::m_oi.gamepad->GetRawButton(4)){
+    AddParallel(new DeliverGamePiece(4));
+  }
+  else if(Robot::m_oi.gamepad->GetPOV(0)==180){
+    AddParallel(new SetLiftState(0,false));
+  }
+  if(Robot::m_oi.gamepad->GetRawButton(9) && Robot::m_oi.gamepad->GetRawButton(10)){
+    frc::Scheduler::GetInstance()->RemoveAll();
+  }
+  //*/
   frc::SmartDashboard::PutString("Mode", "TeleOp");
 }

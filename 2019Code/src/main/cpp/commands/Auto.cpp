@@ -8,7 +8,6 @@
 #include "commands/Auto.h"
 
 Auto::Auto() {
-  AddSequential(new DriveForwardSpeed(0.15));
   frc::SmartDashboard::PutString("Mode", "Auto");
   // Add Commands here:
   // e.g. AddSequential(new Command1());

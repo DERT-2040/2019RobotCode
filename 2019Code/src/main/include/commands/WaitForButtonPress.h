@@ -15,9 +15,10 @@ class WaitForButtonPress : public frc::Command {
  private:
   bool finished = false;
   int buttonNum;
-  bool pressed;
+  bool button;
  public:
-  WaitForButtonPress(int buttonNum, bool pressed);// if pressed is true waits for press, if false waits for release
+  WaitForButtonPress(int buttonNum, bool _button);// if true then waiting for a button,
+                                                  //if false waiting for axis specified in buttonNum (Used for triggers)
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

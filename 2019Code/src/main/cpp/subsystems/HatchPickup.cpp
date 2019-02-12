@@ -18,7 +18,7 @@ void HatchPickup::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 void HatchPickup::Periodic(){
-  if (retractedSwitch->Get()){
+  /*if (retractedSwitch->Get()){
     state = 0;
     previousState = 0;
   }
@@ -33,14 +33,14 @@ void HatchPickup::Periodic(){
   else {
     previousState = state;
     state = 3; //Somewhere in the middle
-  }
+  }*/
 }
 
 void HatchPickup::SetSpeed(){
-  if(desiredState == state){
+  /*if(desiredState == state){
     motorOutput = 0;
   }
-  hatchIntake->Set(motorOutput);
+  hatchIntake->Set(motorOutput);*/
 }
 void HatchPickup::SetState(int _state){
   if (_state != state){

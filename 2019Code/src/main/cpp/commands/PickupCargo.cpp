@@ -20,15 +20,18 @@ void PickupCargo::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void PickupCargo::Execute() {
-  if(Robot::m_oi.gamepad->GetRawButton(4)){
+  if(Robot::m_oi.gamepad->GetRawButton(5)){
     Robot::m_intake.SetState(true);
     Robot::m_intake.SetWheelSpeed(1);
+  }
+  else{
+    //Robot::m_intake.SetWheelSpeed(0);
   }
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool PickupCargo::IsFinished() { 
-  return (!Robot::m_oi.gamepad->GetRawButton(4));
+  return (!Robot::m_oi.gamepad->GetRawButton(5));
   
 }
 
@@ -40,4 +43,6 @@ void PickupCargo::End() {
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void PickupCargo::Interrupted() {}
+void PickupCargo::Interrupted() {
+  Robot::m_intake.SetState(false);
+  Robot::m_intake.SetWheelSpeed(0);}

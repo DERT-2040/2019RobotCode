@@ -81,7 +81,9 @@ Lift::Lift() : Subsystem("Lift")
   fourBarMotor->ConfigAllowableClosedloopError(kFourBarMotionSlotIdx, fourBarPIDError, talonTimeoutMs);
   
 }
-
+void Lift::Periodic(){
+  setElevatorHeight(frc::SmartDashboard::GetNumber("Elevator Height", 0));
+}
 void Lift::InitDefaultCommand() 
 {
   //SetDefaultCommand(new MySpecialCommand());

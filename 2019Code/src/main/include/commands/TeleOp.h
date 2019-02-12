@@ -9,7 +9,9 @@
 
 #include <frc/commands/CommandGroup.h>
 #include "commands/DriveWithJoySticks.h"
+#include "commands/SetLiftState.h"
 #include "frc/WPILib.h"
+#include "commands/DeliverGamePiece.h"
 class TeleOp : public frc::CommandGroup {
  public:
   TeleOp();

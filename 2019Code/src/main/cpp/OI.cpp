@@ -14,9 +14,8 @@
 OI::OI() {
   // Process operator interface input here.
   gamepad = new frc::Joystick(0);
-  BButton = new frc::JoystickButton(gamepad,3);
-  AButton = new frc::JoystickButton(gamepad,2);
-
-  BButton->WhenPressed(new PickupCargo());
-  AButton->WhenPressed(new PickupHatch());
+  LBButton = new frc::JoystickButton(gamepad,5);
+  RBButton = new frc::JoystickButton(gamepad,6);
+  LBButton->WhileHeld(new PickupCargo());
+  RBButton->WhileHeld(new PickupHatch());
 }

@@ -26,7 +26,7 @@ SetLiftState::SetLiftState(int level,bool onApproach) {
   switch (level)
   {
     case 0://Ground Ball Pickup
-      AddSequential(new SetLiftHeight(5,xDist),4);
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height and distance
     case 2://Starting State
       AddSequential(new SetLiftHeight(5,4),4);//Replace with height and distance
     case 3://Hatch Low Goal (Rocket and Cargo Ship) and pickup

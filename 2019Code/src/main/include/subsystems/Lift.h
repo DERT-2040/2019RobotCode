@@ -10,6 +10,7 @@
 #include <frc/commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include "RobotMap.h"
+#include "frc/WPILib.h"
 
 # define M_PI 3.14159265358979323846
 
@@ -66,6 +67,7 @@ class Lift : public frc::Subsystem
  public:
 
   Lift();
+  void Periodic() override;
   void InitDefaultCommand() override;
   void setElevatorHeight(double height);
   void setFourBarHeight(double height);
