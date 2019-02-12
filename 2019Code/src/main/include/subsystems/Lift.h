@@ -49,6 +49,8 @@ class Lift : public frc::Subsystem
   const double maxLiftSpeed = 10000;
   const double liftPIDError = .01;
   const double fourBarPIDError = .01;
+  const double liftStartingHeight = 5.5;
+  const double liftStartingTicks = liftStartingHeight/inchesPerRotationElevator*ticksPerRotation;
 
   const double voltsPerDegree = 0.02222222;
   const double ticksPerVolt = 255.75;
@@ -78,5 +80,6 @@ class Lift : public frc::Subsystem
   void setFourBarX(double x); 
   void setFourBarAngle(double angle);
   void constantHeightLift(float totalHeight, float fourBarXLength);
+  void elevatorManualControl(double output);
   double getFourBarAngle();
 };

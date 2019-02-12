@@ -42,7 +42,7 @@ Lift::Lift() : Subsystem("Lift")
   //What type of encoder is it
   masterLiftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, kPIDLoopIdx, talonTimeoutMs);
   masterLiftMotor->SetSensorPhase(true);
-  masterLiftMotor->SetSelectedSensorPosition(0, kPIDLoopIdx, talonTimeoutMs);
+  masterLiftMotor->SetSelectedSensorPosition(liftStartingHeight, kPIDLoopIdx, talonTimeoutMs);
 
   masterLiftMotor->Config_kP(kElevatorMotionSlotIdx, mLiftkP, talonTimeoutMs);
   masterLiftMotor->Config_kI(kElevatorMotionSlotIdx, mLiftkI, talonTimeoutMs);
@@ -105,6 +105,11 @@ void Lift::setElevatorHeight(double height)
   }
 }
 
+void Lift::elevatorManualControl(double output)
+{
+  masterLiftMotor->Set(output);
+}
+
 void Lift::joystickElevatorControl(double speed)
 {
   masterLiftMotor->SelectProfileSlot(kElevatorVelocitySlotIdx, kPIDLoopIdx);
@@ -144,7 +149,6 @@ void Lift::setFourBarX(double x)
       ticks = (inverseAngle*voltsPerDegree)*ticksPerVolt;
     }
     fourBarMotor->Set(ControlMode::MotionMagic, ticks);
-
   }
 }
 
@@ -187,6 +191,7 @@ bool Lift::atElevatorHeight(){
  }
  return false;
 }
+
 bool Lift::atFourBarHeight(){
  if(abs(masterLiftMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
     return true;

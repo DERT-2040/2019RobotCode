@@ -5,31 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/Slider.h"
+#pragma once
 
-Slider::Slider() : Subsystem("Slider") 
-{
-
-}
-
-void Slider::InitDefaultCommand() {
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
-}
-
-void Slider::setPosition(double _position)
-{
-
-
-  //slideMotor->Set(ControlMode::MotionMagic, tickPosition);
-}
-
-double Slider::getPosition()
-{
-  return slideMotor->GetSelectedSensorPosition();
-}
-
-bool Slider::atPosition()
-{
-  return true;
-}
+#include <frc/commands/Command.h>
+#include "Robot.h"
+class manualLift : public frc::Command {
+ public:
+  manualLift();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+};
