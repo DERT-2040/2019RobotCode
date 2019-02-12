@@ -42,7 +42,7 @@ Lift::Lift() : Subsystem("Lift")
   //What type of encoder is it
   masterLiftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, kPIDLoopIdx, talonTimeoutMs);
   masterLiftMotor->SetSensorPhase(true);
-  masterLiftMotor->SetSelectedSensorPosition(0, kPIDLoopIdx, talonTimeoutMs);
+  masterLiftMotor->SetSelectedSensorPosition(liftStartingHeight, kPIDLoopIdx, talonTimeoutMs);
 
   masterLiftMotor->Config_kP(kElevatorMotionSlotIdx, mLiftkP, talonTimeoutMs);
   masterLiftMotor->Config_kI(kElevatorMotionSlotIdx, mLiftkI, talonTimeoutMs);
@@ -101,6 +101,11 @@ void Lift::setElevatorHeight(double height)
     masterLiftMotor->SelectProfileSlot(kElevatorMotionSlotIdx, kPIDLoopIdx);
     masterLiftMotor->Set(ControlMode::MotionMagic, ticks);
   }
+}
+
+void Lift::elevatorManualControl(double output)
+{
+  masterLiftMotor->Set(output);
 }
 
 void Lift::joystickElevatorControl(double speed)
