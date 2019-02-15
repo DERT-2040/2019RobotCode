@@ -11,6 +11,8 @@
 #include "ctre/Phoenix.h"
 #include "frc/WPILib.h"
 #include "RobotMap.h"
+#include "frc/Ultrasonic.h"
+
 class DriveTrain : public frc::Subsystem {
  
  private:
@@ -26,6 +28,9 @@ class DriveTrain : public frc::Subsystem {
   
   frc::Compressor *compressor;
   frc::DoubleSolenoid *driveSolenoid;
+
+  frc::Ultrasonic *ultra;
+
   int gear;
   
  public:
