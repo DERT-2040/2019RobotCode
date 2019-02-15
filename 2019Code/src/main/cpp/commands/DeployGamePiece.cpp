@@ -15,17 +15,13 @@ DeployGamePiece::DeployGamePiece() {
 
 // Called just before this Command runs the first time
 void DeployGamePiece::Initialize() {
-  if(Robot::m_intake.IsClosed()){ 
-    SetTimeout(1);
-  }
-  else{
-    SetTimeout(4);
+  if(!Robot::m_intake.IsClosed()){ 
+    SetTimeout(1.5);
   }
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DeployGamePiece::Execute() {
-  if(Robot::m_slider.atPosition()){
     if(Robot::m_intake.IsClosed()){
       Robot::m_intake.SetWheelSpeed(-0.6);
     }
@@ -33,7 +29,6 @@ void DeployGamePiece::Execute() {
       Robot::m_intake.SetState(true);
       complete = true;  
     }
-  }
 }
 
 // Make this return true when this Command no longer needs to run execute()
