@@ -81,5 +81,6 @@ class Lift : public frc::Subsystem
   void setFourBarAngle(double angle);
   void constantHeightLift(float totalHeight, float fourBarXLength);
   void elevatorManualControl(double output);
+  void fourbarManualControl(double output);
   double getFourBarAngle();
 };

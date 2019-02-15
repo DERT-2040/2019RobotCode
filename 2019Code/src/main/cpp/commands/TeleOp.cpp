@@ -9,8 +9,8 @@
 #include "Robot.h"
 
 TeleOp::TeleOp() {
-  AddParallel(new DriveWithJoySticks());
-  ///*
+  AddParallel(new manualLift());
+
   if(Robot::m_oi.gamepad->GetRawButton(1)){
     AddParallel(new DeliverGamePiece(1));
   }

@@ -12,6 +12,8 @@
 #include "commands/SetLiftState.h"
 #include "frc/WPILib.h"
 #include "commands/DeliverGamePiece.h"
+#include "commands/manualLift.h"
+
 class TeleOp : public frc::CommandGroup {
  public:
   TeleOp();

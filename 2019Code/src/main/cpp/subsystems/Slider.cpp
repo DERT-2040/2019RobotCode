@@ -20,8 +20,6 @@ void Slider::InitDefaultCommand() {
 void Slider::setPosition(double _position)
 {
 
-
-  //slideMotor->Set(ControlMode::MotionMagic, tickPosition);
 }
 
 double Slider::getPosition()

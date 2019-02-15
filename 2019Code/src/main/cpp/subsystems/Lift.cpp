@@ -11,33 +11,33 @@ Lift::Lift() : Subsystem("Lift")
 {
 
   talonTimeoutMs = 30;
-  liftCruiseVelocity = 10000;
-  liftAcceleration = 5000;
-  fourBarCruiseVelocity = 10000;
-  fourBarAcceleration = 5000;
+  liftCruiseVelocity = 100000;
+  liftAcceleration = 500000;
+  fourBarCruiseVelocity = 1000000;
+  fourBarAcceleration = 500000;
 
-  mLiftkP = 0;
+  mLiftkP = .5;
   mLiftkI = 0;
   mLiftkD = 0;
   mLiftkF = 0;
 
-  vLiftkP = 0;
+  vLiftkP = .5;
   vLiftkI = 0;
   vLiftkD = 0;
   vLiftkF = 0;
 
-  mFourBarkP = 0;
+  mFourBarkP = .5;
   mFourBarkI = 0;
   mFourBarkD = 0;
   mFourBarkP = 0;
 
-  vFourBarkP = 0;
+  vFourBarkP = .5;
   vFourBarkI = 0;
   vFourBarkD = 0;
   vFourBarkF = 0;
 
   masterLiftMotor = new WPI_TalonSRX(kMasterLiftMotorPort);
-  masterLiftMotor->SetInverted(false);
+  masterLiftMotor->SetInverted(true);
 
   //What type of encoder is it
   masterLiftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, kPIDLoopIdx, talonTimeoutMs);
@@ -59,7 +59,7 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->ConfigAllowableClosedloopError(kElevatorMotionSlotIdx, liftPIDError, talonTimeoutMs);
 
   secondLiftMotor = new WPI_TalonSRX(kSecondLiftMotorPort);
-  secondLiftMotor->SetInverted(false);
+  secondLiftMotor->SetInverted(true);
   secondLiftMotor->Follow(*masterLiftMotor);
 
   fourBarMotor = new WPI_TalonSRX(kFourBarMotorPort);
@@ -81,9 +81,12 @@ Lift::Lift() : Subsystem("Lift")
   fourBarMotor->ConfigAllowableClosedloopError(kFourBarMotionSlotIdx, fourBarPIDError, talonTimeoutMs);
   
 }
-void Lift::Periodic(){
+
+void Lift::Periodic()
+{
   setElevatorHeight(frc::SmartDashboard::GetNumber("Elevator Height", 0));
 }
+
 void Lift::InitDefaultCommand() 
 {
   //SetDefaultCommand(new MySpecialCommand());
@@ -107,7 +110,11 @@ void Lift::setElevatorHeight(double height)
 
 void Lift::elevatorManualControl(double output)
 {
-  masterLiftMotor->Set(output);
+  masterLiftMotor->Set(ControlMode::PercentOutput, output);
+}
+void Lift::fourbarManualControl(double output)
+{
+  fourBarMotor->Set(ControlMode::PercentOutput, output*.5);
 }
 
 void Lift::joystickElevatorControl(double speed)
