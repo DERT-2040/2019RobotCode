@@ -1,8 +1,8 @@
 #include <QTRSensors.h>
 #include <Wire.h>
 
-QTRSensorsRC qtrrc((unsigned char[]) {4,3,2,5,6,7,8,9}, 8, 2500);
-unsigned values[8];
+QTRSensorsRC qtrrc((unsigned char[]) {11,12,2,3,4,5,6,7,8,9,10}, 11, 2500);
+unsigned values[11];
 
 float output = 45;
 
@@ -14,7 +14,7 @@ void calibrate()
     qtrrc.calibrate();
     delay(20);
   }
-  for(int i = 0; i < 8; i++)
+  for(int i = 0; i < 11; i++)
   {
     Serial.println(qtrrc.calibratedMaximumOn[i]);
     Serial.println(qtrrc.calibratedMinimumOn[i]);
@@ -30,8 +30,9 @@ void setup() {
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
   // put your setup code here, to run once: 
-  //calibrate(); 
-  qtrrc.calibrate();
+  calibrate(); 
+  //qtrrc.calibrate();
+  /*
   qtrrc.calibratedMaximumOn[0] = 2500;
   qtrrc.calibratedMinimumOn[0] = 612;
   
@@ -55,7 +56,16 @@ void setup() {
   
   qtrrc.calibratedMaximumOn[7] = 1268;
   qtrrc.calibratedMinimumOn[7] = 540;
-
+  
+  qtrrc.calibratedMaximumOn[8] = 1268;
+  qtrrc.calibratedMinimumOn[8] = 540;
+  
+  qtrrc.calibratedMaximumOn[9] = 1268;
+  qtrrc.calibratedMinimumOn[9] = 540;
+  
+  qtrrc.calibratedMaximumOn[10] = 1268;
+  qtrrc.calibratedMinimumOn[10] = 540;
+  */
   for(int i = 0; i < 8; i++)
   {
     Serial.println(qtrrc.calibratedMaximumOn[i]);
@@ -81,14 +91,60 @@ void printSensorValues()
   Serial.print(values[6]);
   Serial.print(" ");
   Serial.print(values[7]);
-  Serial.println();
+  Serial.print(" ");
+  Serial.print(values[8]);
+  Serial.print(" ");
+  Serial.print(values[9]);
+  Serial.print(" ");
+  Serial.print(values[10]);
+  Serial.println(" ");
   delay(10);  
+}
+
+void printSensorValuesFormatted()
+{
+  char str[7];
+
+  sprintf(str,"%04d",values[0]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[1]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[2]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[3]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[4]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[5]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[6]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[7]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[8]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[9]);
+  Serial.print(str);
+  Serial.print(" ");
+  sprintf(str,"%04d",values[10]);
+  Serial.print(str);
+  Serial.print("\r");
+  delay(100);  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   qtrrc.readCalibrated(values, QTR_EMITTERS_ON);
-  printSensorValues();
+  printSensorValuesFormatted();
 }
 
 void requestEvent(){
