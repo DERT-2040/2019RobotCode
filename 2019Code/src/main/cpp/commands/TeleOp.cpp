@@ -16,7 +16,7 @@ TeleOp::TeleOp() {
   }
   else if(Robot::m_oi.gamepad->GetRawButton(2)){
     AddParallel(new SetLiftHeight(3, 0));
-  }
+  } 
   else if(Robot::m_oi.gamepad->GetRawButton(4)){
     AddParallel(new DeliverGamePiece(4));
   }
@@ -25,6 +25,10 @@ TeleOp::TeleOp() {
   }
   if(Robot::m_oi.gamepad->GetRawButton(9) && Robot::m_oi.gamepad->GetRawButton(10)){
     frc::Scheduler::GetInstance()->RemoveAll();
+  }
+  
+  if(Robot::m_oi.gamepad->GetRawAxis(0.75)){
+    AddParallel(new DeployGamePiece());
   }
   //*/
   frc::SmartDashboard::PutString("Mode", "TeleOp");

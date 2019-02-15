@@ -10,6 +10,7 @@
 #include <frc/commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include "RobotMap.h"
+#include "frc/WPILib.h"
 
 # define M_PI 3.14159265358979323846
 
@@ -34,6 +35,8 @@ class Lift : public frc::Subsystem
 
   double elevatorHeightTarget = 0;
   double fbHeightTarget = 0;
+
+  bool eMotionMagicActive = false;
   //constants
   const int kPIDLoopIdx = 0;
 
@@ -48,6 +51,8 @@ class Lift : public frc::Subsystem
   const double maxLiftSpeed = 10000;
   const double liftPIDError = .01;
   const double fourBarPIDError = .01;
+  const double liftStartingHeight = 5.5;
+  const double liftStartingTicks = liftStartingHeight/inchesPerRotationElevator*ticksPerRotation;
 
   const double voltsPerDegree = 0.02222222;
   const double ticksPerVolt = 255.75;
@@ -62,22 +67,24 @@ class Lift : public frc::Subsystem
   const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
   const float minElevatorTickHeight = 0;
 
+  const float kFeedforwardElevator = 0.05;
 
+  const float maxSlowDownHeight = 15;
  public:
 
   Lift();
+  void Periodic() override;
   void InitDefaultCommand() override;
   void setElevatorHeight(double height);
   void setFourBarHeight(double height);
-<<<<<<< HEAD
+  void setLiftHeight(double height,double distance);
+  bool atElevatorHeight();
+  bool atFourBarHeight();
   void joystickElevatorControl(double speed);
   void setFourBarX(double x); 
   void setFourBarAngle(double angle);
   void constantHeightLift(float totalHeight, float fourBarXLength);
+  void elevatorManualControl(double output);
+  void fourbarManualControl(double output);
   double getFourBarAngle();
-=======
-  void setLiftHeight(double height,double distance);
-  bool atElevatorHeight();
-  bool atFourBarHeight();
->>>>>>> SidsWorkflow
 };

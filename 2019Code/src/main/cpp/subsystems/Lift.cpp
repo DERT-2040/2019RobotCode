@@ -114,8 +114,17 @@ void Lift::setElevatorHeight(double height)
 
 void Lift::elevatorManualControl(double output)
 {
+  float slowDown = 0.5;
+  double maxTicks = maxSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
+  double minTicks = minSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
+  if(output < 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()<minTicks){
+    slowDown = slowDownConstant;
+  }
+  if(output > 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()>maxTicks){
+    slowDown = slowDownConstant;
+  }
   if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
-    masterLiftMotor->Set(ControlMode::PercentOutput, output*.5+kFeedforwardElevator);
+    masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown+kFeedforwardElevator);
     eMotionMagicActive = false;
   }
 }
