@@ -69,7 +69,9 @@ class Lift : public frc::Subsystem
 
   const float kFeedforwardElevator = 0.05;
 
-  const float maxSlowDownHeight = 15;
+  const float maxSlowDownHeight = 23;
+  const float minSlowDownHeight = 15;
+  const float slowDownConstant = 0.16;
  public:
 
   Lift();
