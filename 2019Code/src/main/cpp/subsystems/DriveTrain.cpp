@@ -25,7 +25,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   leftSide -> SetInverted(false);
   rightSide -> SetInverted(true);
   
-  drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
+  //drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
   compressor = new frc::Compressor(kCompressor);
 
@@ -47,17 +47,17 @@ void DriveTrain::InitDefaultCommand() {
 void DriveTrain::Periodic()
 {
   //std::cout << lightSensor->GetVoltage() << std::endl;
-  std::cout << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  std::cout << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  //std::cout << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  //std::cout << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
   std::cout << "" << std::endl;
 }
 
 void DriveTrain::CurveDrive()
 {
-  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0), true);
+  //drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0), true);
 }
 void DriveTrain::DriveSpeed(float speed){
-  drive->CurvatureDrive(0.5,0,false);
+  //drive->CurvatureDrive(0.5,0,false);
 }
 void DriveTrain::ShiftGear(int _gear){
   if (gear != _gear){

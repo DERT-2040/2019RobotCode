@@ -14,6 +14,7 @@
 #include "commands/DeliverGamePiece.h"
 #include "commands/manualLift.h"
 #include "commands/DeployGamePiece.h"
+#include "commands/SetLiftHeight.h"
 
 class TeleOp : public frc::CommandGroup {
  public:

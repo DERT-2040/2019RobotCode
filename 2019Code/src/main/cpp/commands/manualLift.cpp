@@ -20,7 +20,7 @@ void manualLift::Initialize() {}
 void manualLift::Execute() 
 {
   Robot::m_lift.elevatorManualControl(-1*Robot::m_oi.gamepad->GetRawAxis(5));
-  //Robot::m_lift.fourbarManualControl(-1*Robot::m_oi.gamepad->GetRawAxis(1));
+  Robot::m_lift.fourbarManualControl(Robot::m_oi.gamepad->GetRawAxis(1));
 }
 
 // Make this return true when this Command no longer needs to run execute()
