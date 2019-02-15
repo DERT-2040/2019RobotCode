@@ -85,8 +85,9 @@ Lift::Lift() : Subsystem("Lift")
 }
 
 void Lift::Periodic()
-{
+{ 
   std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << fourBarMotor->GetSensorCollection().GetAnalogInRaw() / ticksPerVolt / voltsPerDegree - 90<< std::endl;
 }
 
 void Lift::InitDefaultCommand() 

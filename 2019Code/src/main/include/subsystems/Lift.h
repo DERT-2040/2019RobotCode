@@ -67,7 +67,7 @@ class Lift : public frc::Subsystem
   const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
   const float minElevatorTickHeight = 0;
 
-  const float kFeedforwardElevator = 0.05;
+  const float kFeedforwardElevator = 0.10;
 
 
  public:
