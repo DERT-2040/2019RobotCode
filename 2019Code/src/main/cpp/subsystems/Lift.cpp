@@ -6,15 +6,16 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Lift.h"
+#include <iostream>
 
 Lift::Lift() : Subsystem("Lift") 
 {
 
   talonTimeoutMs = 30;
-  liftCruiseVelocity = 100000;
-  liftAcceleration = 500000;
-  fourBarCruiseVelocity = 1000000;
-  fourBarAcceleration = 500000;
+  liftCruiseVelocity = 10000;
+  liftAcceleration = 50000;
+  fourBarCruiseVelocity = 10000;
+  fourBarAcceleration = 5000;
 
   mLiftkP = .5;
   mLiftkI = 0;
@@ -40,7 +41,7 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->SetInverted(true);
 
   //What type of encoder is it
-  masterLiftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, kPIDLoopIdx, talonTimeoutMs);
+  masterLiftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, kPIDLoopIdx, talonTimeoutMs);
   masterLiftMotor->SetSensorPhase(true);
   masterLiftMotor->SetSelectedSensorPosition(liftStartingHeight, kPIDLoopIdx, talonTimeoutMs);
 
@@ -55,8 +56,9 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->Config_kF(kElevatorVelocitySlotIdx, vLiftkF, talonTimeoutMs);
 
   masterLiftMotor->ConfigMotionCruiseVelocity(liftCruiseVelocity);
-  masterLiftMotor->ConfigMotionCruiseVelocity(liftAcceleration);
+  masterLiftMotor->ConfigMotionAcceleration(liftAcceleration);
   masterLiftMotor->ConfigAllowableClosedloopError(kElevatorMotionSlotIdx, liftPIDError, talonTimeoutMs);
+  //masterLiftMotor->GetSensorCollection().SetQuadraturePosition(0, talonTimeoutMs);
 
   secondLiftMotor = new WPI_TalonSRX(kSecondLiftMotorPort);
   secondLiftMotor->SetInverted(true);
@@ -84,7 +86,7 @@ Lift::Lift() : Subsystem("Lift")
 
 void Lift::Periodic()
 {
-  setElevatorHeight(frc::SmartDashboard::GetNumber("Elevator Height", 0));
+  std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
 }
 
 void Lift::InitDefaultCommand() 
@@ -99,6 +101,7 @@ double Lift::getFourBarAngle()
 
 void Lift::setElevatorHeight(double height)
 {
+  eMotionMagicActive = true;
   height = height/2;
   double ticks = height/inchesPerRotationElevator*ticksPerRotation;
   if(ticks < maxElevatorTickHeight && ticks > minElevatorTickHeight)
@@ -110,8 +113,12 @@ void Lift::setElevatorHeight(double height)
 
 void Lift::elevatorManualControl(double output)
 {
-  masterLiftMotor->Set(ControlMode::PercentOutput, output);
+  if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
+    masterLiftMotor->Set(ControlMode::PercentOutput, output*.5+kFeedforwardElevator);
+    eMotionMagicActive = false;
+  }
 }
+
 void Lift::fourbarManualControl(double output)
 {
   fourBarMotor->Set(ControlMode::PercentOutput, output*.5);
@@ -193,14 +200,14 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
   }
 }
 bool Lift::atElevatorHeight(){
- if(abs(secondLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
+ if(abs(masterLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
     return true;
  }
  return false;
 }
 
 bool Lift::atFourBarHeight(){
- if(abs(masterLiftMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
+ if(abs(fourBarMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
     return true;
  }
  return false;

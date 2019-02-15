@@ -35,6 +35,8 @@ class Lift : public frc::Subsystem
 
   double elevatorHeightTarget = 0;
   double fbHeightTarget = 0;
+
+  bool eMotionMagicActive = false;
   //constants
   const int kPIDLoopIdx = 0;
 
@@ -64,6 +66,8 @@ class Lift : public frc::Subsystem
   const float ticksPerRotation = 4096;
   const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
   const float minElevatorTickHeight = 0;
+
+  const float kFeedforwardElevator = 0.05;
 
 
  public:

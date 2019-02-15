@@ -12,10 +12,10 @@ TeleOp::TeleOp() {
   AddParallel(new manualLift());
 
   if(Robot::m_oi.gamepad->GetRawButton(1)){
-    AddParallel(new DeliverGamePiece(1));
+    AddParallel(new SetLiftHeight(60 ,0));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(2)){
-    AddParallel(new DeliverGamePiece(2));
+    AddParallel(new SetLiftHeight(3, 0));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(4)){
     AddParallel(new DeliverGamePiece(4));
