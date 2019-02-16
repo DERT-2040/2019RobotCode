@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Lift.h"
-#include <iostream>
 
 Lift::Lift() : Subsystem("Lift") 
 {
@@ -20,7 +19,7 @@ Lift::Lift() : Subsystem("Lift")
   liftkF = 0;
 
   masterLiftMotor = new WPI_TalonSRX(kMasterLiftMotorPort);
-  masterLiftMotor->SetInverted(true);
+  masterLiftMotor->SetInverted(false);
 
   //What type of encoder is it
   masterLiftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, kPIDLoopIdx, talonTimeoutMs);
@@ -49,11 +48,18 @@ Lift::Lift() : Subsystem("Lift")
   fourBarMotor->ConfigMotionCruiseVelocity(fourBarCruiseVelocity);
   fourBarMotor->ConfigMotionAcceleration(fourBarAcceleration);
 
-}
-
+<<<<<<< SidsWorkflow
+=======
+void Lift::Periodic()
+{ 
+  //std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  //std::cout << getFourBarAngle()<< std::endl;
   std::cout << calculateAggregateSpeedCapLift() << std::endl;
   std::cout << calculateAggregateSpeedCapFourBar() << std::endl;
   
+
+>>>>>>> local
+}
 
 void Lift::InitDefaultCommand() 
 {
@@ -87,6 +93,10 @@ bool Lift::atFourBarHeight(){
  return false;
 }
 
+<<<<<<< SidsWorkflow
+
+
+=======
 float Lift::calculateAggregateSpeedCapLift(){
   float modifierCombined = calculateCombinedSpeedCap();
   float modifierLift = calculateElevatorSpeedCap();
@@ -151,6 +161,4 @@ float Lift::getElevatorHeight(){
 float Lift::getTotalHeight(){
   return getElevatorHeight() + fourBarLength*cos(getFourBarAngle());
 }
-
-
-
+>>>>>>> local

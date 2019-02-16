@@ -42,7 +42,7 @@ class Lift : public frc::Subsystem
   float calculateCombinedSpeedCap();
   float calculateFourBarSpeedCap();
   float calculateElevatorSpeedCap();
-
+  
   float multiplier = 1;
   const float slowdownDistanceIn = 8;
   const float slowdownDistanceOut = 5.5;
@@ -57,12 +57,20 @@ class Lift : public frc::Subsystem
  public:
 
   Lift();
+  void Periodic() override;
   void InitDefaultCommand() override;
   void setElevatorHeight(double height);
   void setFourBarHeight(double height);
   void setLiftHeight(double height,double distance);
   bool atElevatorHeight();
   bool atFourBarHeight();
+  void velocityElevatorControl(double speed);
+  void setFourBarX(double x); 
+  void setFourBarAngle(double angle);
+  void constantHeightLift(float totalHeight, float fourBarXLength);
+  void elevatorManualControl(double output);
+  void fourbarManualControl(double output);
+  double getFourBarAngle();
   float getFourBarDistance(); //Without Implement
   float getTotalHeight();
   float getElevatorHeight();
