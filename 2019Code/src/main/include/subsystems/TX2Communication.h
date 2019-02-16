@@ -8,17 +8,30 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-class ModeChooser : public frc::Subsystem {
- private:
-  int mode;
-  int newMode;
-  bool firstRun;
-	frc::Command* commandToRun = nullptr;
-  // It's desirable that everything possible under private except
-  // for methods that implement subsystem capabilities
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <unistd.h> 
+#include <string.h> 
+#include <sys/types.h> 
+#include <sys/socket.h> 
+#include <arpa/inet.h> 
+#include <netinet/in.h> 
 
+#define PORT 2040
+#define NUMOFVALUES 2
+
+class TX2Communication : public frc::Subsystem 
+{
+ private:
+  
+  int sockfd;
+  float buffer[NUMOFVALUES];
+  struct sockaddr_in serveraddr, cliaddr;
+  int recvlen;
+  socklen_t cliaddrlen = sizeof(cliaddr);
  public:
-  ModeChooser();
-  void Periodic() override;
+  TX2Communication();
   void InitDefaultCommand() override;
+  void Periodic() override;
+
 };

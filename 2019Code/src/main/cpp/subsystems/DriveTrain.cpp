@@ -12,25 +12,25 @@
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 {
-  frontLeftDrive = new WPI_TalonSRX(kFrontLeftMotorPort);
-  frontRightDrive = new WPI_TalonSRX(kFrontRightMotorPort);
-  backLeftDrive = new WPI_TalonSRX(kBackLeftMotorPort);
-  backRightDrive = new WPI_TalonSRX(kBackRightMotorPort);
+  secondLeftMotor = new WPI_TalonSRX(kSecondLeftMotorPort);
+  secondRightMotor = new WPI_TalonSRX(kSecondRightMotorPort);
+  masterLeftMotor = new WPI_TalonSRX(kMasterLeftMotorPort);
+  masterRightMotor = new WPI_TalonSRX(kMasterRightMotorPort);
 
-  frontLeftDrive->SetInverted(true);
+  secondLeftMotor->SetInverted(true);
 
-  leftSide = new frc::SpeedControllerGroup(*frontLeftDrive, *backLeftDrive);
-  rightSide = new frc::SpeedControllerGroup(*frontRightDrive, *backRightDrive);
-  leftSide -> SetInverted(true);
+  leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
+  rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
+
+  leftSide -> SetInverted(false);
   rightSide -> SetInverted(true);
+  
   drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
-
-  lightSensor = new frc::AnalogInput(kLightSensorPort);
 
   compressor = new frc::Compressor(kCompressor);
 
 	compressor->SetClosedLoopControl(true);
-  driveSolenoid = new frc::DoubleSolenoid(kForwardDriveSolenoid,kReverseDriveSolenoid);
+  driveSolenoid = new frc::DoubleSolenoid(1,kForwardDriveSolenoid,kReverseDriveSolenoid);
 
 
 }
@@ -40,33 +40,34 @@ void DriveTrain::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
   //SetDefaultCommand(new DriveWithJoySticks);
   //std::cout << "started" << std::endl;
-  backLeftDrive->GetSensorCollection().SetQuadraturePosition(0);
-  backRightDrive->GetSensorCollection().SetQuadraturePosition(0);
+  masterLeftMotor->GetSensorCollection().SetQuadraturePosition(0);
+  masterRightMotor->GetSensorCollection().SetQuadraturePosition(0);
 }
 
 void DriveTrain::Periodic()
 {
   //std::cout << lightSensor->GetVoltage() << std::endl;
-  std::cout << backLeftDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  std::cout << backRightDrive->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  //std::cout << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  //std::cout << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
   std::cout << "" << std::endl;
 }
 
 void DriveTrain::CurveDrive()
 {
-  drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0)*.45, true);
+  //drive->CurvatureDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0), true);
+  drive->ArcadeDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0));
 }
 void DriveTrain::DriveSpeed(float speed){
-  drive->CurvatureDrive(0.5,0,false);
+  //drive->CurvatureDrive(0.5,0,false);
 }
 void DriveTrain::ShiftGear(int _gear){
   if (gear != _gear){
     gear = _gear;
     if(gear == 1){
-      driveSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
     }
     else if (gear == 0){
-      driveSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
     }
   }
 }

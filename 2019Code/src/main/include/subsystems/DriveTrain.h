@@ -11,24 +11,28 @@
 #include "ctre/Phoenix.h"
 #include "frc/WPILib.h"
 #include "RobotMap.h"
+#include "frc/Ultrasonic.h"
+
 class DriveTrain : public frc::Subsystem {
  
  private:
 
-  WPI_TalonSRX *frontLeftDrive;
-  WPI_TalonSRX *frontRightDrive;
-  WPI_TalonSRX *backLeftDrive;
-  WPI_TalonSRX *backRightDrive;
+  WPI_TalonSRX *secondLeftMotor;
+  WPI_TalonSRX *secondRightMotor;
+  WPI_TalonSRX *masterLeftMotor;
+  WPI_TalonSRX *masterRightMotor;
   
   frc::SpeedControllerGroup *leftSide;
   frc::SpeedControllerGroup *rightSide;
   frc::DifferentialDrive *drive;
-
-  frc::AnalogInput * lightSensor;
   
   frc::Compressor *compressor;
   frc::DoubleSolenoid *driveSolenoid;
+
+  frc::Ultrasonic *ultra;
+
   int gear;
+  
  public:
 
   DriveTrain();

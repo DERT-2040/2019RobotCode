@@ -5,40 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/PickupCargo.h"
-#include "Robot.h"
+#include "commands/WaitForButtonPress.h"
 
-PickupCargo::PickupCargo() {
+WaitForButtonPress::WaitForButtonPress(int _buttonNum, bool _button) {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  Requires(&Robot::m_intake);
+  buttonNum = _buttonNum;
+  button = _button;
+  finished = false;
 }
 
 // Called just before this Command runs the first time
-void PickupCargo::Initialize() {
-}
+void WaitForButtonPress::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void PickupCargo::Execute() {
-    Robot::m_intake.SetState(true);
-    Robot::m_intake.SetWheelSpeed(1);
+void WaitForButtonPress::Execute() {
+  if (button){
+    if(Robot::m_oi.gamepad->GetRawAxis(buttonNum)>0.75){
+      finished = true;
+    }
+  }
+  else{
+    if(!Robot::m_oi.gamepad->GetRawButton(buttonNum)){
+      finished = true;
+    }
+  }
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool PickupCargo::IsFinished() { 
-  return (!Robot::m_oi.gamepad->GetRawButton(5));
-  
-}
+bool WaitForButtonPress::IsFinished() { return finished; }
 
 // Called once after isFinished returns true
-void PickupCargo::End() {
-  Robot::m_intake.SetState(false);
-  Robot::m_intake.SetWheelSpeed(0);
-}
+void WaitForButtonPress::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void PickupCargo::Interrupted() {
-  Robot::m_intake.SetState(false);
-  Robot::m_intake.SetWheelSpeed(0);
-  }
+void WaitForButtonPress::Interrupted() {}

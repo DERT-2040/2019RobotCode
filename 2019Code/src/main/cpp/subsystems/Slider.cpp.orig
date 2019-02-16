@@ -10,10 +10,13 @@
 
 Slider::Slider() : Subsystem("Slider") 
 {
+<<<<<<< HEAD
   distanceTraveled = new frc::Counter(0);
-  distanceTraveled->SetUpSource(0);
   distanceTraveled->SetUpDownCounterMode();
   distanceTraveled->Reset();
+
+=======
+>>>>>>> 03e6688e205b2d5a0552422fb1b47404d835c669
   sliderMotor = new WPI_TalonSRX(kSliderMotorPort);
 }
 
@@ -21,6 +24,7 @@ void Slider::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
 }
+<<<<<<< HEAD
 void Slider::Periodic(){
   //std::cout << distanceTraveled->Get() << std::endl;
   if(sliderMotor->Get() > 0){
@@ -32,6 +36,14 @@ void Slider::Periodic(){
   previousPosition =  distanceTraveled->Get();
   //std::cout << position << std::endl;
 }
+=======
+
+void Slider::setSpeed(float speed)
+{
+  sliderMotor->Set(speed*0.1);
+}
+
+>>>>>>> 03e6688e205b2d5a0552422fb1b47404d835c669
 void Slider::setPosition(double _position)
 {
 
@@ -40,7 +52,6 @@ void Slider::setPosition(double _position)
 double Slider::getPosition()
 {
 
-  //return slideMotor->GetSelectedSensorPosition();
 }
 
 bool Slider::atPosition()

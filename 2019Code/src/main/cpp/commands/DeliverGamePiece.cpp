@@ -5,10 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Auto.h"
+#include "commands/DeliverGamePiece.h"
+#include "commands/WaitForButtonPress.h"
+#include "commands/SetLiftHeight.h"
+#include "commands/SliderLineTracker.h"
+#include "commands/ResetSlider.h"
+#include "commands/DeployGamePiece.h"
 
-Auto::Auto() {
-  frc::SmartDashboard::PutString("Mode", "Auto");
+DeliverGamePiece::DeliverGamePiece(int level) {
+  AddSequential(new SetLiftState(level + 2,false));
+  AddSequential(new WaitForButtonPress(2,false));// CHANGE TO READY BUTTON POSITION
+  AddSequential(new SetLiftState(level + 1,true));
+  //AddSequential(new SliderLineTracker());
+  AddSequential(new WaitForButtonPress(3,false));// CHANGE TO DEPLOY BUTTON POSITION
+  AddSequential(new DeployGamePiece());
+  AddSequential(new WaitForButtonPress(3,true));// CHANGE TO RESET BUTTON POSITION
+  AddParallel(new SetLiftState(2, false));
+  //AddSequential(new ResetSlider());
+
   // Add Commands here:
   // e.g. AddSequential(new Command1());
   //      AddSequential(new Command2());

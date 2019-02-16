@@ -5,27 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ExampleCommand.h"
+#include "commands/manualSlider.h"
 
-#include "Robot.h"
-
-ExampleCommand::ExampleCommand() {
+manualSlider::manualSlider() {
   // Use Requires() here to declare subsystem dependencies
-  Requires(&Robot::m_subsystem);
+  Requires(&Robot::m_slider);
 }
 
 // Called just before this Command runs the first time
-void ExampleCommand::Initialize() {}
+void manualSlider::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ExampleCommand::Execute() {}
+void manualSlider::Execute() 
+{
+  Robot::m_slider.ManualControl(Robot::m_oi.gamepad->GetRawAxis(4));
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool ExampleCommand::IsFinished() { return false; }
+bool manualSlider::IsFinished() { return true; }
 
 // Called once after isFinished returns true
-void ExampleCommand::End() {}
+void manualSlider::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ExampleCommand::Interrupted() {}
+void manualSlider::Interrupted() {}

@@ -7,11 +7,13 @@
 
 #include "subsystems/ModeChooser.h"
 #include "Robot.h"
+#include "commands/TeleOp.h"
+#include "commands/Auto.h"
 ModeChooser::ModeChooser() : Subsystem("ModeChooser") {
   firstRun = true;
 }
 void ModeChooser::Periodic() {
-  if(Robot::m_oi.gamepad->GetRawButton(1)){
+  if(Robot::m_oi.gamepad->GetRawButton(3)){
       commandToRun = new Auto();
       commandToRun->Start();
   }

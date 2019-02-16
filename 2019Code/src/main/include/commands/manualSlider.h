@@ -5,19 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
+#pragma once
 
-#include <frc/WPILib.h>
-#include "commands/PickupCargo.h"
-#include "commands/PickupHatch.h"
+#include <frc/commands/Command.h>
+#include "Robot.h"
 
-OI::OI() {
-  // Process operator interface input here.
-  joystickL = new frc::Joystick(0);
-  joystickR = new frc::Joystick(1);
-  gamepad = new frc::Joystick(2);
-  LBButton = new frc::JoystickButton(gamepad,5);
-  RBButton = new frc::JoystickButton(gamepad,6);
-  LBButton->WhileHeld(new PickupCargo());
-  RBButton->WhileHeld(new PickupHatch());
-}
+class manualSlider : public frc::Command {
+ public:
+  manualSlider();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+};

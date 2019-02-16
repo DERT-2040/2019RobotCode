@@ -26,22 +26,22 @@
 
 //Talons
     //DriveTrain
-        constexpr int kFrontLeftMotorPort = 1;
-        constexpr int kFrontRightMotorPort = 2;
-        constexpr int kBackLeftMotorPort = 3;
-        constexpr int kBackRightMotorPort = 4;
+        constexpr int kMasterLeftMotorPort = 1;
+        constexpr int kMasterRightMotorPort = 2;
+        constexpr int kSecondLeftMotorPort = 3;
+        constexpr int kSecondRightMotorPort = 4;
     //Intake
-        constexpr int kRightIntakeWheel = 5;
-        constexpr int kLeftIntakeWheel = 6;
+        constexpr int kRightIntakeWheel = 10;
+        constexpr int kLeftIntakeWheel = 11;
     //Hatch Pickup
         constexpr int kHatchIntake = 7;
     //Slider
         constexpr int kSliderMotorPort = 8;
     //Lift
-        constexpr int kMasterLiftMotorPort = 9;
-        constexpr int kSecondLiftMotorPort = 10;
+        constexpr int kMasterLiftMotorPort = 5;
+        constexpr int kSecondLiftMotorPort = 6;
     //Four-bar
-        constexpr int kFourBarMotorPort = 11;
+        constexpr int kFourBarMotorPort = 9;
 
 //Analog Inputs
 constexpr int kLightSensorPort = 0;
@@ -52,9 +52,9 @@ constexpr int kPickupRetractedSwitch = 1;
 constexpr int kPickupDeployedSwitch = 2;
 
 //Pneumatics
-constexpr int kForwardDriveSolenoid = 6;
-constexpr int kReverseDriveSolenoid = 7;
-constexpr int kForwardIntakeSolenoid = 1;
+constexpr int kForwardDriveSolenoid = 2;
+constexpr int kReverseDriveSolenoid = 3;
+constexpr int kForwardIntakeSolenoid = 0;
 constexpr int kReverseIntakeSolenoid = 1;
 constexpr int kCompressor = 0;
 

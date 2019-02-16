@@ -8,10 +8,11 @@
 #pragma once
 
 #include <frc/commands/Command.h>
+#include "Robot.h"
 
-class MyAutoCommand : public frc::Command {
+class manualSlider : public frc::Command {
  public:
-  MyAutoCommand();
+  manualSlider();
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

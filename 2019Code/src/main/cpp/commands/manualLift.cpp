@@ -5,40 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/PickupCargo.h"
-#include "Robot.h"
+#include "commands/manualLift.h"
 
-PickupCargo::PickupCargo() {
+manualLift::manualLift() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  Requires(&Robot::m_intake);
+  Requires(&Robot::m_lift);
 }
 
 // Called just before this Command runs the first time
-void PickupCargo::Initialize() {
-}
+void manualLift::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void PickupCargo::Execute() {
-    Robot::m_intake.SetState(true);
-    Robot::m_intake.SetWheelSpeed(1);
+void manualLift::Execute() 
+{
+  Robot::m_lift.velocityElevatorControl(-1*Robot::m_oi.gamepad->GetRawAxis(1));
+  Robot::m_lift.velocityFourBarControl(Robot::m_oi.gamepad->GetRawAxis(5));
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool PickupCargo::IsFinished() { 
-  return (!Robot::m_oi.gamepad->GetRawButton(5));
-  
-}
+bool manualLift::IsFinished() { return false; }
 
 // Called once after isFinished returns true
-void PickupCargo::End() {
-  Robot::m_intake.SetState(false);
-  Robot::m_intake.SetWheelSpeed(0);
-}
+void manualLift::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void PickupCargo::Interrupted() {
-  Robot::m_intake.SetState(false);
-  Robot::m_intake.SetWheelSpeed(0);
-  }
+void manualLift::Interrupted() {}

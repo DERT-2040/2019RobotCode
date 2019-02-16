@@ -12,7 +12,10 @@
 #include "frc/WPILib.h"
 #include "Robot.h"
 class SetLiftState : public frc::CommandGroup {
+ private:
+  float xDist;
  public:
-  SetLiftState(int level);// 0 for ground ball pickup, 1 for hatch pickup
-                          // 2 for ground level, 3 for 1st level, 4 for second level 
+  SetLiftState(int level, bool onApproach);// 0 for ground ball pickup, 1 for hatch pickup
+                          // 2 for starting position, 3 for ground level, 4 for 1st level, 5 for second level
+                          // If on Approach, four bar  will be extended out ready to place 
 };

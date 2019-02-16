@@ -5,40 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/PickupCargo.h"
-#include "Robot.h"
+#include "commands/SliderLineTracker.h"
 
-PickupCargo::PickupCargo() {
+SliderLineTracker::SliderLineTracker() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  Requires(&Robot::m_intake);
+  Requires(&Robot::m_slider);
 }
 
 // Called just before this Command runs the first time
-void PickupCargo::Initialize() {
-}
+void SliderLineTracker::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void PickupCargo::Execute() {
-    Robot::m_intake.SetState(true);
-    Robot::m_intake.SetWheelSpeed(1);
+void SliderLineTracker::Execute() {
+  inchesOffLine = Robot::m_arduinoCommunications.getInchesOffLine();
+  Robot::m_slider.setPosition(inchesOffLine);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool PickupCargo::IsFinished() { 
-  return (!Robot::m_oi.gamepad->GetRawButton(5));
-  
-}
+bool SliderLineTracker::IsFinished() { return false; }
 
 // Called once after isFinished returns true
-void PickupCargo::End() {
-  Robot::m_intake.SetState(false);
-  Robot::m_intake.SetWheelSpeed(0);
-}
+void SliderLineTracker::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void PickupCargo::Interrupted() {
-  Robot::m_intake.SetState(false);
-  Robot::m_intake.SetWheelSpeed(0);
-  }
+void SliderLineTracker::Interrupted() {}

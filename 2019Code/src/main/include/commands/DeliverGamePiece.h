@@ -5,19 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
+#pragma once
 
-#include <frc/WPILib.h>
-#include "commands/PickupCargo.h"
-#include "commands/PickupHatch.h"
+#include <frc/commands/CommandGroup.h>
+#include "commands/SetLiftState.h"
+#include "frc/WPILib.h"
+#include "Robot.h"
 
-OI::OI() {
-  // Process operator interface input here.
-  joystickL = new frc::Joystick(0);
-  joystickR = new frc::Joystick(1);
-  gamepad = new frc::Joystick(2);
-  LBButton = new frc::JoystickButton(gamepad,5);
-  RBButton = new frc::JoystickButton(gamepad,6);
-  LBButton->WhileHeld(new PickupCargo());
-  RBButton->WhileHeld(new PickupHatch());
-}
+class DeliverGamePiece : public frc::CommandGroup {
+ public:
+  DeliverGamePiece(int level);//1 for first level, 2 for second level, 3 for third level
+};

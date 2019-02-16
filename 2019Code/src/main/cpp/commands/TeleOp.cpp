@@ -6,9 +6,41 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/TeleOp.h"
+#include <iostream>
 #include "Robot.h"
 
 TeleOp::TeleOp() {
-  AddSequential(new DriveWithJoySticks());
+  AddParallel(new manualLift());
+  AddParallel(new manualSlider());
+  AddParallel(new DriveWithJoySticks());
+
+  if(Robot::m_oi.gamepad->GetRawButton(1)){
+    AddParallel(new SetLiftHeight(17 ,0));
+  }
+  else if(Robot::m_oi.gamepad->GetRawButton(2)){
+    AddParallel(new SetLiftHeight(47, 0));
+  } 
+  else if(Robot::m_oi.gamepad->GetRawButton(4)){
+    AddParallel(new SetLiftHeight(60, 0));
+  }
+  else if(Robot::m_oi.gamepad->GetPOV(0)==180){
+    //AddParallel(new SetLiftState(0,false));
+  }
+  if(Robot::m_oi.gamepad->GetRawButton(9) && Robot::m_oi.gamepad->GetRawButton(10)){
+    frc::Scheduler::GetInstance()->RemoveAll();
+  }
+  
+  if(Robot::m_oi.gamepad->GetRawAxis(2)>0.75){
+    AddParallel(new DeployGamePiece());
+  }
+  
+  if(Robot::m_oi.gamepad->GetRawButton(5)){
+    //AddParallel(new PickupCargo()); 
+  }
+  
+  if(Robot::m_oi.gamepad->GetRawButton(6)){
+    //AddParallel(new PickupHatch());
+  }
+  //*/
   frc::SmartDashboard::PutString("Mode", "TeleOp");
 }
