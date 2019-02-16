@@ -10,14 +10,12 @@
 #include <frc/commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include "RobotMap.h"
-#include "WPILib.h"
+#include "frc/WPILib.h"
 
 class Slider : public frc::Subsystem 
 {
 
  private:
-
-  WPI_TalonSRX * sliderMotor;
 
   //None of the motion/PIDF values are tuned
   const int slotIdx = 0;

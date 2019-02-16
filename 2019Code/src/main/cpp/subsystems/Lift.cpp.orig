@@ -92,12 +92,12 @@ void Lift::elevatorManualControl(double output)
   double minTicks = minSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
   if(output < 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()<minTicks){
     std::cout << "min" << std::endl;
-    slowDown = 0.09;
+    slowDown = 0.04;
   }
   if(output > 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()>maxTicks){
     slowDown = slowDownConstant;
   }
-  if(!eMotionMagicActive || (eMotionMagicActive && fabs(output)> 0.025)){
+  if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
     masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown +kFeedforwardElevator);
     eMotionMagicActive = false;
   }
@@ -110,33 +110,29 @@ void Lift::fourbarManualControl(double output)
   {
     feedForward = 0;
   } 
+<<<<<<< HEAD
   float slowDown = 1;
-  if(output > 0 && getFourBarAngle()<-45){
+  if(output < 0 && getFourBarAngle()<-45){
     slowDown = 0.04;
   }
-  else if(output < 0 && getFourBarAngle()>45){
-    slowDown = 0.04;
+  if(output < 0 && getFourBarAngle()>45){
+    slowDown = slowDownConstant;
   }
-  /*if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
+  if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
     masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown +kFeedforwardElevator);
     eMotionMagicActive = false;
-  }*/
+  }
   std::cout << fourBarMotor->GetSensorCollection().GetAnalogInRaw() << std::endl;
   std::cout << -feedForward << std::endl;
-  fourBarMotor->Set(ControlMode::PercentOutput, slowDown*output-feedForward);
+=======
+>>>>>>> 03e6688e205b2d5a0552422fb1b47404d835c669
+  fourBarMotor->Set(ControlMode::PercentOutput, output-feedForward);
 }
 
-void Lift::velocityElevatorControl(double speed)
+void Lift::joystickElevatorControl(double speed)
 {
   masterLiftMotor->SelectProfileSlot(kElevatorVelocitySlotIdx, kPIDLoopIdx);
-  if(fabs(speed) > 0.025)
-  {
-    masterLiftMotor->Set(ControlMode::Velocity, speed*maxLiftSpeed);
-  }
-  else
-  {
-    masterLiftMotor->Set(ControlMode::Velocity, 0);
-  }
+  masterLiftMotor->Set(ControlMode::Velocity, speed*maxLiftSpeed);
 }
 
 void Lift::setFourBarHeight(double height)
@@ -162,7 +158,7 @@ void Lift::setFourBarX(double x)
   double angle = acos(fbX/fourBarLength) * 180 / M_PI;
   double inverseAngle = -angle;
   double ticks;
-  if(fabs(angle) < 90)
+  if(abs(angle) < 90)
   {
     if(angle - (getFourBarAngle() - 90) < inverseAngle - (getFourBarAngle() - 90))
     {
@@ -183,7 +179,7 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
   fourBarXLength = fourBarXLength - lengthOfImplement;
   angle = acos(fourBarXLength/fourBarLength) * 180 / M_PI - 90;
 
-  if(fabs(angle) < 90)
+  if(abs(angle) < 90)
   {
 
     float aElevatorHeight = totalHeight - fourBarLength*(sin(angle*M_PI/180));
@@ -213,14 +209,14 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
 
 bool Lift::atElevatorHeight()
 {
- if(fabs(masterLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
+ if(abs(masterLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
     return true;
  }
  return false;
 }
 
 bool Lift::atFourBarHeight(){
- if(fabs(fourBarMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
+ if(abs(fourBarMotor->GetSelectedSensorPosition() - fbHeightTarget)<1000){//replace with tolerable error
     return true;
  }
  return false;

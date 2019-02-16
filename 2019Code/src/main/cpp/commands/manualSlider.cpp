@@ -18,11 +18,11 @@ void manualSlider::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void manualSlider::Execute() 
 {
-
+  Robot::m_slider.ManualControl(Robot::m_oi.gamepad->GetRawAxis(4));
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool manualSlider::IsFinished() { return false; }
+bool manualSlider::IsFinished() { return true; }
 
 // Called once after isFinished returns true
 void manualSlider::End() {}

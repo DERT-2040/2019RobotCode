@@ -10,9 +10,9 @@
 #include <frc/commands/Command.h>
 #include "Robot.h"
 
-class ManualSlider : public frc::Command {
+class manualSlider : public frc::Command {
  public:
-  ManualSlider();
+  manualSlider();
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

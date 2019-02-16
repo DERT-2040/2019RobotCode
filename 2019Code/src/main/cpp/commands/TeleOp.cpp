@@ -11,7 +11,7 @@
 
 TeleOp::TeleOp() {
   AddParallel(new manualLift());
-  AddParallel(new ManualSlider());
+  AddParallel(new manualSlider());
   AddParallel(new DriveWithJoySticks());
 
   if(Robot::m_oi.gamepad->GetRawButton(1)){

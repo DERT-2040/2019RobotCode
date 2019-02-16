@@ -47,16 +47,16 @@ class Lift : public frc::Subsystem
       const int kElevatorVelocitySlotIdx = 1;
       double mLiftkP = .5;
       double mLiftkI = 0;
-      double mLiftkD = 10;
+      double mLiftkD = 50;
       double mLiftkF = 0;
       double vLiftkP = .5;
-      double vLiftkI = 0;
+      double vLiftkI = 0.0015;
       double vLiftkD = 0;
       double vLiftkF = 0;
       double liftCruiseVelocity = 2500;
       double liftAcceleration = 1100;
 
-    const double maxLiftSpeed = 10000;
+    const double maxLiftSpeed = 2000;
     const double liftStartingHeight = 5.5;
     const float maxElevatorHeight =  32;
     const float minElevatorHeight = 0;
@@ -106,7 +106,7 @@ class Lift : public frc::Subsystem
   void setLiftHeight(double height,double distance);
   bool atElevatorHeight();
   bool atFourBarHeight();
-  void joystickElevatorControl(double speed);
+  void velocityElevatorControl(double speed);
   void setFourBarX(double x); 
   void setFourBarAngle(double angle);
   void constantHeightLift(float totalHeight, float fourBarXLength);
