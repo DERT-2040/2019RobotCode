@@ -21,7 +21,7 @@ void DriveWithJoySticks::Initialize() {
 void DriveWithJoySticks::Execute() 
 {
   Robot::m_driveTrain.CurveDrive();
-  if (Robot::m_oi.gamepad->GetRawButton(5)){
+  if (Robot::m_oi.joystickR->GetRawButton(1)){
     Robot::m_driveTrain.ShiftGear(1);
   }
   else{

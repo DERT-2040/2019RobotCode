@@ -19,10 +19,14 @@ class Intake : public frc::Subsystem {
   WPI_VictorSPX *rightIntake;
   frc::DoubleSolenoid *intakeSolenoid;
   bool state;
+  int deploy;
+  bool deploying = false;
  public:
   Intake();
   void Periodic() override;
   void InitDefaultCommand() override;
+  void DeployCargo();
+  void DeployHatch();
   void SetWheelSpeed(float speed);
   void SetState(bool _state);// false is open and true is closed
   bool IsClosed();

@@ -20,9 +20,7 @@ void PickupHatch::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void PickupHatch::Execute() {
-  if(Robot::m_oi.gamepad->GetRawButton(6)){
     Robot::m_intake.SetState(false);
-  }
 }
 
 // Make this return true when this Command no longer needs to run execute()

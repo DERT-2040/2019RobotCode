@@ -11,6 +11,7 @@
 #include <ctre/Phoenix.h>
 #include "RobotMap.h"
 #include "frc/WPILib.h"
+#include <math.h>
 
 # define M_PI 3.14159265358979323846
 
@@ -54,14 +55,17 @@ class Lift : public frc::Subsystem
   const double liftStartingHeight = 5.5;
   const double liftStartingTicks = liftStartingHeight/inchesPerRotationElevator*ticksPerRotation;
 
-  const double voltsPerDegree = 0.02222222;
-  const double ticksPerVolt = 255.75;
-  
+  const double voltsPerDegree = 0.01466667;
+  const double ticksPerVolt = 310;
+  const double startingInclinomterVolatage = 0.33;
+
+
   //In inches
   const float maxElevatorHeight =  32;
   const float minElevatorHeight = 0;
   const float distanceToFourBarRotation = 6;
   const float fourBarLength = 13;
+  const float lengthOfImplement = 20;
   const float inchesPerRotationElevator = 2.635 * M_PI;
   const float ticksPerRotation = 4096;
   const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
@@ -69,8 +73,8 @@ class Lift : public frc::Subsystem
 
   const float kFeedforwardElevator = 0.10;
 
-  const float maxSlowDownHeight = 23;
-  const float minSlowDownHeight = 15;
+  const float maxSlowDownHeight = 25;
+  const float minSlowDownHeight = 10;
   const float slowDownConstant = 0.16;
  public:
 

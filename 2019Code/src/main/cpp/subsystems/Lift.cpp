@@ -12,14 +12,14 @@ Lift::Lift() : Subsystem("Lift")
 {
 
   talonTimeoutMs = 30;
-  liftCruiseVelocity = 10000;
-  liftAcceleration = 50000;
-  fourBarCruiseVelocity = 10000;
-  fourBarAcceleration = 5000;
+  liftCruiseVelocity = 2500;
+  liftAcceleration = 1100;
+  fourBarCruiseVelocity = 0;
+  fourBarAcceleration = 0;
 
   mLiftkP = .5;
   mLiftkI = 0;
-  mLiftkD = 0;
+  mLiftkD = 10;
   mLiftkF = 0;
 
   vLiftkP = .5;
@@ -86,8 +86,8 @@ Lift::Lift() : Subsystem("Lift")
 
 void Lift::Periodic()
 { 
-  std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  std::cout << fourBarMotor->GetSensorCollection().GetAnalogInRaw() / ticksPerVolt / voltsPerDegree - 90<< std::endl;
+  //std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  //std::cout << getFourBarAngle() - 90 << std::endl;
 }
 
 void Lift::InitDefaultCommand() 
@@ -97,7 +97,7 @@ void Lift::InitDefaultCommand()
 
 double Lift::getFourBarAngle()
 {
-  return fourBarMotor->GetSensorCollection().GetAnalogIn()/ticksPerVolt/voltsPerDegree;
+  return (fourBarMotor->GetSensorCollection().GetAnalogInRaw()/ticksPerVolt-startingInclinomterVolatage)/voltsPerDegree - 90;
 }
 
 void Lift::setElevatorHeight(double height)
@@ -114,24 +114,31 @@ void Lift::setElevatorHeight(double height)
 
 void Lift::elevatorManualControl(double output)
 {
-  float slowDown = 0.5;
+  float slowDown = .75;
   double maxTicks = maxSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
   double minTicks = minSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
   if(output < 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()<minTicks){
-    slowDown = slowDownConstant;
+    //std::cout << "min" << std::endl;
+    //slowDown = 0.01;
   }
   if(output > 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()>maxTicks){
-    slowDown = slowDownConstant;
+    //slowDown = slowDownConstant;
   }
   if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
-    masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown+kFeedforwardElevator);
+    masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown +kFeedforwardElevator);
     eMotionMagicActive = false;
   }
 }
 
 void Lift::fourbarManualControl(double output)
 {
-  fourBarMotor->Set(ControlMode::PercentOutput, output*.5);
+  float feedForward = fabs(.28 *cos(getFourBarAngle() * M_PI / 180));
+  if(fabs(getFourBarAngle()) > 70)
+  {
+    feedForward = 0;
+  } 
+  std::cout << -feedForward << std::endl;
+  fourBarMotor->Set(ControlMode::PercentOutput, output-feedForward);
 }
 
 void Lift::joystickElevatorControl(double speed)
@@ -159,7 +166,8 @@ void Lift::setFourBarAngle(double angle)
 
 void Lift::setFourBarX(double x)
 { 
-  double angle = acos(x/fourBarLength) * 180 / M_PI;
+  double fbX = x - lengthOfImplement;
+  double angle = acos(fbX/fourBarLength) * 180 / M_PI;
   double inverseAngle = -angle;
   double ticks;
   if(abs(angle) < 90)
@@ -180,6 +188,7 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
 {
   double angle;
   double elevatorHeight;
+  fourBarXLength = fourBarXLength - lengthOfImplement;
   angle = acos(fourBarXLength/fourBarLength) * 180 / M_PI - 90;
 
   if(abs(angle) < 90)

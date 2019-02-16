@@ -11,7 +11,7 @@
 
 class DeployGamePiece : public frc::Command {
 private:
-bool complete = false;
+bool closed;
  public:
   DeployGamePiece();
   void Initialize() override;

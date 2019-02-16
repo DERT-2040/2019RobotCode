@@ -15,8 +15,11 @@
 #include "commands/manualLift.h"
 #include "commands/DeployGamePiece.h"
 #include "commands/SetLiftHeight.h"
+#include "commands/PickupCargo.h"
+#include "commands/PickupHatch.h"
 
 class TeleOp : public frc::CommandGroup {
+ private:
  public:
   TeleOp();
 };

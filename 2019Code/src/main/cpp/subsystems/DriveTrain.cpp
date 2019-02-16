@@ -25,7 +25,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   leftSide -> SetInverted(false);
   rightSide -> SetInverted(true);
   
-  //drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
+  drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
 
   compressor = new frc::Compressor(kCompressor);
 
@@ -54,7 +54,8 @@ void DriveTrain::Periodic()
 
 void DriveTrain::CurveDrive()
 {
-  //drive->CurvatureDrive(-1*Robot::m_oi.gamepad->GetRawAxis(5),Robot::m_oi.gamepad->GetRawAxis(0), true);
+  //drive->CurvatureDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0), true);
+  drive->ArcadeDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0));
 }
 void DriveTrain::DriveSpeed(float speed){
   //drive->CurvatureDrive(0.5,0,false);
@@ -63,10 +64,10 @@ void DriveTrain::ShiftGear(int _gear){
   if (gear != _gear){
     gear = _gear;
     if(gear == 1){
-      driveSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
     }
     else if (gear == 0){
-      driveSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+      driveSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
     }
   }
 }

@@ -20,7 +20,20 @@ void Intake::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 void Intake::Periodic(){
-
+  if(deploy == 1 && !deploying){
+    deploying = true;
+    SetWheelSpeed(-1);
+    SetState(true);
+  }
+  else if(deploy == 2 && !deploying){
+    deploying = true;
+    SetState(false);
+  }
+  else if (deploy == 0){
+    SetWheelSpeed(0);
+    deploying = false;
+  }
+  deploy = 0;
 }
 void Intake::SetWheelSpeed(float speed){
   leftIntake->Set(speed);
@@ -41,6 +54,12 @@ void Intake::SetState(bool _state){
 }
 bool Intake::IsClosed(){
   return state;
+}
+void Intake::DeployCargo(){
+  deploy = 1;
+}
+void Intake::DeployHatch(){
+  deploy = 2;
 }
 // Put methods for controlling this subsystem
 // here. Call these from Commands.

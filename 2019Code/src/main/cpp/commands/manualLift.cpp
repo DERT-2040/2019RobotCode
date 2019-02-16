@@ -19,8 +19,8 @@ void manualLift::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void manualLift::Execute() 
 {
-  Robot::m_lift.elevatorManualControl(-1*Robot::m_oi.gamepad->GetRawAxis(5));
-  Robot::m_lift.fourbarManualControl(Robot::m_oi.gamepad->GetRawAxis(1));
+  Robot::m_lift.elevatorManualControl(-1*Robot::m_oi.gamepad->GetRawAxis(1));
+  Robot::m_lift.fourbarManualControl(Robot::m_oi.gamepad->GetRawAxis(5));
 }
 
 // Make this return true when this Command no longer needs to run execute()
