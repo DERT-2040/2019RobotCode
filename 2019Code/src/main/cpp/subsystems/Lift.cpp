@@ -60,7 +60,7 @@ Lift::Lift() : Subsystem("Lift")
 void Lift::Periodic()
 { 
   //std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  //std::cout << getFourBarAngle() - 90 << std::endl;
+  //std::cout << getFourBarAngle()<< std::endl;
 }
 
 void Lift::InitDefaultCommand() 
@@ -205,6 +205,3 @@ bool Lift::atFourBarHeight(){
  }
  return false;
 }
-
-    
-

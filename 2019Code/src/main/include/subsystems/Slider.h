@@ -16,15 +16,15 @@ class Slider : public frc::Subsystem
 
  private:
 
-  WPI_TalonSRX * slideMotor;
+  WPI_TalonSRX * sliderMotor;
 
   //None of the motion/PIDF values are tuned
   const int slotIdx = 0;
   const int kPIDLoopIdx = 0;
   double kP, kI, kD, kF;
   const int timeoutMs = 30;
-  double cruiseVelocity = 10000;
-  double motionAccel = 1000;
+  double cruiseVelocity = 1000;
+  double motionAccel = 500;
 
   double position;
   const double inchToTickRatio = 0.0;
@@ -37,5 +37,6 @@ class Slider : public frc::Subsystem
   void setPosition(double _position);
   double getPosition();
   bool atPosition();
+  void setSpeed(float speed);
 
 };
