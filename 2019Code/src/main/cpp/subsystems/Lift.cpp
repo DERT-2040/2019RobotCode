@@ -28,6 +28,11 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->Config_kD(kElevatorVelocitySlotIdx, vLiftkD, talonTimeoutMs);
   masterLiftMotor->Config_kF(kElevatorVelocitySlotIdx, vLiftkF, talonTimeoutMs);
 
+  masterLiftMotor->Config_kP(kElevatorPositionSlotIdx, pLiftkP, talonTimeoutMs);
+  masterLiftMotor->Config_kI(kElevatorPositionSlotIdx, pLiftkI, talonTimeoutMs);
+  masterLiftMotor->Config_kD(kElevatorPositionSlotIdx, pLiftkD, talonTimeoutMs);
+  masterLiftMotor->Config_kF(kElevatorPositionSlotIdx, pLiftkF, talonTimeoutMs);
+
   masterLiftMotor->ConfigMotionCruiseVelocity(liftCruiseVelocity);
   masterLiftMotor->ConfigMotionAcceleration(liftAcceleration);
   masterLiftMotor->ConfigAllowableClosedloopError(kElevatorMotionSlotIdx, liftPIDError, talonTimeoutMs);
@@ -128,14 +133,29 @@ void Lift::fourbarManualControl(double output)
 
 void Lift::velocityElevatorControl(double speed)
 {
-  masterLiftMotor->SelectProfileSlot(kElevatorVelocitySlotIdx, kPIDLoopIdx);
   if(fabs(speed) > 0.025)
   {
+    masterLiftMotor->SelectProfileSlot(kElevatorVelocitySlotIdx, kPIDLoopIdx);
     masterLiftMotor->Set(ControlMode::Velocity, speed*maxLiftSpeed);
   }
   else
   {
+    masterLiftMotor->SelectProfileSlot(kElevatorPositionSlotIdx, kPIDLoopIdx);
     masterLiftMotor->Set(ControlMode::Velocity, 0);
+  }
+}
+
+void Lift::velocityFourBarControl(double speed)
+{
+  if(fabs(speed) > 0.025)
+  {
+    fourBarMotor->SelectProfileSlot(kFourBarVelocitySlotIdx, kPIDLoopIdx);
+    fourBarMotor->Set(ControlMode::Velocity, speed*maxFourBarVelocity);
+    std::cout << fourBarMotor->GetClosedLoopError() << std::endl;
+  }
+  else
+  {
+    //fourBarMotor->Set(ControlMode::Velocity, 0);
   }
 }
 
@@ -146,6 +166,7 @@ void Lift::setFourBarHeight(double height)
   angle += 90; 
   double volts = angle*voltsPerDegree;
   double ticks = volts*ticksPerVolt;
+  fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, talonTimeoutMs);
   fourBarMotor->Set(ControlMode::MotionMagic, ticks);
 }
 
@@ -153,6 +174,7 @@ void Lift::setFourBarAngle(double angle)
 {
   angle += 90;
   float ticks = angle * voltsPerDegree * ticksPerVolt;
+  fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, talonTimeoutMs);
   fourBarMotor->Set(ControlMode::MotionMagic, ticks);
 }
 
@@ -172,6 +194,7 @@ void Lift::setFourBarX(double x)
     {
       ticks = (inverseAngle*voltsPerDegree)*ticksPerVolt;
     }
+    fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, talonTimeoutMs);
     fourBarMotor->Set(ControlMode::MotionMagic, ticks);
   }
 }
@@ -182,6 +205,9 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
   double elevatorHeight;
   fourBarXLength = fourBarXLength - lengthOfImplement;
   angle = acos(fourBarXLength/fourBarLength) * 180 / M_PI - 90;
+
+  fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, talonTimeoutMs);
+  masterLiftMotor->SelectProfileSlot(kElevatorMotionSlotIdx, talonTimeoutMs);
 
   if(fabs(angle) < 90)
   {

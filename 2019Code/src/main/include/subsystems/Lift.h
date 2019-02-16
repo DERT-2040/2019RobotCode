@@ -45,14 +45,23 @@ class Lift : public frc::Subsystem
       const double liftPIDError = .01;
       const int kElevatorMotionSlotIdx = 0;
       const int kElevatorVelocitySlotIdx = 1;
+      const int kElevatorPositionSlotIdx = 2;
+      
       double mLiftkP = .5;
       double mLiftkI = 0;
       double mLiftkD = 50;
       double mLiftkF = 0;
+
       double vLiftkP = .5;
       double vLiftkI = 0.0015;
       double vLiftkD = 0;
       double vLiftkF = 0;
+
+      double pLiftkP = 0;
+      double pLiftkI = 0;
+      double pLiftkD = 0;
+      double pLiftkF = 0;
+
       double liftCruiseVelocity = 2500;
       double liftAcceleration = 1100;
 
@@ -77,20 +86,21 @@ class Lift : public frc::Subsystem
       const double startingInclinomterVolatage = 0.33;
 
     //Cloosed Loop variables
-      const double fourBarPIDError = 20;
+      const double fourBarPIDError = 1;
       const int kFourBarMotionSlotIdx = 0;
       const int kFourBarVelocitySlotIdx = 1;
       double mFourBarkP = .5;
       double mFourBarkI = 0;
       double mFourBarkD = 0;
       double mFourBarkF = 0;
-      double vFourBarkP = .5;
+      double vFourBarkP = 15;
       double vFourBarkI = 0;
       double vFourBarkD = 0;
-      double vFourBarkF = 0;
-      double fourBarCruiseVelocity = 0;
-      double fourBarAcceleration = 0;
+      double vFourBarkF = 15;
+      double fourBarCruiseVelocity = 100;
+      double fourBarAcceleration = 50;
 
+    const double maxFourBarVelocity = 100;
     const float distanceToFourBarRotation = 6;
     const float fourBarLength = 13;
     const float lengthOfImplement = 20;
@@ -111,6 +121,7 @@ class Lift : public frc::Subsystem
   void setFourBarAngle(double angle);
   void constantHeightLift(float totalHeight, float fourBarXLength);
   void elevatorManualControl(double output);
+  void velocityFourBarControl(double speed);
   void fourbarManualControl(double output);
   double getFourBarAngle();
 
