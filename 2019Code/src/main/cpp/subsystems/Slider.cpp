@@ -6,17 +6,32 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Slider.h"
+#include <iostream>
 
 Slider::Slider() : Subsystem("Slider") 
 {
+  distanceTraveled = new frc::Counter(0);
+  distanceTraveled->SetUpDownCounterMode();
+  distanceTraveled->Reset();
 
+  sliderMotor = new WPI_TalonSRX(kSliderMotorPort);
 }
 
 void Slider::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
 }
-
+void Slider::Periodic(){
+  //std::cout << distanceTraveled->Get() << std::endl;
+  if(sliderMotor->Get() > 0){
+    position += distanceTraveled->Get() - previousPosition;
+  }
+  else if (sliderMotor->Get() < 0){
+    position -= distanceTraveled->Get() - previousPosition;
+  }
+  previousPosition =  distanceTraveled->Get();
+  //std::cout << position << std::endl;
+}
 void Slider::setPosition(double _position)
 {
 
@@ -30,4 +45,8 @@ double Slider::getPosition()
 bool Slider::atPosition()
 {
   return true;
+}
+
+void Slider::ManualControl(float power){
+  sliderMotor->Set(power);
 }

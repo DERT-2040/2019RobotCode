@@ -10,6 +10,7 @@
 #include <frc/commands/Subsystem.h>
 #include <ctre/Phoenix.h>
 #include "RobotMap.h"
+#include "WPILib.h"
 
 class Slider : public frc::Subsystem 
 {
@@ -27,13 +28,18 @@ class Slider : public frc::Subsystem
   double motionAccel = 1000;
 
   double position;
+  double previousPosition = 0;
   const double inchToTickRatio = 0.0;
   double tickPosition;
-
+  frc::Counter * distanceTraveled;
+  WPI_TalonSRX * sliderMotor;
+  
  public:
 
   Slider();
+  void Periodic() override;
   void InitDefaultCommand() override;
+  void ManualControl(float speed);
   void setPosition(double _position);
   double getPosition();
   bool atPosition();

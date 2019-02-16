@@ -118,11 +118,11 @@ void Lift::elevatorManualControl(double output)
   double maxTicks = maxSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
   double minTicks = minSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
   if(output < 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()<minTicks){
-    //std::cout << "min" << std::endl;
-    //slowDown = 0.01;
+    std::cout << "min" << std::endl;
+    slowDown = 0.04;
   }
   if(output > 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()>maxTicks){
-    //slowDown = slowDownConstant;
+    slowDown = slowDownConstant;
   }
   if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
     masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown +kFeedforwardElevator);
@@ -137,6 +137,18 @@ void Lift::fourbarManualControl(double output)
   {
     feedForward = 0;
   } 
+  float slowDown = 1;
+  if(output < 0 && getFourBarAngle()<-45){
+    slowDown = 0.04;
+  }
+  if(output < 0 && getFourBarAngle()>45){
+    slowDown = slowDownConstant;
+  }
+  if(!eMotionMagicActive || (eMotionMagicActive && abs(output)> 0.025)){
+    masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown +kFeedforwardElevator);
+    eMotionMagicActive = false;
+  }
+  std::cout << fourBarMotor->GetSensorCollection().GetAnalogInRaw() << std::endl;
   std::cout << -feedForward << std::endl;
   fourBarMotor->Set(ControlMode::PercentOutput, output-feedForward);
 }
