@@ -10,33 +10,6 @@
 
 Lift::Lift() : Subsystem("Lift") 
 {
-
-  talonTimeoutMs = 30;
-  liftCruiseVelocity = 2500;
-  liftAcceleration = 1100;
-  fourBarCruiseVelocity = 0;
-  fourBarAcceleration = 0;
-
-  mLiftkP = .5;
-  mLiftkI = 0;
-  mLiftkD = 10;
-  mLiftkF = 0;
-
-  vLiftkP = .5;
-  vLiftkI = 0;
-  vLiftkD = 0;
-  vLiftkF = 0;
-
-  mFourBarkP = .5;
-  mFourBarkI = 0;
-  mFourBarkD = 0;
-  mFourBarkP = 0;
-
-  vFourBarkP = .5;
-  vFourBarkI = 0;
-  vFourBarkD = 0;
-  vFourBarkF = 0;
-
   masterLiftMotor = new WPI_TalonSRX(kMasterLiftMotorPort);
   masterLiftMotor->SetInverted(true);
 
@@ -87,7 +60,7 @@ Lift::Lift() : Subsystem("Lift")
 void Lift::Periodic()
 { 
   //std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  //std::cout << getFourBarAngle() - 90 << std::endl;
+  //std::cout << getFourBarAngle()<< std::endl;
 }
 
 void Lift::InitDefaultCommand() 
@@ -230,7 +203,9 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
     }
   }
 }
-bool Lift::atElevatorHeight(){
+
+bool Lift::atElevatorHeight()
+{
  if(abs(masterLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
     return true;
  }
@@ -243,6 +218,3 @@ bool Lift::atFourBarHeight(){
  }
  return false;
 }
-
-    
-

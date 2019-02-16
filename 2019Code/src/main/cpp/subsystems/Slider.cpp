@@ -13,7 +13,6 @@ Slider::Slider() : Subsystem("Slider")
   distanceTraveled = new frc::Counter(0);
   distanceTraveled->SetUpDownCounterMode();
   distanceTraveled->Reset();
-
   sliderMotor = new WPI_TalonSRX(kSliderMotorPort);
 }
 
@@ -39,6 +38,7 @@ void Slider::setPosition(double _position)
 
 double Slider::getPosition()
 {
+
   return slideMotor->GetSelectedSensorPosition();
 }
 
