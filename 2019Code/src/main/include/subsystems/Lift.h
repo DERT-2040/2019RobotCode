@@ -24,58 +24,78 @@ class Lift : public frc::Subsystem
   WPI_TalonSRX * secondLiftMotor;
   WPI_TalonSRX * fourBarMotor;
 
-  double talonTimeoutMs;
-  double mLiftkP, mLiftkI, mLiftkD, mLiftkF;
-  double vLiftkP, vLiftkI, vLiftkD, vLiftkF;
-
-  double mFourBarkP, mFourBarkI, mFourBarkD, mFourBarkF;
-  double vFourBarkP, vFourBarkI, vFourBarkD, vFourBarkF;
-
-  double liftCruiseVelocity, liftAcceleration;
-  double fourBarCruiseVelocity, fourBarAcceleration;
+  double talonTimeoutMs = 30;
 
   double elevatorHeightTarget = 0;
   double fbHeightTarget = 0;
 
   bool eMotionMagicActive = false;
-  //constants
+
   const int kPIDLoopIdx = 0;
 
-  const int kElevatorMotionSlotIdx = 0;
-  const int kElevatorVelocitySlotIdx = 1;
+  //Distances in inches
+  
+  //Elevator variables
 
-  const int kFourBarMotionSlotIdx = 0;
-  const int kFourBarVelocitySlotIdx = 1;
+    //Elevator ratios
+      const float inchesPerRotationElevator = 2.635 * M_PI;
+      const float ticksPerRotation = 4096;
+    
+    //Closed Loop variables
+      const double liftPIDError = .01;
+      const int kElevatorMotionSlotIdx = 0;
+      const int kElevatorVelocitySlotIdx = 1;
+      double mLiftkP = .5;
+      double mLiftkI = 0;
+      double mLiftkD = 10;
+      double mLiftkF = 0;
+      double vLiftkP = .5;
+      double vLiftkI = 0;
+      double vLiftkD = 0;
+      double vLiftkF = 0;
+      double liftCruiseVelocity = 2500;
+      double liftAcceleration = 1100;
 
-  const double heightToTickRatio = 0;
-  const double angleToUnitRatio = 0;
-  const double maxLiftSpeed = 10000;
-  const double liftPIDError = .01;
-  const double fourBarPIDError = .01;
-  const double liftStartingHeight = 5.5;
-  const double liftStartingTicks = liftStartingHeight/inchesPerRotationElevator*ticksPerRotation;
+    const double maxLiftSpeed = 10000;
+    const double liftStartingHeight = 5.5;
+    const float maxElevatorHeight =  32;
+    const float minElevatorHeight = 0;
+    const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
+    const float minElevatorTickHeight = 0;
+    const float kFeedforwardElevator = 0.10;
+    const float maxSlowDownHeight = 25;
+    const float minSlowDownHeight = 10;
+    const float slowDownConstant = 0.16;
+    const double liftStartingTicks = liftStartingHeight/inchesPerRotationElevator*ticksPerRotation;
 
-  const double voltsPerDegree = 0.01466667;
-  const double ticksPerVolt = 310;
-  const double startingInclinomterVolatage = 0.33;
+
+  //fourbar variables
+
+    //inclinomter ratios
+      const double voltsPerDegree = 0.01466667;
+      const double ticksPerVolt = 310;
+      const double startingInclinomterVolatage = 0.33;
+
+    //Cloosed Loop variables
+      const double fourBarPIDError = 20;
+      const int kFourBarMotionSlotIdx = 0;
+      const int kFourBarVelocitySlotIdx = 1;
+      double mFourBarkP = .5;
+      double mFourBarkI = 0;
+      double mFourBarkD = 0;
+      double mFourBarkF = 0;
+      double vFourBarkP = .5;
+      double vFourBarkI = 0;
+      double vFourBarkD = 0;
+      double vFourBarkF = 0;
+      double fourBarCruiseVelocity = 0;
+      double fourBarAcceleration = 0;
+
+    const float distanceToFourBarRotation = 6;
+    const float fourBarLength = 13;
+    const float lengthOfImplement = 20;
 
 
-  //In inches
-  const float maxElevatorHeight =  32;
-  const float minElevatorHeight = 0;
-  const float distanceToFourBarRotation = 6;
-  const float fourBarLength = 13;
-  const float lengthOfImplement = 20;
-  const float inchesPerRotationElevator = 2.635 * M_PI;
-  const float ticksPerRotation = 4096;
-  const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
-  const float minElevatorTickHeight = 0;
-
-  const float kFeedforwardElevator = 0.10;
-
-  const float maxSlowDownHeight = 25;
-  const float minSlowDownHeight = 10;
-  const float slowDownConstant = 0.16;
  public:
 
   Lift();
@@ -93,4 +113,5 @@ class Lift : public frc::Subsystem
   void elevatorManualControl(double output);
   void fourbarManualControl(double output);
   double getFourBarAngle();
+
 };
