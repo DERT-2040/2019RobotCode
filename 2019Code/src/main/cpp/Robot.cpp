@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Robot.h"
-
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
@@ -19,7 +18,9 @@ Lift Robot::m_lift;
 Slider Robot::m_slider;
 
 
-void Robot::RobotInit() {
+void Robot::RobotInit() 
+{
+
 }
 //test
 /**
@@ -30,7 +31,10 @@ void Robot::RobotInit() {
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() {}
+void Robot::RobotPeriodic() 
+{
+  
+}
 
 /**
  * This function is called once each time the robot enters Disabled mode. You

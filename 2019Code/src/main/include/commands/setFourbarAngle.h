@@ -7,21 +7,15 @@
 
 #pragma once
 
-#include <frc/commands/CommandGroup.h>
-#include "commands/DriveWithJoySticks.h"
-#include "commands/SetLiftState.h"
-#include "frc/WPILib.h"
-#include "commands/DeliverGamePiece.h"
-#include "commands/manualLift.h"
-#include "commands/DeployGamePiece.h"
-#include "commands/SetLiftHeight.h"
-#include "commands/PickupCargo.h"
-#include "commands/PickupHatch.h"
-#include "commands/ManualSlider.h"
-#include "commands/setFourBarAngle.h"
+#include <frc/commands/Command.h>
 
-class TeleOp : public frc::CommandGroup {
- private:
+class setFourbarAngle : public frc::Command {
  public:
-  TeleOp();
+  double angle;
+  setFourbarAngle(double _angle);
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
 };

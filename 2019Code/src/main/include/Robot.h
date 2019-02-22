@@ -28,7 +28,7 @@ class Robot : public frc::TimedRobot {
   static Intake m_intake;
   static Lift m_lift;
   static Slider m_slider;
-
+  
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;

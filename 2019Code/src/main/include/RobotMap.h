@@ -54,7 +54,7 @@ constexpr int kPickupDeployedSwitch = 2;
 //Pneumatics
 constexpr int kForwardDriveSolenoid = 2;
 constexpr int kReverseDriveSolenoid = 3;
-constexpr int kForwardIntakeSolenoid = 0;
-constexpr int kReverseIntakeSolenoid = 1;
+constexpr int kForwardIntakeSolenoid = 1;
+constexpr int kReverseIntakeSolenoid = 0;
 constexpr int kCompressor = 0;
 

@@ -8,11 +8,11 @@
 #include "subsystems/Intake.h"
 
 Intake::Intake() : frc::Subsystem("Intake") {
-  leftIntake = new WPI_VictorSPX(kLeftIntakeWheel);
-  rightIntake = new WPI_VictorSPX(kRightIntakeWheel);
+  leftIntake = new WPI_TalonSRX(kLeftIntakeWheel);
+  rightIntake = new WPI_TalonSRX(kRightIntakeWheel);
   state = 0;
-  leftIntake->SetInverted(true);
-  intakeSolenoid = new frc::DoubleSolenoid(1,kForwardIntakeSolenoid,kReverseIntakeSolenoid);
+  rightIntake->SetInverted(true);
+  intakeSolenoid = new frc::DoubleSolenoid(0,kForwardIntakeSolenoid,kReverseIntakeSolenoid);
 }
 
 void Intake::InitDefaultCommand() {

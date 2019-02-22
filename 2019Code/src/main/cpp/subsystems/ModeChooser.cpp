@@ -13,7 +13,7 @@ ModeChooser::ModeChooser() : Subsystem("ModeChooser") {
   firstRun = true;
 }
 void ModeChooser::Periodic() {
-  if(Robot::m_oi.gamepad->GetRawButton(3)){
+  if(false){
       commandToRun = new Auto();
       commandToRun->Start();
   }

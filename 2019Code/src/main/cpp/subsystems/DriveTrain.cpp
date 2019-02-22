@@ -16,8 +16,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   secondRightMotor = new WPI_TalonSRX(kSecondRightMotorPort);
   masterLeftMotor = new WPI_TalonSRX(kMasterLeftMotorPort);
   masterRightMotor = new WPI_TalonSRX(kMasterRightMotorPort);
-
-  secondLeftMotor->SetInverted(true);
+  masterRightMotor->SetInverted(true);
+  //secondLeftMotor->SetInverted(true);
 
   leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
   rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
@@ -30,7 +30,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   compressor = new frc::Compressor(kCompressor);
 
 	compressor->SetClosedLoopControl(true);
-  driveSolenoid = new frc::DoubleSolenoid(1,kForwardDriveSolenoid,kReverseDriveSolenoid);
+  driveSolenoid = new frc::DoubleSolenoid(0,kForwardDriveSolenoid,kReverseDriveSolenoid);
 
 
 }
@@ -55,7 +55,7 @@ void DriveTrain::Periodic()
 void DriveTrain::CurveDrive()
 {
   //drive->CurvatureDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0), true);
-  drive->ArcadeDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0));
+  drive->ArcadeDrive(Robot::m_oi.joystickR->GetRawAxis(1),-1*Robot::m_oi.joystickL->GetRawAxis(0));
 }
 void DriveTrain::DriveSpeed(float speed){
   //drive->CurvatureDrive(0.5,0,false);
