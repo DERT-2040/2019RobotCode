@@ -89,21 +89,26 @@ class Lift : public frc::Subsystem
       const double fourBarPIDError = 1;
       const int kFourBarMotionSlotIdx = 0;
       const int kFourBarVelocitySlotIdx = 1;
-      double mFourBarkP = .5;
+      
+      double mFourBarkP = 0;
       double mFourBarkI = 0;
       double mFourBarkD = 0;
-      double mFourBarkF = 0;
-      double vFourBarkP = 15;
+      double mFourBarkF = 10.23;
+      
+      double vFourBarkP = 0;
       double vFourBarkI = 0;
       double vFourBarkD = 0;
-      double vFourBarkF = 15;
+      double vFourBarkF = 0;
+      
       double fourBarCruiseVelocity = 100;
-      double fourBarAcceleration = 50;
+      double fourBarAcceleration = 200;
 
     const double maxFourBarVelocity = 100;
     const float distanceToFourBarRotation = 6;
     const float fourBarLength = 13;
     const float lengthOfImplement = 20;
+    const double fourbarVoltageScale = 10.0;
+    bool fbMotionMagicActive = false;
 
 
  public:

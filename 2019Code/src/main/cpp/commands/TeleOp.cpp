@@ -15,13 +15,13 @@ TeleOp::TeleOp() {
   AddParallel(new DriveWithJoySticks());
 
   if(Robot::m_oi.gamepad->GetRawButton(1)){
-    AddParallel(new SetLiftHeight(17 ,0));
+    AddParallel(new setFourBarAngle(-45));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(2)){
-    AddParallel(new SetLiftHeight(47, 0));
+    AddParallel(new setFourBarAngle(0));
   } 
   else if(Robot::m_oi.gamepad->GetRawButton(4)){
-    AddParallel(new SetLiftHeight(60, 0));
+    AddParallel(new setFourBarAngle(45));
   }
   else if(Robot::m_oi.gamepad->GetPOV(0)==180){
     //AddParallel(new SetLiftState(0,false));

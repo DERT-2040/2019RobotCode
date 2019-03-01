@@ -5,30 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/manualLift.h"
-
-manualLift::manualLift() {
+#include "commands/setFourBarAngle.h"
+#include "Robot.h"
+setFourBarAngle::setFourBarAngle(double _angle) {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
   Requires(&Robot::m_lift);
+  angle = _angle;
 }
 
 // Called just before this Command runs the first time
-void manualLift::Initialize() {}
+void setFourBarAngle::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void manualLift::Execute() 
+void setFourBarAngle::Execute() 
 {
-  Robot::m_lift.elevatorManualControl(-1*Robot::m_oi.gamepad->GetRawAxis(1));
-  Robot::m_lift.fourbarManualControl(-1*Robot::m_oi.gamepad->GetRawAxis(5));
+  Robot::m_lift.setFourBarAngle(angle);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool manualLift::IsFinished() { return false; }
+bool setFourBarAngle::IsFinished() { return false; }
 
 // Called once after isFinished returns true
-void manualLift::End() {}
+void setFourBarAngle::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void manualLift::Interrupted() {}
+void setFourBarAngle::Interrupted() {}

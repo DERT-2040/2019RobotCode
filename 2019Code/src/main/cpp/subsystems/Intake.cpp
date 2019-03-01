@@ -11,7 +11,8 @@ Intake::Intake() : frc::Subsystem("Intake") {
   leftIntake = new WPI_VictorSPX(kLeftIntakeWheel);
   rightIntake = new WPI_VictorSPX(kRightIntakeWheel);
   state = 0;
-  leftIntake->SetInverted(true);
+  leftIntake->SetInverted(false);
+  rightIntake->SetInverted(true);
   intakeSolenoid = new frc::DoubleSolenoid(1,kForwardIntakeSolenoid,kReverseIntakeSolenoid);
 }
 
