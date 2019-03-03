@@ -29,7 +29,10 @@ class Slider : public frc::Subsystem
   double previousPosition = 0;
   const double inchToTickRatio = 0.0;
   double tickPosition;
+  frc::AnalogInput * rawHallSensorInput;
+  frc::AnalogTrigger * rawHallSensorTrigger;
   frc::Counter * distanceTraveled;
+  frc::DigitalInput * reCenterer;
   WPI_TalonSRX * sliderMotor;
   
  public:

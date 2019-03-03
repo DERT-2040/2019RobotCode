@@ -32,7 +32,8 @@ class DriveTrain : public frc::Subsystem {
   frc::Ultrasonic *ultra;
 
   int gear;
-  
+  float speedMultiplier;
+  float calcSpeedMultiplier();
  public:
 
   DriveTrain();

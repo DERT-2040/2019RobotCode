@@ -31,6 +31,9 @@ class Robot : public frc::TimedRobot {
 
   cs::UsbCamera camera1;
   cs::UsbCamera camera2;
+  cs::VideoSink server;
+  cs::CvSink * cvsink1;
+  cs::CvSink * cvsink2;
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;

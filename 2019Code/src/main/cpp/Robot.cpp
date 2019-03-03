@@ -22,7 +22,7 @@ Slider Robot::m_slider;
 void Robot::RobotInit() {
   camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
   camera2 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
-}
+  }
 //test
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -33,11 +33,11 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  if (m_oi.joystickL->GetRawButton(3)){
-    NetworkTable::GetTable("")->PutString("CameraSelection", camera1.GetName());
-  }
-  else if (m_oi.joystickL->GetRawButton(3)){
+  if (m_oi.joystickL->GetRawButton(3)) {
     NetworkTable::GetTable("")->PutString("CameraSelection", camera2.GetName());
+  } 
+  else if (m_oi.joystickR->GetRawButton(3)) {
+    NetworkTable::GetTable("")->PutString("CameraSelection", camera1.GetName());
   }
 }
 

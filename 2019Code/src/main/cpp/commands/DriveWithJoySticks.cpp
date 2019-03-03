@@ -22,10 +22,10 @@ void DriveWithJoySticks::Execute()
 {
   Robot::m_driveTrain.CurveDrive();
   if (Robot::m_oi.joystickR->GetRawButton(1)){
-    Robot::m_driveTrain.ShiftGear(1);
+    Robot::m_driveTrain.ShiftGear(0);
   }
   else{
-    Robot::m_driveTrain.ShiftGear(0);
+    Robot::m_driveTrain.ShiftGear(1);
   }
 
   
