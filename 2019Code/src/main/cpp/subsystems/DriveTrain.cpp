@@ -22,6 +22,11 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   masterLeftMotor->ConfigPeakCurrentLimit(35);
   masterRightMotor->ConfigPeakCurrentLimit(35);
   
+  masterLeftMotor->EnableCurrentLimit(true);
+  masterRightMotor->EnableCurrentLimit(true);
+  secondLeftMotor->EnableCurrentLimit(true);
+  secondRightMotor->EnableCurrentLimit(true);
+  
   secondLeftMotor->ConfigOpenloopRamp(0.15);
   secondRightMotor->ConfigOpenloopRamp(0.15);
   masterLeftMotor->ConfigOpenloopRamp(0.15);

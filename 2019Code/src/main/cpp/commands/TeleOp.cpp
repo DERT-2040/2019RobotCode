@@ -9,45 +9,56 @@
 #include <iostream>
 #include "Robot.h"
 
-TeleOp::TeleOp() {
-  AddParallel(new manualLift());
-  AddParallel(new manualSlider());
+TeleOp::TeleOp() 
+{
+
   AddParallel(new DriveWithJoySticks());
 
-  if(Robot::m_oi.gamepad->GetRawButton(1)){
-    //AddParallel(new setFourBarAngle(-45));
+  if(Robot::m_oi.gamepad->GetRawButton(1))
+  {
+    //Hatch pickup and low rocket
     AddParallel(new SetLiftHeight(24.8, -48));
   }
-  else if(Robot::m_oi.gamepad->GetRawButton(2)){
-    //AddParallel(new setFourBarAngle(0));
+  else if(Robot::m_oi.gamepad->GetRawButton(2))
+  {
+    //Middle rocket
     AddParallel(new SetLiftHeight(48.98, -24.4));
   } 
-  else if(Robot::m_oi.gamepad->GetRawButton(4)){
-    //AddParallel(new setFourBarAngle(45));
+  else if(Robot::m_oi.gamepad->GetRawButton(4))
+  {
+    //High rocket
     AddParallel(new SetLiftHeight(60.80, 60.0));
   }
-  else if(Robot::m_oi.gamepad->GetPOV(0)==180){
-    //AddParallel(new SetLiftState(0,false));
+  else if(Robot::m_oi.gamepad->GetRawButton(3))
+  {
+    //ground hatch pickup placeholder 
   }
+  else if(Robot::m_oi.gamepad->GetPOV(0)==180)
+  {
+    //low ball
+  }
+  else if(Robot::m_oi.gamepad->GetPOV(0) == 90)
+  {
+    //mid ball
+  }
+  else if(Robot::m_oi.gamepad->GetPOV(0) == 0)
+  {
+    //high ball
+  }
+  else if(Robot::m_oi.gamepad->GetPOV(0)==270)
+  {
+    //Ground ball pickup
+    AddParallel(new SetLiftHeight(5.5, -15));
+  }
+  else
+  {
+    AddParallel(new manualLift());
+    AddParallel(new manualSlider());
+  }
+
   if(Robot::m_oi.gamepad->GetRawButton(9) && Robot::m_oi.gamepad->GetRawButton(10)){
     frc::Scheduler::GetInstance()->RemoveAll();
   }
-  
-  if(Robot::m_oi.gamepad->GetRawAxis(3)>0.75){
-    AddParallel(new DeployGamePiece());
-  }
 
-  if(Robot::m_oi.gamepad->GetRawAxis(2)>0.75){
-    AddParallel(new DeployGamePiece());
-  }
-  
-  if(Robot::m_oi.gamepad->GetRawButton(3)){
-    AddParallel(new SetLiftHeight(5.5, -15));
-  }
-  
-  if(Robot::m_oi.gamepad->GetRawButton(6)){
-    //AddParallel(new PickupHatch());
-  }
-  //*/
   frc::SmartDashboard::PutString("Mode", "TeleOp");
 }

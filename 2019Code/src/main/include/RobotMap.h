@@ -58,3 +58,7 @@ constexpr int kForwardIntakeSolenoid = 2;
 constexpr int kReverseIntakeSolenoid = 3;
 constexpr int kCompressor = 0;
 
+//slider
+constexpr int kSliderEncoder = 0;
+constexpr int kSliderLimitSwitch = 0;
+
