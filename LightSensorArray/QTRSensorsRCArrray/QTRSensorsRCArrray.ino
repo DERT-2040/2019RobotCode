@@ -1,11 +1,16 @@
 #include <QTRSensors.h>
 #include <Wire.h>
 
-QTRSensorsRC qtrrc((unsigned char[]) {11,12,2,3,4,5,6,7,8,9,10}, 11, 2500);
+QTRSensorsRC qtrrc((unsigned char[]) {2,3,4,5,6,7,8,9,10,11,12 }, 11, 2500);
 unsigned values[11];
-
-float output = 45;
-
+int lineThreshold = 500;
+float inches = -6;
+int inchesRollAvgSize = 10;
+float inchesRollAvg[10];
+int inchesRollAvgIndex = 0;
+int nullSize = inchesRollAvgSize;
+float inchesToReturn = -6;
+char inchesToReturnFinal[80];
 void calibrate()
 {
   Serial.println("calibration started");
@@ -24,7 +29,9 @@ void calibrate()
 }
 
 void setup() {
-  
+  for(int i = 0; i < inchesRollAvgSize; i++){
+    inchesRollAvg[0] = 0;
+  }
   Serial.begin(9600);
   Wire.begin(4);
   Wire.onReceive(receiveEvent);
@@ -137,18 +144,81 @@ void printSensorValuesFormatted()
   Serial.print(" ");
   sprintf(str,"%04d",values[10]);
   Serial.print(str);
-  Serial.print("\r");
+  Serial.print("\n");
   delay(100);  
 }
 
+float inchesOff(){
+  float inches = 0; 
+  int count = 0;
+  bool state = false;
+  for(int i =0; i < 11; i++){
+        if(values[i] < lineThreshold){
+          state = true;
+          inches += i-5;
+          count++;
+        }
+        else if (state == true){
+          break;
+        }
+   }
+   if(count!=0){
+    inches = inches/count;
+    return inches;
+   }
+   else{
+    return -6;
+   }
+}
 void loop() {
   // put your main code here, to run repeatedly:
   qtrrc.readCalibrated(values, QTR_EMITTERS_ON);
-  printSensorValuesFormatted();
+  //printSensorValuesFormatted();
+  inches = inchesOff();
+  inchesRollAvg[inchesRollAvgIndex] = inches;
+  int tempIndex = inchesRollAvgIndex;
+  bool detectLine = false;
+  for(int i = 0; i< nullSize; i++){
+    if(tempIndex == -1){
+      tempIndex = inchesRollAvgSize-1;
+    }
+    if(inchesRollAvg[tempIndex]!=-6){
+      detectLine = true;
+    }
+    tempIndex--;
+  }
+  int sizeOfAvg = inchesRollAvgSize;
+  if(detectLine){
+    for(int i = 0; i < inchesRollAvgSize; i++){
+      if(inchesRollAvg[i] != -6){
+        inchesToReturn += inchesRollAvg[i];
+      }
+      else{
+        sizeOfAvg--;
+      }
+    }
+    if(sizeOfAvg != 0){
+      inchesToReturn /= (1+sizeOfAvg);
+    }
+    else{
+      inchesToReturn = 88;
+    }
+  }
+  else{
+    inchesToReturn = -6;
+  }
+  inchesRollAvgIndex++;
+  if(inchesRollAvgIndex > inchesRollAvgSize){
+    inchesRollAvgIndex = 0;
+  }
+  dtostrf(inchesToReturn,6,2,inchesToReturnFinal);
+  //sprintf(inchesToReturnFinal,"y = %f",inchesToReturn);
+  Serial.println(inchesToReturnFinal);
 }
 
 void requestEvent(){
-    Wire.write("Hello");
+  
+  Wire.write(inchesToReturnFinal);
 }
 void receiveEvent(int bytes){
 

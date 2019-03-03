@@ -32,7 +32,7 @@ class Lift : public frc::Subsystem
   bool eMotionMagicActive = false;
 
   const int kPIDLoopIdx = 0;
-
+  Faults * elevatorFaults = new Faults();
   //Distances in inches
   
   //Elevator variables
@@ -112,17 +112,17 @@ class Lift : public frc::Subsystem
   float calculateFourBarSpeedCap();
   float calculateElevatorSpeedCap();
 
-  float multiplier = 1;
-  const float slowdownDistanceIn = 8;
-  const float slowdownDistanceOut = 5.5;
+  float elevatorMultiplier = 1;
+  const float slowdownDistanceIn = 20;
+  const float slowdownDistanceOut=  60;
   const float minDistIn = 0;
-  const float minDistOut = -2.5;
-  const float slowDownAngle = 50;
+  const float minDistOut = -10;
+  const float slowDownAngle = 50; 
   const float limitAngle = 73;
   const float slowDownBottomElevator = 7;
-  const float slowDownTopElevator = 25;
-  const float limitBottomElevator = 32;
-  const float limitTopElevator = 0;
+  const float slowDownTopElevator = 40;
+  const float limitBottomElevator = 0;
+  const float limitTopElevator = 64;
  public:
 
   Lift();

@@ -16,6 +16,16 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   secondRightMotor = new WPI_TalonSRX(kSecondRightMotorPort);
   masterLeftMotor = new WPI_TalonSRX(kMasterLeftMotorPort);
   masterRightMotor = new WPI_TalonSRX(kMasterRightMotorPort);
+  
+  secondLeftMotor->ConfigOpenloopRamp(0.3);
+  secondRightMotor->ConfigOpenloopRamp(0.3);
+  masterLeftMotor->ConfigOpenloopRamp(0.3);
+  masterRightMotor->ConfigOpenloopRamp(0.3);
+  
+  secondLeftMotor->ConfigPeakCurrentLimit(35);
+  secondRightMotor->ConfigPeakCurrentLimit(35);
+  masterLeftMotor->ConfigPeakCurrentLimit(35);
+  masterRightMotor->ConfigPeakCurrentLimit(35);
 
   secondLeftMotor->SetInverted(true);
 
@@ -32,7 +42,9 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	compressor->SetClosedLoopControl(true);
   driveSolenoid = new frc::DoubleSolenoid(1,kForwardDriveSolenoid,kReverseDriveSolenoid);
 
-
+  masterLeftMotor->GetSensorCollection().SetQuadraturePosition(0);
+  masterRightMotor->GetSensorCollection().SetQuadraturePosition(0);
+  speedMultiplier = 1.0;
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -40,25 +52,23 @@ void DriveTrain::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
   //SetDefaultCommand(new DriveWithJoySticks);
   //std::cout << "started" << std::endl;
-  masterLeftMotor->GetSensorCollection().SetQuadraturePosition(0);
-  masterRightMotor->GetSensorCollection().SetQuadraturePosition(0);
 }
 
 void DriveTrain::Periodic()
 {
-  //std::cout << lightSensor->GetVoltage() << std::endl;
-  //std::cout << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  //std::cout << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  std::cout << "" << std::endl;
+  speedMultiplier = calcSpeedMultiplier(); 
 }
 
 void DriveTrain::CurveDrive()
 {
-  //drive->CurvatureDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0), true);
-  drive->ArcadeDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0));
+  float vertSpeed = -1*Robot::m_oi.joystickR->GetRawAxis(1)*speedMultiplier;
+  vertSpeed *= abs(vertSpeed);
+  float turnSpeed = Robot::m_oi.joystickL->GetRawAxis(0)*speedMultiplier;
+  turnSpeed *= abs(turnSpeed);
+  drive->CurvatureDrive(vertSpeed,turnSpeed, true);
 }
 void DriveTrain::DriveSpeed(float speed){
-  //drive->CurvatureDrive(0.5,0,false);
+  drive->CurvatureDrive(0.5,0,false);
 }
 void DriveTrain::ShiftGear(int _gear){
   if (gear != _gear){
@@ -71,5 +81,18 @@ void DriveTrain::ShiftGear(int _gear){
     }
   }
 }
-// Put methods for controlling this subsystem
-// here. Call these from Commands.W
+float DriveTrain::calcSpeedMultiplier(){
+  float liftHeight = Robot::m_lift.getTotalHeight();
+  if (liftHeight > 50){
+      secondLeftMotor->ConfigOpenloopRamp(0.7);
+      secondRightMotor->ConfigOpenloopRamp(0.7);
+      masterLeftMotor->ConfigOpenloopRamp(0.7);
+      masterRightMotor->ConfigOpenloopRamp(0.7);
+      return 0.5;
+  }
+  secondLeftMotor->ConfigOpenloopRamp(0.3);
+  secondRightMotor->ConfigOpenloopRamp(0.3);
+  masterLeftMotor->ConfigOpenloopRamp(0.3);
+  masterRightMotor->ConfigOpenloopRamp(0.3);
+  return 1;
+}

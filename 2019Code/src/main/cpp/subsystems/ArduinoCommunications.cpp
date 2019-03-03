@@ -21,14 +21,10 @@ void ArduinoCommunications::Periodic(){
 }
 void ArduinoCommunications::getValues(){
   
-    byte* data = new byte[12];//create a byte array to hold the incoming data
-    wire->Read(4, 12, data);//use address 4 on i2c and store it in data
+    byte* data = new byte[4];//create a byte array to hold the incoming data
+    wire->Read(4, 4, data);//use address 4 on i2c and store it in data
     inchesOffLine = bytesToFloat(data[0],data[1],data[2],data[3]);
-    angle = bytesToFloat(data[4],data[5],data[6],data[7]);
-    distance = bytesToFloat(data[8],data[9],data[10],data[11]);
     frc::SmartDashboard::PutNumber("InchesOffLine",inchesOffLine);
-    frc::SmartDashboard::PutNumber("angle",angle);
-    frc::SmartDashboard::PutNumber("distance",distance);
    
 }
 float ArduinoCommunications::getInchesOffLine(){

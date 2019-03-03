@@ -47,14 +47,16 @@
 constexpr int kLightSensorPort = 0;
 
 //Digital Inputs
-constexpr int kPickupUprightSwitch = 0;
-constexpr int kPickupRetractedSwitch = 1;
+constexpr int kSliderEncoder = 0;
+constexpr int kSliderLimitSwitch = 1;
 constexpr int kPickupDeployedSwitch = 2;
+constexpr int kPickupUprightSwitch = 3;
+constexpr int kPickupRetractedSwitch = 4;
 
 //Pneumatics
-constexpr int kForwardDriveSolenoid = 2;
-constexpr int kReverseDriveSolenoid = 3;
-constexpr int kForwardIntakeSolenoid = 0;
-constexpr int kReverseIntakeSolenoid = 1;
+constexpr int kForwardDriveSolenoid = 1;
+constexpr int kReverseDriveSolenoid = 0;
+constexpr int kForwardIntakeSolenoid = 2;
+constexpr int kReverseIntakeSolenoid = 3;
 constexpr int kCompressor = 0;
 

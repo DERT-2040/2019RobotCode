@@ -10,7 +10,6 @@
 #include <frc/TimedRobot.h>
 #include <frc/commands/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
-
 #include "OI.h"
 #include "subsystems/DriveTrain.h"
 #include "subsystems/ArduinoCommunications.h"
@@ -29,6 +28,11 @@ class Robot : public frc::TimedRobot {
   static Lift m_lift;
   static Slider m_slider;
 
+  cs::UsbCamera camera1;
+  cs::UsbCamera camera2;
+  cs::VideoSink server;
+  cs::CvSink * cvsink1;
+  cs::CvSink * cvsink2;
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;

@@ -33,14 +33,5 @@ TeleOp::TeleOp() {
   if(Robot::m_oi.gamepad->GetRawAxis(2)>0.75){
     AddParallel(new DeployGamePiece());
   }
-  
-  if(Robot::m_oi.gamepad->GetRawButton(5)){
-    //AddParallel(new PickupCargo()); 
-  }
-  
-  if(Robot::m_oi.gamepad->GetRawButton(6)){
-    //AddParallel(new PickupHatch());
-  }
-  //*/
   frc::SmartDashboard::PutString("Mode", "TeleOp");
 }
