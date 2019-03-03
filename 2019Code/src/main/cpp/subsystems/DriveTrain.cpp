@@ -66,10 +66,11 @@ void DriveTrain::CurveDrive()
 {
   //drive->CurvatureDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0), true);
   float forwardSpeed = -1*Robot::m_oi.joystickR->GetRawAxis(1);
+  //float forwardSpeedL = -1*Robot::m_oi.joystickL->GetRawAxis(1);
   float turnSpeed = Robot::m_oi.joystickL->GetRawAxis(0);
   forwardSpeed*= abs(-1*Robot::m_oi.joystickR->GetRawAxis(1));
   turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
-  drive->ArcadeDrive(forwardSpeed,turnSpeed);
+  drive->CurvatureDrive(forwardSpeed,turnSpeed,true);
 }
 void DriveTrain::DriveSpeed(float speed){
   //drive->CurvatureDrive(0.5,0,false);

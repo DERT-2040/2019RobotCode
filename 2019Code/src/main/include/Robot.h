@@ -29,6 +29,8 @@ class Robot : public frc::TimedRobot {
   static Lift m_lift;
   static Slider m_slider;
 
+  cs::UsbCamera camera1;
+  cs::UsbCamera camera2;
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;

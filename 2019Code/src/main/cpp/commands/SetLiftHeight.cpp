@@ -19,7 +19,7 @@ SetLiftHeight::SetLiftHeight(float _height, float _distance) {
 // Called just before this Command runs the first time
 void SetLiftHeight::Initialize() {
   //Robot::m_lift.constantHeightLift(height,distance);
-  Robot::m_lift.setElevatorHeight(height);
+  Robot::m_lift.setLiftState(height, distance);
 }
 
 // Called repeatedly when this Command is scheduled to run

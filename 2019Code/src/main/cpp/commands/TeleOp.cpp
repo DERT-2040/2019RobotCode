@@ -15,13 +15,16 @@ TeleOp::TeleOp() {
   AddParallel(new DriveWithJoySticks());
 
   if(Robot::m_oi.gamepad->GetRawButton(1)){
-    AddParallel(new setFourBarAngle(-45));
+    //AddParallel(new setFourBarAngle(-45));
+    AddParallel(new SetLiftHeight(24.8, -48));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(2)){
-    AddParallel(new setFourBarAngle(0));
+    //AddParallel(new setFourBarAngle(0));
+    AddParallel(new SetLiftHeight(48.98, -24.4));
   } 
   else if(Robot::m_oi.gamepad->GetRawButton(4)){
-    AddParallel(new setFourBarAngle(45));
+    //AddParallel(new setFourBarAngle(45));
+    AddParallel(new SetLiftHeight(60.80, 60.0));
   }
   else if(Robot::m_oi.gamepad->GetPOV(0)==180){
     //AddParallel(new SetLiftState(0,false));
@@ -30,12 +33,16 @@ TeleOp::TeleOp() {
     frc::Scheduler::GetInstance()->RemoveAll();
   }
   
+  if(Robot::m_oi.gamepad->GetRawAxis(3)>0.75){
+    AddParallel(new DeployGamePiece());
+  }
+
   if(Robot::m_oi.gamepad->GetRawAxis(2)>0.75){
     AddParallel(new DeployGamePiece());
   }
   
-  if(Robot::m_oi.gamepad->GetRawButton(5)){
-    //AddParallel(new PickupCargo()); 
+  if(Robot::m_oi.gamepad->GetRawButton(3)){
+    AddParallel(new SetLiftHeight(5.5, -15));
   }
   
   if(Robot::m_oi.gamepad->GetRawButton(6)){
