@@ -34,6 +34,13 @@ class DriveTrain : public frc::Subsystem {
   int gear;
   float speedMultiplier;
   float calcSpeedMultiplier();
+  
+  double maxSpeed = 1000;
+  double kP = 0;
+  double kI = 0;
+  double kD = 0;
+  double kF = 0;
+
  public:
 
   DriveTrain();
@@ -42,4 +49,6 @@ class DriveTrain : public frc::Subsystem {
   void CurveDrive();
   void DriveSpeed(float speed);
   void ShiftGear(int gear);// 0 = first gear, 1 = second gear
+  void velDrive();
+  
 };
