@@ -40,16 +40,19 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   leftSide -> SetInverted(false);
   rightSide -> SetInverted(true);
   
-  drive = new  frc::DifferentialDrive(*leftSide, *rightSide);
+  drive = new frc::DifferentialDrive(*leftSide, *rightSide);
 
   compressor = new frc::Compressor(kCompressor);
 
 	compressor->SetClosedLoopControl(true);
   driveSolenoid = new frc::DoubleSolenoid(1,kForwardDriveSolenoid,kReverseDriveSolenoid);
+  
   climbSolenoid = new frc::DoubleSolenoid(0,0,2);
+  masterLeftMotor->GetSensorCollection().SetQuadraturePosition(0);
+  masterRightMotor->GetSensorCollection().SetQuadraturePosition(0);
+
 
 }
-
 void DriveTrain::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
@@ -61,14 +64,12 @@ void DriveTrain::InitDefaultCommand() {
 
 void DriveTrain::Periodic()
 {
-  //std::cout << lightSensor->GetVoltage() << std::endl;
-  //std::cout << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  //std::cout << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+
 }
 
 void DriveTrain::CurveDrive()
 {
-  //drive->CurvatureDrive(-1*Robot::m_oi.joystickR->GetRawAxis(1),Robot::m_oi.joystickL->GetRawAxis(0), true);
+
   float forwardSpeed = -1*Robot::m_oi.joystickR->GetRawAxis(1);
   //float forwardSpeedL = -1*Robot::m_oi.joystickL->GetRawAxis(1);
   float turnSpeed = Robot::m_oi.joystickL->GetRawAxis(0);
@@ -77,9 +78,11 @@ void DriveTrain::CurveDrive()
    turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
   drive->CurvatureDrive(forwardSpeed,turnSpeed+ 0.02,true);
 }
+
 void DriveTrain::DriveSpeed(float speed){
   //drive->CurvatureDrive(0.5,0,false);
 }
+
 void DriveTrain::ShiftGear(int _gear){
   if (gear != _gear){
     gear = _gear;
@@ -105,5 +108,28 @@ void DriveTrain::Climb(int _state){
     }
   }
 }
-// Put methods for controlling this subsystem
-// here. Call these from Commands.W
+
+void DriveTrain::velDrive()
+{
+  float rightSpeed;
+  float leftSpeed;
+
+  float turnValue = Robot::m_oi.joystickL->GetRawAxis(0);
+  float forwardValue = Robot::m_oi.joystickR->GetRawAxis(1);
+
+  if(turnValue < 0.025)
+  {
+    turnValue = 0;
+  }
+
+  if(forwardValue < 0.025)
+  {
+    turnValue = 0;
+  }
+
+  rightSpeed = forwardValue * maxSpeed - turnValue * maxSpeed;
+  leftSpeed = forwardValue * maxSpeed + turnValue * maxSpeed;
+
+  masterLeftMotor->Set(ControlMode::Velocity, leftSpeed);
+  masterRightMotor->Set(ControlMode::Velocity, rightSpeed);
+}
