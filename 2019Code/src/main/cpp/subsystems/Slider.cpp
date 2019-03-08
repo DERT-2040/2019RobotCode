@@ -27,8 +27,7 @@ void Slider::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 void Slider::Periodic(){
-
-  std::cout << distanceTraveled->GetPeriod() << std::endl;
+  std::cout<<distanceTraveled->Get() <<std::endl;
   if(sliderMotor->Get() > 0){
     position += distanceTraveled->Get() - previousPosition;
   }

@@ -22,16 +22,16 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   masterLeftMotor->ConfigPeakCurrentLimit(35);
   masterRightMotor->ConfigPeakCurrentLimit(35);
   
-  masterLeftMotor->EnableCurrentLimit(true);
-  masterRightMotor->EnableCurrentLimit(true);
-  secondLeftMotor->EnableCurrentLimit(true);
-  secondRightMotor->EnableCurrentLimit(true);
-  
   secondLeftMotor->ConfigOpenloopRamp(0.15);
   secondRightMotor->ConfigOpenloopRamp(0.15);
   masterLeftMotor->ConfigOpenloopRamp(0.15);
   masterRightMotor->ConfigOpenloopRamp(0.15);
 
+  secondLeftMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+  secondRightMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+  masterLeftMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+  masterRightMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+  
   secondLeftMotor->SetInverted(true);
 
   leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
@@ -46,7 +46,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 
 	compressor->SetClosedLoopControl(true);
   driveSolenoid = new frc::DoubleSolenoid(1,kForwardDriveSolenoid,kReverseDriveSolenoid);
-
+  climbSolenoid = new frc::DoubleSolenoid(0,0,2);
 
 }
 
@@ -64,7 +64,6 @@ void DriveTrain::Periodic()
   //std::cout << lightSensor->GetVoltage() << std::endl;
   //std::cout << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
   //std::cout << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  std::cout << "" << std::endl;
 }
 
 void DriveTrain::CurveDrive()
@@ -75,7 +74,8 @@ void DriveTrain::CurveDrive()
   float turnSpeed = Robot::m_oi.joystickL->GetRawAxis(0);
   forwardSpeed*= abs(-1*Robot::m_oi.joystickR->GetRawAxis(1));
   turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
-  drive->CurvatureDrive(forwardSpeed,turnSpeed,true);
+   turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
+  drive->CurvatureDrive(forwardSpeed,turnSpeed+ 0.02,true);
 }
 void DriveTrain::DriveSpeed(float speed){
   //drive->CurvatureDrive(0.5,0,false);
@@ -88,6 +88,20 @@ void DriveTrain::ShiftGear(int _gear){
     }
     else if (gear == 0){
       driveSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+    }
+  }
+}
+void DriveTrain::Climb(int _state){
+  if (state != _state){
+    state = _state;
+    if(state == 1){
+      climbSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+    }
+    else if (state == 0){
+      climbSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+    }
+    else if (state == 2){
+      climbSolenoid->Set(frc::DoubleSolenoid::Value::kOff);
     }
   }
 }

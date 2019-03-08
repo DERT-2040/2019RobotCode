@@ -95,6 +95,11 @@ class Lift : public frc::Subsystem
       const int kFourBarMotionSlotIdx = 0;
       const int kFourBarVelocitySlotIdx = 1;
       
+      double motionMagicFourBarkP = 10;
+      double motionMagicFourBarkI = 0;
+      double motionMagicFourBarkD = 0;
+      double motionMagicFourBarkF = 20;
+
       double upMMFourBarkP = 5.5;
       double upMMFourBarkI = 0;
       double upMMFourBarkD = 0;
@@ -110,9 +115,10 @@ class Lift : public frc::Subsystem
       double vFourBarkD = 0;
       double vFourBarkF = 0;
       
-      double fourBarCruiseVelocity = 75;
-      double fourBarAcceleration = 200;
+      double fourBarCruiseVelocity = 50;
+      double fourBarAcceleration = 100;
 
+    double horizontalHoldingPercent = 0.25;
     double fbFeedForward = 0;
     const double maxFourBarVelocity = 100;
     const float distanceToFourBarRotation = 6;
@@ -126,7 +132,6 @@ class Lift : public frc::Subsystem
 
   Lift();
   void Periodic() override;
-  void InitDefaultCommand() override;
   void setElevatorHeight(double height);
   void setFourBarHeight(double height);
   void setLiftHeight(double height,double distance);

@@ -28,10 +28,12 @@ class DriveTrain : public frc::Subsystem {
   
   frc::Compressor *compressor;
   frc::DoubleSolenoid *driveSolenoid;
+  frc::DoubleSolenoid *climbSolenoid;
 
   frc::Ultrasonic *ultra;
 
   int gear;
+  int state;
   float speedMultiplier;
   float calcSpeedMultiplier();
  public:
@@ -42,4 +44,5 @@ class DriveTrain : public frc::Subsystem {
   void CurveDrive();
   void DriveSpeed(float speed);
   void ShiftGear(int gear);// 0 = first gear, 1 = second gear
+  void Climb(int state);// 0 = first gear, 1 = second gear
 };

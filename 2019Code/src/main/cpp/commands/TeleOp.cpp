@@ -17,17 +17,20 @@ TeleOp::TeleOp()
   if(Robot::m_oi.gamepad->GetRawButton(1))
   {
     //Hatch pickup and low rocket
-    AddParallel(new SetLiftHeight(24.8, -48));
+    AddParallel(new SetLiftHeight(21, -38));
+    //AddParallel(new setFourBarAngle(-45));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(2))
   {
     //Middle rocket
-    AddParallel(new SetLiftHeight(48.98, -24.4));
+    AddParallel(new SetLiftHeight(34, 30));
+    //AddParallel(new setFourBarAngle(0));
   } 
   else if(Robot::m_oi.gamepad->GetRawButton(4))
   {
     //High rocket
-    AddParallel(new SetLiftHeight(60.80, 60.0));
+    AddParallel(new SetLiftHeight(55, 30));
+    //AddParallel(new setFourBarAngle(45));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(3))
   {
@@ -54,6 +57,11 @@ TeleOp::TeleOp()
   {
     AddParallel(new manualLift());
     AddParallel(new manualSlider());
+  }
+
+  if(fabs(Robot::m_oi.gamepad->GetRawAxis(2)) > 0.75)
+  {
+    AddParallel(new DeployGamePiece());
   }
 
   if(Robot::m_oi.gamepad->GetRawButton(9) && Robot::m_oi.gamepad->GetRawButton(10)){
