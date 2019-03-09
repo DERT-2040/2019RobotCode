@@ -118,7 +118,7 @@ class Lift : public frc::Subsystem
       double fourBarCruiseVelocity = 50;
       double fourBarAcceleration = 100;
 
-    double horizontalHoldingPercent = 0.25;
+    double horizontalHoldingPercent = 0.20;
     double fbFeedForward = 0;
     const double maxFourBarVelocity = 100;
     const float distanceToFourBarRotation = 6;

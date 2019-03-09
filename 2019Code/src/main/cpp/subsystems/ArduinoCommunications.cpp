@@ -17,7 +17,7 @@ void ArduinoCommunications::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 void ArduinoCommunications::Periodic(){
-  getValues();
+  //getValues();
 }
 void ArduinoCommunications::getValues(){
   

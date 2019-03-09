@@ -17,9 +17,14 @@ ArduinoCommunications Robot::m_arduinoCommunications;
 Intake Robot::m_intake;
 Lift Robot::m_lift;
 Slider Robot::m_slider;
+HatchPickup Robot::m_hatchPickup;
 
 
 void Robot::RobotInit() {
+  camera1.SetResolution(320,240);
+  camera1.SetFPS(3);
+  camera2.SetResolution(320,240);
+  camera2.SetFPS(3);
   camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
   camera2 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
   }
@@ -32,7 +37,7 @@ void Robot::RobotInit() {
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() {
+void Robot::RobotPeriodic() { 
   if (m_oi.joystickL->GetRawButton(3)) {
     NetworkTable::GetTable("")->PutString("CameraSelection", camera2.GetName());
   } 

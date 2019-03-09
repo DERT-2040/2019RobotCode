@@ -22,17 +22,23 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   masterLeftMotor->ConfigPeakCurrentLimit(35);
   masterRightMotor->ConfigPeakCurrentLimit(35);
   
+  secondLeftMotor->EnableCurrentLimit(false);
+  secondRightMotor->EnableCurrentLimit(false);
+  masterLeftMotor->EnableCurrentLimit(false);
+  masterRightMotor->EnableCurrentLimit(false);
+  
   secondLeftMotor->ConfigOpenloopRamp(0.15);
   secondRightMotor->ConfigOpenloopRamp(0.15);
   masterLeftMotor->ConfigOpenloopRamp(0.15);
   masterRightMotor->ConfigOpenloopRamp(0.15);
 
-  secondLeftMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
-  secondRightMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
-  masterLeftMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
-  masterRightMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+  secondLeftMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Coast);
+  secondRightMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Coast);
+  masterLeftMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Coast);
+  masterRightMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Coast);
   
   secondLeftMotor->SetInverted(true);
+
 
   leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
   rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
@@ -94,6 +100,7 @@ void DriveTrain::ShiftGear(int _gear){
     }
   }
 }
+
 void DriveTrain::Climb(int _state){
   if (state != _state){
     state = _state;

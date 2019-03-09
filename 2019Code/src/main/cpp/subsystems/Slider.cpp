@@ -13,12 +13,12 @@ Slider::Slider() : Subsystem("Slider")
   rawHallSensorInput = new frc::AnalogInput(kSliderEncoder);
   rawHallSensorInput->SetSampleRate(10000);
   rawHallSensorTrigger = new frc::AnalogTrigger(rawHallSensorInput);
-  rawHallSensorTrigger->SetLimitsVoltage(3,3.5);
+  rawHallSensorTrigger->SetLimitsVoltage(3.0,3.75);
   distanceTraveled = new frc::Counter(*rawHallSensorTrigger);
   reCenterer = new frc::DigitalInput(kSliderLimitSwitch);
   /*distanceTraveled->SetUpSource(0);
   distanceTraveled->SetUpDownCounterMode();
-  distanceTraveled->Reset();*/
+  distanceTraveled->Reset*/
   sliderMotor = new WPI_TalonSRX(kSliderMotorPort);
 }
 
@@ -26,16 +26,17 @@ void Slider::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
 }
-void Slider::Periodic(){
-  std::cout<<distanceTraveled->Get() <<std::endl;
+void Slider::Periodic(){/*
   if(sliderMotor->Get() > 0){
     position += distanceTraveled->Get() - previousPosition;
   }
   else if (sliderMotor->Get() < 0){
     position -= distanceTraveled->Get() - previousPosition;
   }
-  previousPosition =  distanceTraveled->GetPeriod();//std::cout << distanceTraveled->Get() << std::endl;
-  //std::cout << reCenterer->Get() << std::endl;
+  previousPosition =  distanceTraveled->Get();*/
+  //std::cout << distanceTraveled->GetPeriod() << std::endl;
+  //frc::SmartDashboard::PutString("Position",std::to_string(distanceTraveled->Get()));
+  //std::cout << reCenterer->Get() << std::endl;*/
 }
 void Slider::setPosition(double _position)
 {

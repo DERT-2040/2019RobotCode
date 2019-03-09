@@ -81,6 +81,7 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->ConfigPeakCurrentLimit(35);
   secondLiftMotor->ConfigPeakCurrentLimit(35);
   fourBarMotor->ConfigPeakCurrentLimit(35);
+
   masterLiftMotor->EnableCurrentLimit(false);
   secondLiftMotor->EnableCurrentLimit(false);
   fourBarMotor->EnableCurrentLimit(false);
@@ -89,8 +90,9 @@ Lift::Lift() : Subsystem("Lift")
 void Lift::Periodic()
 { 
   fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180));
-  //std::cout << "fourbar angle: " << getFourBarAngle() << std::endl;
-  //std::cout << "Elevator pos inches: " << masterLiftMotor->GetSelectedSensorPosition()/ticksPerRotation*inchesPerRotationElevator << std::endl;
+  std::cout << "fourbar angle: " << getFourBarAngle() << std::endl;
+  std::cout << "Elevator pos inches: " << masterLiftMotor->GetSelectedSensorPosition()/ticksPerRotation*inchesPerRotationElevator << std::endl;
+  std::cout << "Elevator ticks: " << masterLiftMotor->GetSelectedSensorPosition() << std::endl;
   //std::cout << "fourbar feedforward \n" << fbFeedForward << std::endl;
 }
 

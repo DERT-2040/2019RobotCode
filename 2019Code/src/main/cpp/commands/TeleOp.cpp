@@ -34,17 +34,20 @@ TeleOp::TeleOp()
   }
   else if(Robot::m_oi.gamepad->GetRawButton(3))
   {
-    //ground hatch pickup placeholder 
-  }
-  else if(Robot::m_oi.gamepad->GetPOV(0)==180)
-  {
+
     //low ball
   }
-  else if(Robot::m_oi.gamepad->GetPOV(0) == 90)
+  else if(Robot::m_oi.gamepad->GetPOV(0) == 180)
   {
-    //mid ball
+    AddParallel(new manualSpatula(-1));
+    //ground hatch pickup up 
   }
   else if(Robot::m_oi.gamepad->GetPOV(0) == 0)
+  {
+    AddParallel(new manualSpatula(1));
+    //ground hatch pickup up 
+  }
+  else if(Robot::m_oi.gamepad->GetPOV(0) == 90)
   {
     //high ball
   }
@@ -67,6 +70,7 @@ TeleOp::TeleOp()
   if(Robot::m_oi.gamepad->GetRawButton(9) && Robot::m_oi.gamepad->GetRawButton(10)){
     frc::Scheduler::GetInstance()->RemoveAll();
   }
-
-  frc::SmartDashboard::PutString("Mode", "TeleOp");
+ if(Robot::m_oi.gamepad->GetPOV(0)!=0 && Robot::m_oi.gamepad->GetPOV(0) != 180){
+    AddParallel(new manualSpatula(0));
+ }
 }

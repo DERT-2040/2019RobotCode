@@ -28,6 +28,7 @@ class Robot : public frc::TimedRobot {
   static Intake m_intake;
   static Lift m_lift;
   static Slider m_slider;
+  static HatchPickup m_hatchPickup;
 
   cs::UsbCamera camera1;
   cs::UsbCamera camera2;

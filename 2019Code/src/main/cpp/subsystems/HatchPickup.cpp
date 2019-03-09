@@ -9,9 +9,9 @@
 float speedModifier = 1;
 HatchPickup::HatchPickup() : Subsystem("ExampleSubsystem") {
   hatchIntake = new WPI_TalonSRX(kHatchIntake);
-  uprightSwitch = new frc::DigitalInput(kPickupUprightSwitch);
-  retractedSwitch = new frc::DigitalInput(kPickupRetractedSwitch);
-  deployedSwitch = new frc::DigitalInput(kPickupDeployedSwitch);
+  //uprightSwitch = new frc::DigitalInput(kPickupUprightSwitch);
+  //retractedSwitch = new frc::DigitalInput(kPickupRetractedSwitch);
+  //deployedSwitch = new frc::DigitalInput(kPickupDeployedSwitch);
   }
 void HatchPickup::InitDefaultCommand() {
   // Set the default command for a subsystem here.
@@ -41,6 +41,9 @@ void HatchPickup::SetSpeed(){
     motorOutput = 0;
   }
   hatchIntake->Set(motorOutput);*/
+}
+void HatchPickup::SetManualSpeed(float _speed){
+  hatchIntake->Set(_speed);
 }
 void HatchPickup::SetState(int _state){
   if (_state != state){
