@@ -116,7 +116,7 @@ class Lift : public frc::Subsystem
       double vFourBarkF = 0;
       
       double fourBarCruiseVelocity = 50;
-      double fourBarAcceleration = 100;
+      double fourBarAcceleration = 200;
 
     double horizontalHoldingPercent = 0.20;
     double fbFeedForward = 0;

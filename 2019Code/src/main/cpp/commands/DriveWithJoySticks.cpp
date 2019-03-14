@@ -8,14 +8,18 @@
 #include "commands/DriveWithJoySticks.h"
 #include "Robot.h"
 #include <iostream>
-DriveWithJoySticks::DriveWithJoySticks() {
+
+DriveWithJoySticks::DriveWithJoySticks() 
+{
   // Use Requires() here to declare subsystem dependencies
   Requires(&Robot::m_driveTrain);
 }
 
 // Called just before this Command runs the first time
-void DriveWithJoySticks::Initialize() {
-  }
+void DriveWithJoySticks::Initialize() 
+{
+
+}
 
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoySticks::Execute() 
@@ -53,6 +57,7 @@ void DriveWithJoySticks::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void DriveWithJoySticks::Interrupted() {
+void DriveWithJoySticks::Interrupted()
+{
 
 }
