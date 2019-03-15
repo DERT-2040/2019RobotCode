@@ -213,11 +213,12 @@ void loop() {
   }
   dtostrf(inchesToReturn,6,2,inchesToReturnFinal);
   //sprintf(inchesToReturnFinal,"y = %f",inchesToReturn);
-  Serial.println(inchesToReturnFinal);
+  //Serial.println(inchesToReturnFinal);
 }
 
 void requestEvent(){
   
+  //Serial.println("Hello");
   Wire.write(inchesToReturnFinal);
 }
 void receiveEvent(int bytes){

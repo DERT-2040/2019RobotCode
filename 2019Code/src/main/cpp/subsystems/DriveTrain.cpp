@@ -57,6 +57,25 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   masterLeftMotor->GetSensorCollection().SetQuadraturePosition(0);
   masterRightMotor->GetSensorCollection().SetQuadraturePosition(0);
 
+  masterLeftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 30);
+  masterRightMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 30);
+
+  masterLeftMotor->ConfigClosedloopRamp(.15);
+  masterRightMotor->ConfigClosedloopRamp(.15);
+
+  masterLeftMotor->Config_kP(0, .3, 30);
+  masterLeftMotor->Config_kI(0, 0, 30);
+  masterLeftMotor->Config_kD(0, 0, 30);
+  masterLeftMotor->Config_kF(0, 2, 30);
+
+  masterLeftMotor->SetSensorPhase(true);
+
+  masterRightMotor->Config_kP(0, .3, 30);
+  masterRightMotor->Config_kI(0, 0, 30);
+  masterRightMotor->Config_kD(0, 0, 30);
+  masterRightMotor->Config_kF(0, 2, 30);
+
+  
 
 }
 void DriveTrain::InitDefaultCommand() {
@@ -90,6 +109,8 @@ void DriveTrain::DriveSpeed(float speed){
 }
 
 void DriveTrain::ShiftGear(int _gear){
+  std::cout << "gear in: " << _gear << std::endl;
+  std::cout << "gear: " << gear << std::endl;
   if (gear != _gear){
     gear = _gear;
     if(gear == 1){
@@ -118,24 +139,31 @@ void DriveTrain::Climb(int _state){
 
 void DriveTrain::velDrive()
 {
+  
   float rightSpeed;
   float leftSpeed;
 
-  float turnValue = Robot::m_oi.joystickL->GetRawAxis(0);
-  float forwardValue = Robot::m_oi.joystickR->GetRawAxis(1);
+  float turnValue = -1*Robot::m_oi.joystickL->GetRawAxis(0);
+  float forwardValue = -1*Robot::m_oi.joystickR->GetRawAxis(1);
 
-  if(turnValue < 0.025)
+  if(fabs(turnValue) < 0.025)
   {
     turnValue = 0;
   }
 
-  if(forwardValue < 0.025)
+  if(fabs(forwardValue) < 0.025)
   {
-    turnValue = 0;
+    forwardValue = 0;
   }
 
+  std::cout << "encoderR: " << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  std::cout << "encoderL: " << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
+  
   rightSpeed = forwardValue * maxSpeed - turnValue * maxSpeed;
   leftSpeed = forwardValue * maxSpeed + turnValue * maxSpeed;
+
+  masterLeftMotor->SelectProfileSlot(0,0);
+  masterRightMotor->SelectProfileSlot(0,0);
 
   masterLeftMotor->Set(ControlMode::Velocity, leftSpeed);
   masterRightMotor->Set(ControlMode::Velocity, rightSpeed);
