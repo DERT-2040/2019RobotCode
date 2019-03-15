@@ -13,14 +13,8 @@ ModeChooser::ModeChooser() : Subsystem("ModeChooser") {
   firstRun = true;
 }
 void ModeChooser::Periodic() {
-  if(false){
-      commandToRun = new Auto();
+  commandToRun = new TeleOp();
       commandToRun->Start();
-  }
-  else {
-      commandToRun = new TeleOp();
-      commandToRun->Start();
-  }
   /*if(mode != newMode){
     if(newMode == 0){s
     }

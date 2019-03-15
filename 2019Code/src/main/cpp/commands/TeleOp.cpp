@@ -34,7 +34,7 @@ TeleOp::TeleOp()
   }
   else if(Robot::m_oi.gamepad->GetRawButton(3))
   {
-
+    AddParallel(new ResetSlider());
     //low ball
   }
   else if(Robot::m_oi.gamepad->GetPOV(0) == 180)
@@ -67,7 +67,7 @@ TeleOp::TeleOp()
     AddParallel(new DeployGamePiece());
   }
 
-  if(Robot::m_oi.gamepad->GetRawButton(9) && Robot::m_oi.gamepad->GetRawButton(10)){
+  if(Robot::m_oi.gamepad->GetRawButton(9)){
     frc::Scheduler::GetInstance()->RemoveAll();
   }
  if(Robot::m_oi.gamepad->GetPOV(0)!=0 && Robot::m_oi.gamepad->GetPOV(0) != 180){

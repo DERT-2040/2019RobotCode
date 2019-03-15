@@ -22,7 +22,7 @@ void ResetSlider::Execute() {
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ResetSlider::IsFinished() { return Robot::m_slider.atPosition(); }
+bool ResetSlider::IsFinished() { return true; }
 
 // Called once after isFinished returns true
 void ResetSlider::End() {}
