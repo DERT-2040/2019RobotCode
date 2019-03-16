@@ -38,12 +38,13 @@ void DriveWithJoySticks::Execute()
   }
   else if(Robot::m_oi.joystickL->GetRawButton(2)){
     Robot::m_driveTrain.Climb(1);
+    
     std::cout << 1 << std::endl;
 
   }
   else{
     Robot::m_driveTrain.Climb(2);
-    std::cout << 2 << std::endl;
+    //std::cout << 2 << std::endl;
   }
 
   

@@ -60,5 +60,5 @@ constexpr int kCompressor = 0;
 
 //slider
 constexpr int kSliderEncoder = 0;
-constexpr int kSliderLimitSwitch = 0;
+constexpr int kSliderLimitSwitch = 3;
 

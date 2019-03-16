@@ -26,7 +26,9 @@ void Slider::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
 }
-void Slider::Periodic(){/*
+void Slider::Periodic(){
+  std::cout <<"Recenterer: " << reCenterer->Get() << std::endl;
+  /*
   if(sliderMotor->Get() > 0){
     position += distanceTraveled->Get() - previousPosition;
   }

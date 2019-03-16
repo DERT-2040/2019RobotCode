@@ -17,20 +17,20 @@ TeleOp::TeleOp()
   if(Robot::m_oi.gamepad->GetRawButton(1))
   {
     //Hatch pickup and low rocket
-    //AddParallel(new SetLiftHeight(21, -38));
-    AddParallel(new setFourBarAngle(-45));
+    AddParallel(new SetLiftHeight(21, -45));
+    //AddParallel(new setFourBarAngle(-45));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(2))
   {
     //Middle rocket
-    //AddParallel(new SetLiftHeight(34, 30));
-    AddParallel(new setFourBarAngle(0));
+    AddParallel(new SetLiftHeight(34, -45));
+    //AddParallel(new setFourBarAngle(45));
   } 
   else if(Robot::m_oi.gamepad->GetRawButton(4))
   {
     //High rocket
-    //AddParallel(new SetLiftHeight(55, 30));
-    AddParallel(new setFourBarAngle(45));
+    AddParallel(new SetLiftHeight(55, 45));
+    //AddParallel(new setFourBarAngle(45));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(3))
   {

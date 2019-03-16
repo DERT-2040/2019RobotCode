@@ -95,30 +95,30 @@ class Lift : public frc::Subsystem
       const int kFourBarMotionSlotIdx = 0;
       const int kFourBarVelocitySlotIdx = 1;
       
-      double motionMagicFourBarkP = 10;
+      double motionMagicFourBarkP = 0;
       double motionMagicFourBarkI = 0;
       double motionMagicFourBarkD = 0;
-      double motionMagicFourBarkF = 20;
+      double motionMagicFourBarkF = 0;
 
-      double upMMFourBarkP = 5.5;
-      double upMMFourBarkI = 0;
+      double upMMFourBarkP = 2;
+      double upMMFourBarkI = 0.0;
       double upMMFourBarkD = 0;
-      double upMMFourBarkF = 11.25;
+      double upMMFourBarkF = 32;
       
-      double downMMFourBarkP = 2;
+      double downMMFourBarkP = 15;
       double downMMFourBarkI = 0;
       double downMMFourBarkD = 0;
-      double downMMFourBarkF = 6.5;
+      double downMMFourBarkF = 12;
 
       double vFourBarkP = 0;
       double vFourBarkI = 0;
       double vFourBarkD = 0;
       double vFourBarkF = 0;
       
-      double fourBarCruiseVelocity = 50;
-      double fourBarAcceleration = 200;
+      double fourBarCruiseVelocity = 60;
+      double fourBarAcceleration = 60;
 
-    double horizontalHoldingPercent = 0.20;
+    double horizontalHoldingPercent = 0.06;
     double fbFeedForward = 0;
     const double maxFourBarVelocity = 100;
     const float distanceToFourBarRotation = 6;

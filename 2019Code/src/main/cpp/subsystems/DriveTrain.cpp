@@ -93,9 +93,9 @@ void DriveTrain::Periodic()
 }
 
 void DriveTrain::CurveDrive()
-{
+{ 
 
-  float forwardSpeed = -1*Robot::m_oi.joystickR->GetRawAxis(1);
+  float forwardSpeed = Robot::m_oi.joystickR->GetRawAxis(1);
   //float forwardSpeedL = -1*Robot::m_oi.joystickL->GetRawAxis(1);
   float turnSpeed = Robot::m_oi.joystickL->GetRawAxis(0);
   forwardSpeed*= abs(-1*Robot::m_oi.joystickR->GetRawAxis(1));
@@ -109,8 +109,8 @@ void DriveTrain::DriveSpeed(float speed){
 }
 
 void DriveTrain::ShiftGear(int _gear){
-  std::cout << "gear in: " << _gear << std::endl;
-  std::cout << "gear: " << gear << std::endl;
+  //std::cout << "gear in: " << _gear << std::endl;
+  //std::cout << "gear: " << gear << std::endl;
   if (gear != _gear){
     gear = _gear;
     if(gear == 1){
@@ -158,7 +158,7 @@ void DriveTrain::velDrive()
 
   std::cout << "encoderR: " << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
   std::cout << "encoderL: " << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
-  
+
   rightSpeed = forwardValue * maxSpeed - turnValue * maxSpeed;
   leftSpeed = forwardValue * maxSpeed + turnValue * maxSpeed;
 

@@ -58,7 +58,7 @@ Lift::Lift() : Subsystem("Lift")
   fourBarMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::Analog, kPIDLoopIdx, talonTimeoutMs);
   fourBarMotor->SetSensorPhase(true);
   fourBarMotor->ConfigPeakOutputForward(1, talonTimeoutMs);
-  fourBarMotor->ConfigPeakOutputReverse(-1, talonTimeoutMs);
+  fourBarMotor->ConfigPeakOutputReverse(-0.5, talonTimeoutMs);
   fourBarMotor->ConfigNominalOutputForward(0, talonTimeoutMs);
   fourBarMotor->ConfigNominalOutputReverse(0, talonTimeoutMs);
   fourBarMotor->ConfigVoltageCompSaturation(fourbarVoltageScale, talonTimeoutMs);
@@ -92,14 +92,15 @@ void Lift::Periodic()
   fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180));
   if(fabs(getFourBarAngle()) < 20)
   {
-    fbFeedForward = fbFeedForward*1.5;
+    fbFeedForward = fbFeedForward;
   }
-  else if(getFourBarAngle() > 35)
+  else if(getFourBarAngle() > 40)
   {
-    //fbFeedForward = fbFeedForward = fbFeedForward*0;
-    fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180))*0;
+    fbFeedForward = fbFeedForward*0;
+    //fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180))*0;
   }
-  std::cout << "fourbar angle: " << getFourBarAngle() << std::endl;
+  //std::cout << "fourbar angle: " << getFourBarAngle() << std::endl;
+
   //std::cout << "Elevator pos inches: " << masterLiftMotor->GetSelectedSensorPosition()/ticksPerRotation*inchesPerRotationElevator << std::endl;
   //std::cout << "Elevator ticks: " << masterLiftMotor->GetSelectedSensorPosition() << std::endl;
   //std::cout << "fourbar feedforward \n" << fbFeedForward << std::endl;
@@ -166,7 +167,7 @@ void Lift::fourbarManualControl(double output)
       //slowDown = 0.04;
     }
 
-    fourBarMotor->Set(ControlMode::PercentOutput, output, DemandType_ArbitraryFeedForward, fbFeedForward);
+    fourBarMotor->Set(ControlMode::PercentOutput, output, DemandType_ArbitraryFeedForward, feedForward);
   }
 }
 
@@ -217,7 +218,6 @@ void Lift::setFourBarHeight(double height)
 void Lift::setFourBarAngle(double angle)
 {
   fbMotionMagicActive = true;
-  /*
   if(angle > getFourBarAngle())
   {
     fourBarMotor->Config_kP(kFourBarMotionSlotIdx, upMMFourBarkP, talonTimeoutMs);
@@ -232,12 +232,11 @@ void Lift::setFourBarAngle(double angle)
     fourBarMotor->Config_kD(kFourBarMotionSlotIdx, downMMFourBarkD, talonTimeoutMs);
     fourBarMotor->Config_kF(kFourBarMotionSlotIdx, downMMFourBarkF, talonTimeoutMs);
   }
-  */
   angle += 90;
   float ticks = (angle * voltsPerDegree + startingInclinomterVolatage) * ticksPerVolt;
   fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, kPIDLoopIdx);
   
-  fourBarMotor->Set(ControlMode::MotionMagic, ticks, DemandType_ArbitraryFeedForward, 011);
+  fourBarMotor->Set(ControlMode::MotionMagic, ticks, DemandType_ArbitraryFeedForward, fbFeedForward);
 }
 
 //not tested
