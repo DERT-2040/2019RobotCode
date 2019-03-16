@@ -16,7 +16,7 @@ class Slider : public frc::Subsystem
 {
 
  private:
-
+  void autoMove();
   //None of the motion/PIDF values are tuned
   const int slotIdx = 0;
   const int kPIDLoopIdx = 0;
@@ -25,8 +25,8 @@ class Slider : public frc::Subsystem
   double cruiseVelocity = 1000;
   double motionAccel = 500;
 
-  double position;
-  double previousPosition = 0;
+  int position;
+  int previousPosition = 0;
   const double inchToTickRatio = 0.0;
   double tickPosition;
   frc::AnalogInput * rawHallSensorInput;
@@ -34,14 +34,17 @@ class Slider : public frc::Subsystem
   frc::Counter * distanceTraveled;
   frc::DigitalInput * reCenterer;
   WPI_TalonSRX * sliderMotor;
-  
+  bool maxPos = false;
+  bool minPos = false;
+  int desiredPosition = 0;
+  bool autoSet = false;
  public:
 
   Slider();
   void Periodic() override;
   void InitDefaultCommand() override;
   void ManualControl(float speed);
-  void setPosition(double _position);
+  void setPosition(int _position);
   double getPosition();
   bool atPosition();
   void setSpeed(float speed);

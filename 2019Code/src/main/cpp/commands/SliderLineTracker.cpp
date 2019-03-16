@@ -19,7 +19,7 @@ void SliderLineTracker::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void SliderLineTracker::Execute() {
   inchesOffLine = Robot::m_arduinoCommunications.getInchesOffLine();
-  Robot::m_slider.setPosition(inchesOffLine);
+  //Robot::m_slider.setPosition(inchesOffLine);
 }
 
 // Make this return true when this Command no longer needs to run execute()

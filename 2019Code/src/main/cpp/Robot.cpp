@@ -9,7 +9,9 @@
 
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include <iostream>
+#include <stdint.h>
+#include <unistd.h>
 OI Robot::m_oi;
 DriveTrain Robot::m_driveTrain;
 ModeChooser Robot::m_modeChooser;
@@ -20,14 +22,29 @@ Slider Robot::m_slider;
 HatchPickup Robot::m_hatchPickup;
 
 
+void Robot::VisionThread()
+{ 
+    cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    cs::UsbCamera camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    camera1.SetFPS(1);
+     //std::cout << camera.SetResolution(160, 120) << std::endl;
+     //std::cout << camera.SetFPS(3) << std::endl;
+    cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
+    cs::CvSource outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Gray", 160, 120);
+   
+    cv::Mat source;
+    cv::Mat output;
+    while(true) { 
+      cvSink.GrabFrame(source);
+      cvtColor(source, output, cv::COLOR_BGR2GRAY);
+      outputStreamStd.PutFrame(output);
+      usleep(20000);
+    }
+}
 void Robot::RobotInit() {
-  camera1.SetResolution(320,240);
-  camera1.SetFPS(3);
-  camera2.SetResolution(320,240);
-  camera2.SetFPS(3);
-  camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
-  camera2 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
-  }
+    std::thread visionThread(VisionThread);
+    visionThread.detach();
+}
 //test
 /**
  * This function is called every robot packet, no matter the mode. Use

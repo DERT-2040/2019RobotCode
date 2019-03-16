@@ -17,8 +17,8 @@ Slider::Slider() : Subsystem("Slider")
   distanceTraveled = new frc::Counter(*rawHallSensorTrigger);
   reCenterer = new frc::DigitalInput(kSliderLimitSwitch);
   /*distanceTraveled->SetUpSource(0);
-  distanceTraveled->SetUpDownCounterMode();
-  distanceTraveled->Reset*/
+  distanceTraveled->SetUpDownCounterMode();*/
+  distanceTraveled->Reset();
   sliderMotor = new WPI_TalonSRX(kSliderMotorPort);
 }
 
@@ -29,20 +29,51 @@ void Slider::InitDefaultCommand() {
 void Slider::Periodic(){
   std::cout <<"Recenterer: " << reCenterer->Get() << std::endl;
   /*
+  minPos = false;
+  maxPos = false;
   if(sliderMotor->Get() > 0){
     position += distanceTraveled->Get() - previousPosition;
   }
   else if (sliderMotor->Get() < 0){
     position -= distanceTraveled->Get() - previousPosition;
   }
-  previousPosition =  distanceTraveled->Get();*/
-  //std::cout << distanceTraveled->GetPeriod() << std::endl;
+  if(position >= 80){
+    position = 80;
+    maxPos = true;
+  }
+  else if (position <= -80){
+    position = -80;
+    minPos = true;
+  }
+  if(reCenterer->Get()){
+    position = 0;
+  }
+  previousPosition =  distanceTraveled->Get();
   //frc::SmartDashboard::PutString("Position",std::to_string(distanceTraveled->Get()));
   //std::cout << reCenterer->Get() << std::endl;*/
+  //std::cout << "Position: " << position << std::endl;
+  if(autoSet){
+    autoMove();
+  }
 }
-void Slider::setPosition(double _position)
+void Slider::setPosition(int _position)
 {
-
+  autoSet = true;
+  desiredPosition = _position;
+}
+void Slider::autoMove()
+{
+  if(fabs(desiredPosition - position) >2){
+    if(desiredPosition > position ){
+      sliderMotor->Set(1);
+    }
+    else{
+      sliderMotor->Set(-1);
+    }
+  }
+  else{
+    sliderMotor->Set(0);
+  }
 }
 
 double Slider::getPosition()
@@ -57,5 +88,22 @@ bool Slider::atPosition()
 }
 
 void Slider::ManualControl(float power){
-  sliderMotor->Set(power);
+  std::cout << "MaxPos: " << maxPos << std::endl;
+  std::cout << "MinPos: " << minPos << std::endl;
+  if(fabs(power)< 0.2){
+    power = 0;
+  }
+  else{
+    autoSet = false;
+  }
+  if(maxPos == true && power > 0){
+    sliderMotor->Set(0);
+  }
+  else if(minPos == true && power < 0){
+    sliderMotor->Set(0);
+  }
+  else{ 
+  }
+    sliderMotor->Set(power);
+   
 }
