@@ -14,6 +14,7 @@
 #include "OI.h"
 #include "subsystems/DriveTrain.h"
 #include "subsystems/ArduinoCommunications.h"
+#include "subsystems/TX2Communication.h"
 #include "subsystems/ModeChooser.h"
 #include "subsystems/HatchPickup.h"
 #include "subsystems/Intake.h"
@@ -31,6 +32,7 @@ class Robot : public frc::TimedRobot {
   static Lift m_lift;
   static Slider m_slider;
   static HatchPickup m_hatchPickup;
+  static TX2Communication m_TX2Communication;
 
   cs::UsbCamera camera1;
   cs::UsbCamera camera2;

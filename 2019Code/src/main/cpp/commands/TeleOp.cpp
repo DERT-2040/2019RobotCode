@@ -32,7 +32,7 @@ TeleOp::TeleOp()
     AddParallel(new SetLiftHeight(55, 45));
     //AddParallel(new setFourBarAngle(45));
   }
-  else if(Robot::m_oi.gamepad->GetRawButton(3))
+  else if(Robot::m_oi.gamepad->GetRawButton(10))
   {
     AddParallel(new ResetSlider());
     //low ball

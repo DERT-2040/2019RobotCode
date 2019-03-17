@@ -20,6 +20,7 @@ Intake Robot::m_intake;
 Lift Robot::m_lift;
 Slider Robot::m_slider;
 HatchPickup Robot::m_hatchPickup;
+TX2Communication Robot::m_TX2Communication;
 
 
 void Robot::VisionThread()
@@ -36,8 +37,8 @@ void Robot::VisionThread()
     cv::Mat output;
     while(true) { 
       cvSink.GrabFrame(source);
-      cvtColor(source, output, cv::COLOR_BGR2GRAY);
-      outputStreamStd.PutFrame(output);
+      //cvtColor(source, output, cv::COLOR_BGR2GRAY);
+      //outputStreamStd.PutFrame(output);
       usleep(20000);
     }
 }

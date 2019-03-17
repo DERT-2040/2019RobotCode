@@ -24,15 +24,7 @@ void DriveWithJoySticks::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoySticks::Execute() 
 {
-  if(!Robot::m_oi.joystickL->GetRawButton(4))
-  {
-    Robot::m_driveTrain.velDrive(Robot::m_oi.joystickR->GetRawAxis(1), Robot::m_oi.joystickL->GetRawAxis(0));
-  }
-  else
-  {
-    Robot::m_driveTrain.assistDrive();
-  }
-
+  Robot::m_driveTrain.CurveDrive();
   if (Robot::m_oi.joystickR->GetRawButton(1)){
     Robot::m_driveTrain.ShiftGear(1);
   }
@@ -45,9 +37,14 @@ void DriveWithJoySticks::Execute()
     //std::cout << 0 << std::endl;
   }
   else if(Robot::m_oi.joystickL->GetRawButton(2)){
-    Robot::m_driveTrain.Climb(0);
+<<<<<<< HEAD
+    Robot::m_driveTrain.Climb(1);
     
+    std::cout << 1 << std::endl;
+=======
+    Robot::m_driveTrain.Climb(0);
     //std::cout << 1 << std::endl;
+>>>>>>> origin/ProtoBot
 
   }
   else{

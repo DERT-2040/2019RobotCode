@@ -18,20 +18,25 @@
 #include <netinet/in.h> 
 
 #define PORT 2040
-#define NUMOFVALUES 2
+#define NUMOFVALUES 1024
 
 class TX2Communication : public frc::Subsystem 
 {
  private:
   
   int sockfd;
-  float buffer[NUMOFVALUES];
+  char buffer[33];
   struct sockaddr_in serveraddr, cliaddr;
   int recvlen;
   socklen_t cliaddrlen = sizeof(cliaddr);
+  float values[3];
+  float pixel, angle, distance;
  public:
   TX2Communication();
   void InitDefaultCommand() override;
   void Periodic() override;
+  float getDistance();
+  float getAngle();
+  float getPixel();
 
 };

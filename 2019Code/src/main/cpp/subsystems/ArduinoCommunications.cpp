@@ -22,7 +22,7 @@ void ArduinoCommunications::Periodic(){
 }
 void ArduinoCommunications::getValues(){
   
-    byte* data = new byte[1];//create a byte array to hold the incoming data
+    byte* data = new byte[8];//create a byte array to hold the incoming data
     wire->Read(4, 8, data);//use address 4 on i2c a  nd store it in data
     //inchesOffLine = bytesToFloat(data[0],data[1],data[2],data[3]);
     char * in = new char[8];

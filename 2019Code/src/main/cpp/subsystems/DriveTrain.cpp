@@ -37,16 +37,20 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   masterLeftMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Coast);
   masterRightMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Coast);
   
-  secondLeftMotor->SetInverted(true);
+  secondLeftMotor->Follow(*masterLeftMotor);
+  secondRightMotor->Follow(*masterRightMotor);
+
+  secondLeftMotor->SetInverted(false);
+  secondRightMotor->SetInverted(true);
 
 
   leftSide = new frc::SpeedControllerGroup(*secondLeftMotor, *masterLeftMotor);
   rightSide = new frc::SpeedControllerGroup(*secondRightMotor, *masterRightMotor);
 
-  leftSide -> SetInverted(false);
-  rightSide -> SetInverted(true);
+  leftSide -> SetInverted(true);
+  rightSide -> SetInverted(false);
   
-  drive = new frc::DifferentialDrive(*leftSide, *rightSide);
+  //drive = new frc::DifferentialDrive(*leftSide, *rightSide);
 
   compressor = new frc::Compressor(kCompressor);
 
@@ -63,17 +67,18 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   masterLeftMotor->ConfigClosedloopRamp(.15);
   masterRightMotor->ConfigClosedloopRamp(.15);
 
-  masterLeftMotor->Config_kP(0, .3, 30);
+  masterLeftMotor->Config_kP(0, 0.002, 30);
   masterLeftMotor->Config_kI(0, 0, 30);
   masterLeftMotor->Config_kD(0, 0, 30);
-  masterLeftMotor->Config_kF(0, 2, 30);
+  masterLeftMotor->Config_kF(0, 0.0786, 30);
 
-  masterLeftMotor->SetSensorPhase(true);
+  masterLeftMotor->SetSensorPhase(false);
+  masterRightMotor->SetSensorPhase(true);
 
-  masterRightMotor->Config_kP(0, .3, 30);
+  masterRightMotor->Config_kP(0, 0.007, 30);
   masterRightMotor->Config_kI(0, 0, 30);
   masterRightMotor->Config_kD(0, 0, 30);
-  masterRightMotor->Config_kF(0, 2, 30);
+  masterRightMotor->Config_kF(0, 0.0786, 30);
 
   
 
@@ -89,7 +94,8 @@ void DriveTrain::InitDefaultCommand() {
 
 void DriveTrain::Periodic()
 {
-
+  std::cout << masterLeftMotor->GetSelectedSensorVelocity() << std::endl;
+  std::cout << masterRightMotor->GetSelectedSensorVelocity() << std::endl;
 }
 
 void DriveTrain::CurveDrive()
@@ -101,7 +107,37 @@ void DriveTrain::CurveDrive()
   forwardSpeed*= abs(-1*Robot::m_oi.joystickR->GetRawAxis(1));
   turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
    turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
-  drive->CurvatureDrive(forwardSpeed,turnSpeed+ 0.02,true);
+  drive->CurvatureDrive(-1*forwardSpeed,turnSpeed+ 0.02,true);
+}
+
+void DriveTrain::assistDrive()
+{
+  float forwardSpeed = Robot::m_oi.joystickR->GetRawAxis(1);
+  forwardSpeed = forwardSpeed * fabs(forwardSpeed);
+  
+  float turnError = 0 - Robot::m_TX2Communication.getAngle();
+  float turnD = (turnError - previousError)/.02;
+  turnI += turnError*.02;
+  float turnSpeed;
+  if(Robot::m_TX2Communication.getDistance() > 50  )
+  {
+    turnSpeed = turnError*0.05*(65/Robot::m_TX2Communication.getDistance()) + turnD * 0 + turnI * 0.0001;
+  }
+  else
+  {
+    turnSpeed = turnError*0.095 + turnD * 0 + turnI * 0.0001;
+  }
+
+
+  if(fabs(turnSpeed) > 0.6)
+  {
+    turnSpeed = 0.6*turnSpeed/fabs(turnSpeed);
+    std::cout << "limited" << std::endl;
+  }
+  std::cout << "TurnSpeed: " << turnSpeed << std::endl;
+  velDrive(forwardSpeed, -turnSpeed);
+
+  previousError = turnError;
 }
 
 void DriveTrain::DriveSpeed(float speed){
@@ -137,14 +173,16 @@ void DriveTrain::Climb(int _state){
   }
 }
 
-void DriveTrain::velDrive()
+void DriveTrain::velDrive(float _forwardValue, float _turnValue)
 {
   
   float rightSpeed;
   float leftSpeed;
 
-  float turnValue = -1*Robot::m_oi.joystickL->GetRawAxis(0);
-  float forwardValue = -1*Robot::m_oi.joystickR->GetRawAxis(1);
+  float turnValue = -1*_turnValue;
+  float forwardValue = _forwardValue;
+
+  turnValue = pow(turnValue, 3);
 
   if(fabs(turnValue) < 0.025)
   {
@@ -159,12 +197,29 @@ void DriveTrain::velDrive()
   std::cout << "encoderR: " << masterRightMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
   std::cout << "encoderL: " << masterLeftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl;
 
-  rightSpeed = forwardValue * maxSpeed - turnValue * maxSpeed;
-  leftSpeed = forwardValue * maxSpeed + turnValue * maxSpeed;
+  if(gear == 0)
+  {
+    rightSpeed = forwardValue * lowRight - turnValue * maxTurnSpeed;
+    leftSpeed = forwardValue * lowLeft + turnValue * maxTurnSpeed;
+  }
+  else if(gear == 1)
+  {
+    rightSpeed = forwardValue * highRight - turnValue * maxTurnSpeed;
+    leftSpeed = forwardValue * highLeft - turnValue * maxTurnSpeed;
+  }
 
   masterLeftMotor->SelectProfileSlot(0,0);
   masterRightMotor->SelectProfileSlot(0,0);
 
-  masterLeftMotor->Set(ControlMode::Velocity, leftSpeed);
-  masterRightMotor->Set(ControlMode::Velocity, rightSpeed);
+  if(fabs(turnValue) > 0 || fabs(forwardValue) > 0)
+  {
+    masterLeftMotor->Set(ControlMode::Velocity, leftSpeed);
+    masterRightMotor->Set(ControlMode::Velocity, rightSpeed);
+  }
+  else
+  {
+    masterLeftMotor->Set(ControlMode::PercentOutput, 0);
+    masterRightMotor->Set(ControlMode::PercentOutput, 0);
+  }
+
 }

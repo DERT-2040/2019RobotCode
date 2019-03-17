@@ -27,8 +27,8 @@ void Slider::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 void Slider::Periodic(){
-  std::cout <<"Recenterer: " << reCenterer->Get() << std::endl;
-  /*
+  //std::cout <<"Recenterer: " << reCenterer->Get() << std::endl;
+  
   minPos = false;
   maxPos = false;
   if(sliderMotor->Get() > 0){
@@ -45,7 +45,7 @@ void Slider::Periodic(){
     position = -80;
     minPos = true;
   }
-  if(reCenterer->Get()){
+  if(!reCenterer->Get()){
     position = 0;
   }
   previousPosition =  distanceTraveled->Get();
@@ -63,7 +63,7 @@ void Slider::setPosition(int _position)
 }
 void Slider::autoMove()
 {
-  if(fabs(desiredPosition - position) >2){
+  if(desiredPosition - position!=0){
     if(desiredPosition > position ){
       sliderMotor->Set(1);
     }
@@ -73,7 +73,10 @@ void Slider::autoMove()
   }
   else{
     sliderMotor->Set(0);
+    autoSet = false;
   }
+
+  
 }
 
 double Slider::getPosition()
@@ -88,8 +91,8 @@ bool Slider::atPosition()
 }
 
 void Slider::ManualControl(float power){
-  std::cout << "MaxPos: " << maxPos << std::endl;
-  std::cout << "MinPos: " << minPos << std::endl;
+  //std::cout << "MaxPos: " << maxPos << std::endl;
+  //std::cout << "MinPos: " << minPos << std::endl;
   if(fabs(power)< 0.2){
     power = 0;
   }
@@ -102,8 +105,8 @@ void Slider::ManualControl(float power){
   else if(minPos == true && power < 0){
     sliderMotor->Set(0);
   }
-  else{ 
-  }
+  else if (!autoSet){ 
     sliderMotor->Set(power);
+  }
    
 }
