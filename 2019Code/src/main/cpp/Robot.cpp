@@ -37,8 +37,8 @@ void Robot::VisionThread()
     cv::Mat output;
     while(true) { 
       cvSink.GrabFrame(source);
-      //cvtColor(source, output, cv::COLOR_BGR2GRAY);
-      //outputStreamStd.PutFrame(output);
+      cvtColor(source, output, cv::COLOR_BGR2GRAY);
+      outputStreamStd.PutFrame(output);
       usleep(20000);
     }
 }

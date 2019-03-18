@@ -96,7 +96,7 @@ void Lift::Periodic()
   }
   else if(getFourBarAngle() > 40)
   {
-    fbFeedForward = fbFeedForward*0;
+    fbFeedForward = fbFeedForward*0.7;
     //fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180))*0;
   }
   //std::cout << "fourbar angle: " << getFourBarAngle() << std::endl;
