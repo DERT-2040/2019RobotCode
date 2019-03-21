@@ -12,11 +12,14 @@ Lift::Lift() : Subsystem("Lift")
 {
   masterLiftMotor = new WPI_TalonSRX(kMasterLiftMotorPort);
   masterLiftMotor->SetInverted(true);
-
   //What type of encoder is it
   masterLiftMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, kPIDLoopIdx, talonTimeoutMs);
   masterLiftMotor->SetSensorPhase(true);
-  masterLiftMotor->SetSelectedSensorPosition(liftStartingHeight, kPIDLoopIdx, talonTimeoutMs);
+  masterLiftMotor->SetSelectedSensorPosition(0, kPIDLoopIdx, talonTimeoutMs);
+  masterLiftMotor->ConfigNominalOutputReverse(0, talonTimeoutMs);
+  masterLiftMotor->ConfigNominalOutputForward(0, talonTimeoutMs);
+  masterLiftMotor->ConfigPeakOutputForward(1, talonTimeoutMs);
+  masterLiftMotor->ConfigPeakOutputReverse(-1, talonTimeoutMs);
 
   masterLiftMotor->Config_kP(kElevatorMotionSlotIdx, mLiftkP, talonTimeoutMs);
   masterLiftMotor->Config_kI(kElevatorMotionSlotIdx, mLiftkI, talonTimeoutMs);
@@ -37,22 +40,34 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->ConfigMotionAcceleration(liftAcceleration);
   masterLiftMotor->ConfigAllowableClosedloopError(kElevatorMotionSlotIdx, liftPIDError, talonTimeoutMs);
   masterLiftMotor->GetSensorCollection().SetQuadraturePosition(0, talonTimeoutMs);
+  masterLiftMotor->ConfigVoltageCompSaturation(12, talonTimeoutMs);
+  masterLiftMotor->EnableVoltageCompensation(false);
+  masterLiftMotor->ConfigForwardSoftLimitEnable(false);
 
   secondLiftMotor = new WPI_TalonSRX(kSecondLiftMotorPort);
   secondLiftMotor->SetInverted(true);
   secondLiftMotor->Follow(*masterLiftMotor);
+  secondLiftMotor->ConfigNominalOutputReverse(0, talonTimeoutMs);
+  secondLiftMotor->ConfigNominalOutputForward(0, talonTimeoutMs);
+  secondLiftMotor->ConfigPeakOutputForward(1, talonTimeoutMs);
+  secondLiftMotor->ConfigPeakOutputReverse(-1, talonTimeoutMs);
+  secondLiftMotor->ConfigForwardSoftLimitEnable(false);
 
   fourBarMotor = new WPI_TalonSRX(kFourBarMotorPort);
-  fourBarMotor->SetInverted(false);
+  fourBarMotor->SetInverted(true);
   fourBarMotor->ConfigSelectedFeedbackSensor(FeedbackDevice::Analog, kPIDLoopIdx, talonTimeoutMs);
-  fourBarMotor->ConfigVoltageMeasurementFilter(32, talonTimeoutMs);
-  fourBarMotor->ConfigClosedloopRamp(fourBarClosedLoopRamp, talonTimeoutMs);
   fourBarMotor->SetSensorPhase(true);
+  fourBarMotor->ConfigPeakOutputForward(1, talonTimeoutMs);
+  fourBarMotor->ConfigPeakOutputReverse(-0.5, talonTimeoutMs);
+  fourBarMotor->ConfigNominalOutputForward(0, talonTimeoutMs);
+  fourBarMotor->ConfigNominalOutputReverse(0, talonTimeoutMs);
+  fourBarMotor->ConfigVoltageCompSaturation(fourbarVoltageScale, talonTimeoutMs);
+  fourBarMotor->EnableVoltageCompensation(true);
 
-  fourBarMotor->Config_kP(kFourBarMotionSlotIdx, mFourBarkP, talonTimeoutMs);
-  fourBarMotor->Config_kI(kFourBarMotionSlotIdx, mFourBarkI, talonTimeoutMs);
-  fourBarMotor->Config_kD(kFourBarMotionSlotIdx, mFourBarkD, talonTimeoutMs);
-  fourBarMotor->Config_kF(kFourBarMotionSlotIdx, mFourBarkF, talonTimeoutMs);
+  fourBarMotor->Config_kP(kFourBarMotionSlotIdx, motionMagicFourBarkP, talonTimeoutMs);
+  fourBarMotor->Config_kI(kFourBarMotionSlotIdx, motionMagicFourBarkI, talonTimeoutMs);
+  fourBarMotor->Config_kD(kFourBarMotionSlotIdx, motionMagicFourBarkD, talonTimeoutMs);
+  fourBarMotor->Config_kF(kFourBarMotionSlotIdx, motionMagicFourBarkF, talonTimeoutMs);
 
   fourBarMotor->Config_kP(kFourBarVelocitySlotIdx, vFourBarkP, talonTimeoutMs);
   fourBarMotor->Config_kI(kFourBarVelocitySlotIdx, vFourBarkI, talonTimeoutMs);
@@ -63,18 +78,32 @@ Lift::Lift() : Subsystem("Lift")
   fourBarMotor->ConfigMotionAcceleration(fourBarAcceleration);
   fourBarMotor->ConfigAllowableClosedloopError(kFourBarMotionSlotIdx, fourBarPIDError, talonTimeoutMs);
   
+  masterLiftMotor->ConfigPeakCurrentLimit(35);
+  secondLiftMotor->ConfigPeakCurrentLimit(35);
+  fourBarMotor->ConfigPeakCurrentLimit(35);
+
+  masterLiftMotor->EnableCurrentLimit(false);
+  secondLiftMotor->EnableCurrentLimit(false);
+  fourBarMotor->EnableCurrentLimit(false);
 }
 
 void Lift::Periodic()
 { 
-  //std::cout << masterLiftMotor->GetSensorCollection().GetQuadraturePosition() << std::endl; 
-  //std::cout << getFourBarAngle() << std::endl;
-  std::cout << fourBarMotor->GetClosedLoopError() << std::endl;
-}
+  fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180));
+  if(fabs(getFourBarAngle()) < 20)
+  {
+    fbFeedForward = fbFeedForward;
+  }
+  else if(getFourBarAngle() > 40)
+  {
+    fbFeedForward = fbFeedForward*0.7;
+    //fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180))*0;
+  }
+  //std::cout << "fourbar angle: " << getFourBarAngle() << std::endl;
 
-void Lift::InitDefaultCommand() 
-{
-  //SetDefaultCommand(new MySpecialCommand());
+  //std::cout << "Elevator pos inches: " << masterLiftMotor->GetSelectedSensorPosition()/ticksPerRotation*inchesPerRotationElevator << std::endl;
+  //std::cout << "Elevator ticks: " << masterLiftMotor->GetSelectedSensorPosition() << std::endl;
+  //std::cout << "fourbar feedforward \n" << fbFeedForward << std::endl;
 }
 
 double Lift::getFourBarAngle()
@@ -82,6 +111,7 @@ double Lift::getFourBarAngle()
   return (fourBarMotor->GetSensorCollection().GetAnalogInRaw()/ticksPerVolt-startingInclinomterVolatage)/voltsPerDegree - 90;
 }
 
+//works and is tuned
 void Lift::setElevatorHeight(double height)
 {
   eMotionMagicActive = true;
@@ -90,92 +120,126 @@ void Lift::setElevatorHeight(double height)
   if(ticks < maxElevatorTickHeight && ticks > minElevatorTickHeight)
   {
     masterLiftMotor->SelectProfileSlot(kElevatorMotionSlotIdx, kPIDLoopIdx);
-    masterLiftMotor->Set(ControlMode::MotionMagic, ticks);
+    masterLiftMotor->Set(ControlMode::MotionMagic, ticks, DemandType_ArbitraryFeedForward, kFeedforwardElevator);
   }
 }
 
+//works
 void Lift::elevatorManualControl(double output)
 {
-  float slowDown = .75;
-  double maxTicks = maxSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
-  double minTicks = minSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
-  if(output < 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()<minTicks){
-    //std::cout << "min" << std::endl;
-    //slowDown = 0.09;
-  }
-  if(output > 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()>maxTicks){
-    //slowDown = slowDownConstant;
-  }
-  if(!eMotionMagicActive || (eMotionMagicActive && fabs(output)> 0.025)){
-    masterLiftMotor->Set(ControlMode::PercentOutput, output*slowDown+kFeedforwardElevator);
+  float slowDown = 1;
+  if(!eMotionMagicActive || fabs(output) > 0.07)
+  {
     eMotionMagicActive = false;
+    double maxTicks = maxSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
+    double minTicks = minSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
+    if(output < 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()<minTicks){
+      //slowDown = 0.09;
+    }
+    if(output > 0 && masterLiftMotor->GetSensorCollection().GetQuadraturePosition()>maxTicks){
+      //slowDown = slowDownConstant;
+    }
+    if(!eMotionMagicActive || (eMotionMagicActive && fabs(output)> 0.025)){
+      masterLiftMotor->Set(ControlMode::PercentOutput, slowDown*output+kFeedforwardElevator);
+      eMotionMagicActive = false;
+      //std::cout << "Motor out: " << masterLiftMotor->GetMotorOutputPercent() << std::endl;
+      //std::cout << "Output " << slowDown*output << std::endl;
+    }
   }
 }
 
+//works
 void Lift::fourbarManualControl(double output)
 {
-  if(!fbMotionMagicActive || fabs(output) > 0.025)
+  float slowDown = 1;
+  float feedForward = fbFeedForward;
+  if(fbMotionMagicActive == false || fabs(output) > 0.1)
   {
     fbMotionMagicActive = false;
-    float feedForward = fabs(.28 *cos(getFourBarAngle() * M_PI / 180));
     if(fabs(getFourBarAngle()) > 70)
     {
       feedForward = 0;
     } 
-    float slowDown = 1;
     if(output > 0 && getFourBarAngle()<-45){
       //slowDown = 0.04;
     }
     else if(output < 0 && getFourBarAngle()>45){
       //slowDown = 0.04;
     }
-    fourBarMotor->Set(ControlMode::PercentOutput, slowDown*output+feedForward);
+
+    fourBarMotor->Set(ControlMode::PercentOutput, output, DemandType_ArbitraryFeedForward, feedForward);
   }
 }
 
+//not tuned, I believe is is possible to tune with the Argos method
 void Lift::velocityElevatorControl(double speed)
 {
-  masterLiftMotor->SelectProfileSlot(kElevatorVelocitySlotIdx, kPIDLoopIdx);
-  masterLiftMotor->Set(ControlMode::Velocity, speed*maxLiftSpeed, DemandType_ArbitraryFeedForward, elevatorFeedForward);
-}
-
-void Lift::velocityFourBarControl(double speed)
-{
-  float feedForward = fabs(.28 *cos(getFourBarAngle() * M_PI / 180));
   if(fabs(speed) > 0.025)
   {
-    fourBarMotor->SelectProfileSlot(kFourBarVelocitySlotIdx, kPIDLoopIdx);
-    fourBarMotor->Set(ControlMode::Velocity, speed*maxFourBarVelocity, DemandType_ArbitraryFeedForward, +feedForward);\
+    masterLiftMotor->SelectProfileSlot(kElevatorVelocitySlotIdx, kPIDLoopIdx);
+    masterLiftMotor->Set(ControlMode::Velocity, speed*maxLiftSpeed);
   }
   else
   {
-    fourBarMotor->Set(ControlMode::Velocity, 0, DemandType_ArbitraryFeedForward, +feedForward);
+    masterLiftMotor->SelectProfileSlot(kElevatorPositionSlotIdx, kPIDLoopIdx);
+    masterLiftMotor->Set(ControlMode::Velocity, 0);
   }
 }
 
+//not tuned
+void Lift::velocityFourBarControl(double speed)
+{
+  if(fabs(speed) > 0.025)
+  {
+    fourBarMotor->SelectProfileSlot(kFourBarVelocitySlotIdx, kPIDLoopIdx);
+    fourBarMotor->Set(ControlMode::Velocity, speed*maxFourBarVelocity);
+    std::cout << fourBarMotor->GetClosedLoopError() << std::endl;
+  }
+  else
+  {
+    fourBarMotor->Set(ControlMode::Velocity, 0);
+  }
+}
+
+
+//untested
 void Lift::setFourBarHeight(double height)
 {
   fbHeightTarget = height;
   double angle = asin(height/fourBarLength) * 180 / M_PI;
   angle += 90; 
-  double volts = angle*voltsPerDegree;
+  double volts = angle*voltsPerDegree+startingInclinomterVolatage;
   double ticks = volts*ticksPerVolt;
-  fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, kPIDLoopIdx);
+  fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, talonTimeoutMs);
   fourBarMotor->Set(ControlMode::MotionMagic, ticks);
 }
 
+//tune enough its not very good
 void Lift::setFourBarAngle(double angle)
 {
   fbMotionMagicActive = true;
+  if(angle > getFourBarAngle())
+  {
+    fourBarMotor->Config_kP(kFourBarMotionSlotIdx, upMMFourBarkP, talonTimeoutMs);
+    fourBarMotor->Config_kI(kFourBarMotionSlotIdx, upMMFourBarkI, talonTimeoutMs);
+    fourBarMotor->Config_kD(kFourBarMotionSlotIdx, upMMFourBarkD, talonTimeoutMs);
+    fourBarMotor->Config_kF(kFourBarMotionSlotIdx, upMMFourBarkF, talonTimeoutMs);
+  }
+  else if(angle <= getFourBarAngle())
+  {
+    fourBarMotor  ->Config_kP(kFourBarMotionSlotIdx, downMMFourBarkP, talonTimeoutMs);
+    fourBarMotor->Config_kI(kFourBarMotionSlotIdx, downMMFourBarkI, talonTimeoutMs);
+    fourBarMotor->Config_kD(kFourBarMotionSlotIdx, downMMFourBarkD, talonTimeoutMs);
+    fourBarMotor->Config_kF(kFourBarMotionSlotIdx, downMMFourBarkF, talonTimeoutMs);
+  }
   angle += 90;
-  float currentFourBarAngle = getFourBarAngle() * M_PI / 180;
-  float feedForward = 0;
-  feedForward = .28*fabs(cos(currentFourBarAngle*.2));
-  float ticks = (angle * voltsPerDegree + .33) * ticksPerVolt;
+  float ticks = (angle * voltsPerDegree + startingInclinomterVolatage) * ticksPerVolt;
   fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, kPIDLoopIdx);
-  fourBarMotor->Set(ControlMode::MotionMagic, ticks, DemandType_ArbitraryFeedForward, fabs(feedForward));
+  
+  fourBarMotor->Set(ControlMode::MotionMagic, ticks, DemandType_ArbitraryFeedForward, fbFeedForward);
 }
 
+//not tested
 void Lift::setFourBarX(double x)
 { 
   double fbX = x - lengthOfImplement;
@@ -186,26 +250,22 @@ void Lift::setFourBarX(double x)
   {
     if(angle - (getFourBarAngle() - 90) < inverseAngle - (getFourBarAngle() - 90))
     {
-      ticks = (angle*voltsPerDegree)*ticksPerVolt;
+      setFourBarAngle(angle);
     }
     else
     {
-      ticks = (inverseAngle*voltsPerDegree)*ticksPerVolt;
+      setFourBarAngle(inverseAngle);
     }
-    fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, talonTimeoutMs);
-    fourBarMotor->Set(ControlMode::MotionMagic, ticks);
   }
 }
 
+//not tested
 void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
 {
   double angle;
   double elevatorHeight;
   fourBarXLength = fourBarXLength - lengthOfImplement;
   angle = acos(fourBarXLength/fourBarLength) * 180 / M_PI - 90;
-
-  fourBarMotor->SelectProfileSlot(kFourBarMotionSlotIdx, talonTimeoutMs);
-  masterLiftMotor->SelectProfileSlot(kElevatorMotionSlotIdx, talonTimeoutMs);
 
   if(fabs(angle) < 90)
   {
@@ -235,6 +295,12 @@ void Lift::constantHeightLift(float totalHeight, float fourBarXLength)
   }
 }
 
+void Lift::setLiftState(double height, double angle)
+{
+  setFourBarAngle(angle);
+  setElevatorHeight(height);
+}
+
 bool Lift::atElevatorHeight()
 {
  if(fabs(masterLiftMotor->GetSelectedSensorPosition() - elevatorHeightTarget)<1000){//replace with tolerable error
@@ -248,9 +314,4 @@ bool Lift::atFourBarHeight(){
     return true;
  }
  return false;
-}
-
-bool Lift::test()
-{
-
 }

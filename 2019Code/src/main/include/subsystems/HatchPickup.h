@@ -32,4 +32,5 @@ class HatchPickup : public frc::Subsystem {
   void InitDefaultCommand() override;
   void SetState(int _state);// 0 is fully retracted, 1 is upright, 2 is completely down
   int GetState();
+  void SetManualSpeed(float _speed);
 };

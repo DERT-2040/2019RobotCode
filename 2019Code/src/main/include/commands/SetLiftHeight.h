@@ -12,9 +12,9 @@
 class SetLiftHeight : public frc::Command {
  private:
   float height;
-  float distance;
+  float angle;
  public:
-  SetLiftHeight(float height, float distance);
+  SetLiftHeight(float height, float angle);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

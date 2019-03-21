@@ -5,28 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ResetSlider.h"
-
-ResetSlider::ResetSlider() {
+#include "commands/setFourBarAngle.h"
+#include "Robot.h"
+setFourBarAngle::setFourBarAngle(double _angle) {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  Requires(&Robot::m_slider);
+  Requires(&Robot::m_lift);
+  angle = _angle;
 }
 
 // Called just before this Command runs the first time
-void ResetSlider::Initialize() {}
+void setFourBarAngle::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ResetSlider::Execute() {
-  Robot::m_slider.setPosition(0); 
+void setFourBarAngle::Execute() 
+{
+  Robot::m_lift.setFourBarAngle(angle);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ResetSlider::IsFinished() { return true; }
+bool setFourBarAngle::IsFinished() { return false; }
 
 // Called once after isFinished returns true
-void ResetSlider::End() {}
+void setFourBarAngle::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ResetSlider::Interrupted() {}
+void setFourBarAngle::Interrupted() {}

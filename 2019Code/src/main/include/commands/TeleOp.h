@@ -19,7 +19,9 @@
 #include "commands/PickupHatch.h"
 #include "commands/ManualSlider.h"
 #include "commands/setFourBarAngle.h"
+#include "commands/manualSpatula.h"
 
+#include "commands/ResetSlider.h"
 class TeleOp : public frc::CommandGroup {
  private:
  public:

@@ -5,9 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Auto.h"
+#pragma once
 
-Auto::Auto() {
-  frc::SmartDashboard::PutString("Mode", "Auto");
-  
-}
+#include <frc/commands/Command.h>
+
+class setFourBarAngle : public frc::Command {
+ private:
+  double angle;
+ 
+ public:
+  setFourBarAngle(double _angle);
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+};

@@ -7,6 +7,7 @@
 
 #include "subsystems/ArduinoCommunications.h"
 using byte = uint8_t;
+#include <iostream>
 
 ArduinoCommunications::ArduinoCommunications() : Subsystem("ArduinoCommunications") { 
   wire = new frc::I2C(frc::I2C::Port::kOnboard,4);
@@ -21,14 +22,16 @@ void ArduinoCommunications::Periodic(){
 }
 void ArduinoCommunications::getValues(){
   
-    byte* data = new byte[12];//create a byte array to hold the incoming data
-    wire->Read(4, 12, data);//use address 4 on i2c and store it in data
-    inchesOffLine = bytesToFloat(data[0],data[1],data[2],data[3]);
-    angle = bytesToFloat(data[4],data[5],data[6],data[7]);
-    distance = bytesToFloat(data[8],data[9],data[10],data[11]);
-    frc::SmartDashboard::PutNumber("InchesOffLine",inchesOffLine);
-    frc::SmartDashboard::PutNumber("angle",angle);
-    frc::SmartDashboard::PutNumber("distance",distance);
+    byte* data = new byte[8];//create a byte array to hold the incoming data
+    wire->Read(4, 8, data);//use address 4 on i2c a  nd store it in data
+    //inchesOffLine = bytesToFloat(data[0],data[1],data[2],data[3]);
+    char * in = new char[8];
+    for(int i = 0; i < 8; i++){
+      in[i] =  (char)data[i];
+    }
+    float f;
+    f = (float)atof(in);
+    frc::SmartDashboard::PutNumber("InchesOffLineBut2",f);
    
 }
 float ArduinoCommunications::getInchesOffLine(){

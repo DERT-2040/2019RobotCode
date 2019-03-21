@@ -28,11 +28,29 @@ class DriveTrain : public frc::Subsystem {
   
   frc::Compressor *compressor;
   frc::DoubleSolenoid *driveSolenoid;
+  frc::DoubleSolenoid *climbSolenoid;
 
   frc::Ultrasonic *ultra;
 
   int gear;
+  int state;
+  float speedMultiplier;
+  float calcSpeedMultiplier();
   
+  double maxTurnSpeed = 10000;
+  double kP = 0;
+  double kI = 0;
+  double kD = 0;
+  double kF = 0;
+
+  const int lowLeft = 13000;
+  const int lowRight = 13000;
+  const int highRight = 22000;
+  const int highLeft = 22000;
+
+  float previousError = 0;
+  float turnI = 0;
+
  public:
 
   DriveTrain();
@@ -41,4 +59,8 @@ class DriveTrain : public frc::Subsystem {
   void CurveDrive();
   void DriveSpeed(float speed);
   void ShiftGear(int gear);// 0 = first gear, 1 = second gear
+  void Climb(int state);// 0 = first gear, 1 = second gear
+  void assistDrive();
+  void velDrive(float _forwardValue, float _turnValue);
+  
 };

@@ -5,9 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Auto.h"
+#pragma once
 
-Auto::Auto() {
-  frc::SmartDashboard::PutString("Mode", "Auto");
-  
-}
+
+#include "Robot.h"
+#include <frc/commands/Command.h>
+
+class manualSpatula : public frc::Command {
+  private:
+  float speed;
+ public:
+  manualSpatula(float _speed);
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+};

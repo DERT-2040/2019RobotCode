@@ -6,9 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Robot.h"
+
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include <iostream>
+#include <stdint.h>
+#include <unistd.h>
 OI Robot::m_oi;
 DriveTrain Robot::m_driveTrain;
 ModeChooser Robot::m_modeChooser;
@@ -16,11 +19,32 @@ ArduinoCommunications Robot::m_arduinoCommunications;
 Intake Robot::m_intake;
 Lift Robot::m_lift;
 Slider Robot::m_slider;
+HatchPickup Robot::m_hatchPickup;
+TX2Communication Robot::m_TX2Communication;
 
 
-void Robot::RobotInit() 
-{
-
+void Robot::VisionThread()
+{ 
+    cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    cs::UsbCamera camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    camera1.SetFPS(1);
+     //std::cout << camera.SetResolution(160, 120) << std::endl;
+     //std::cout << camera.SetFPS(3) << std::endl;
+    cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
+    cs::CvSource outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Gray", 160, 120);
+   
+    cv::Mat source;
+    cv::Mat output;
+    while(true) { 
+      cvSink.GrabFrame(source);
+      cvtColor(source, output, cv::COLOR_BGR2GRAY);
+      outputStreamStd.PutFrame(output);
+      usleep(20000);
+    }
+}
+void Robot::RobotInit() {
+    std::thread visionThread(VisionThread);
+    visionThread.detach();
 }
 //test
 /**
@@ -31,9 +55,13 @@ void Robot::RobotInit()
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() 
-{
-  
+void Robot::RobotPeriodic() { 
+  if (m_oi.joystickL->GetRawButton(3)) {
+    NetworkTable::GetTable("")->PutString("CameraSelection", camera2.GetName());
+  } 
+  else if (m_oi.joystickR->GetRawButton(3)) {
+    NetworkTable::GetTable("")->PutString("CameraSelection", camera1.GetName());
+  }
 }
 
 /**

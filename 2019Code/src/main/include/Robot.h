@@ -14,11 +14,14 @@
 #include "OI.h"
 #include "subsystems/DriveTrain.h"
 #include "subsystems/ArduinoCommunications.h"
+#include "subsystems/TX2Communication.h"
 #include "subsystems/ModeChooser.h"
 #include "subsystems/HatchPickup.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Lift.h"
 #include "subsystems/Slider.h"
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
 class Robot : public frc::TimedRobot {
  public:
   static OI m_oi;
@@ -28,7 +31,15 @@ class Robot : public frc::TimedRobot {
   static Intake m_intake;
   static Lift m_lift;
   static Slider m_slider;
-  
+  static HatchPickup m_hatchPickup;
+  static TX2Communication m_TX2Communication;
+
+  cs::UsbCamera camera1;
+  cs::UsbCamera camera2;
+  cs::VideoSink server;
+  cs::CvSink * cvsink1;
+  cs::CvSink * cvsink2;
+  static void VisionThread();
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;
