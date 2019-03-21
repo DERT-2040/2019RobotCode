@@ -5,9 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/setFourBarAngle.h"
+#include "commands/setFourbarAngle.h"
 #include "Robot.h"
-setFourBarAngle::setFourBarAngle(double _angle) {
+
+setFourbarAngle::setFourbarAngle(double _angle){
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
   Requires(&Robot::m_lift);
@@ -15,20 +16,30 @@ setFourBarAngle::setFourBarAngle(double _angle) {
 }
 
 // Called just before this Command runs the first time
-void setFourBarAngle::Initialize() {}
+void setFourbarAngle::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void setFourBarAngle::Execute() 
+void setFourbarAngle::Execute() 
 {
   Robot::m_lift.setFourBarAngle(angle);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool setFourBarAngle::IsFinished() { return false; }
+bool setFourbarAngle::IsFinished() 
+{
+  if(fabs(Robot::m_lift.getFourBarAngle() - angle) < 5)
+  {
+    return true;
+  }
+  else
+  {
+    return true;
+  }
+}
 
 // Called once after isFinished returns true
-void setFourBarAngle::End() {}
+void setFourbarAngle::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void setFourBarAngle::Interrupted() {}
+void setFourbarAngle::Interrupted() {}

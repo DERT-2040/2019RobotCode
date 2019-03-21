@@ -9,10 +9,12 @@
 
 #include <frc/commands/Command.h>
 
-class setFourbarAngle : public frc::Command {
- public:
+class setFourBarAngle : public frc::Command {
+ private:
   double angle;
-  setFourbarAngle(double _angle);
+ 
+ public:
+  setFourBarAngle(double _angle);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;
