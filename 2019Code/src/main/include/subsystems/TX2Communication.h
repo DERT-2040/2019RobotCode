@@ -16,6 +16,8 @@
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
 #include <netinet/in.h> 
+#include "RobotMap.h"
+#include "ctre/Phoenix.h"
 
 #define PORT 2040
 #define NUMOFVALUES 1024
@@ -26,11 +28,15 @@ class TX2Communication : public frc::Subsystem
   
   int sockfd;
   char buffer[33];
+  bool isVisionDetected = false;
   struct sockaddr_in serveraddr, cliaddr;
   int recvlen;
   socklen_t cliaddrlen = sizeof(cliaddr);
   float values[3];
   float pixel, angle, distance;
+
+  WPI_TalonSRX *leds;
+
  public:
   TX2Communication();
   void InitDefaultCommand() override;
@@ -38,5 +44,6 @@ class TX2Communication : public frc::Subsystem
   float getDistance();
   float getAngle();
   float getPixel();
+  bool isVisionReady();
 
 };

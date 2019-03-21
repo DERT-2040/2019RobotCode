@@ -11,6 +11,8 @@ using namespace std;
 
 TX2Communication::TX2Communication() : Subsystem("TX2Communication") 
 {
+  leds = new WPI_TalonSRX(kLeds);
+
   if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
   {
     cout << "could not create socket" << endl;
@@ -44,6 +46,7 @@ void TX2Communication::Periodic()
   int index = 2;
   if(recvlen > 0)
   {
+    isVisionDetected = true;
     printf("Client: %s\n", buffer);
     for(int i = 0; i < 3; i++)
     {
@@ -68,6 +71,12 @@ void TX2Communication::Periodic()
     pixel = values[0];
     angle = values[1];
     distance = values[2];
+    leds->Set(1);
+  }
+  else
+  {
+    leds->Set(0);
+    isVisionDetected = false;
   }
 }
 
@@ -84,5 +93,10 @@ float TX2Communication::getDistance()
 float TX2Communication::getAngle()
 {
   return angle;
+}
+
+bool TX2Communication::isVisionReady()
+{
+  return isVisionDetected;
 }
 

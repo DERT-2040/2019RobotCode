@@ -108,10 +108,12 @@ void DriveTrain::CurveDrive()
   turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
    turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
   drive->CurvatureDrive(-1*forwardSpeed,turnSpeed+ 0.02,true);
+  turnI = 0;
 }
 
 void DriveTrain::assistDrive()
 {
+  
   float forwardSpeed = Robot::m_oi.joystickR->GetRawAxis(1);
   forwardSpeed = forwardSpeed * fabs(forwardSpeed);
   
@@ -132,12 +134,14 @@ void DriveTrain::assistDrive()
   if(fabs(turnSpeed) > 0.6)
   {
     turnSpeed = 0.6*turnSpeed/fabs(turnSpeed);
-    std::cout << "limited" << std::endl;
+    //std::cout << "limited" << std::endl;
   }
-  std::cout << "TurnSpeed: " << turnSpeed << std::endl;
+
+  //std::cout << "TurnSpeed: " << turnSpeed << std::endl;
+  previousError = turnError;
+
   velDrive(forwardSpeed, -turnSpeed);
 
-  previousError = turnError;
 }
 
 void DriveTrain::DriveSpeed(float speed){

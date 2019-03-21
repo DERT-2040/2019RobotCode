@@ -62,3 +62,6 @@ constexpr int kCompressor = 0;
 constexpr int kSliderEncoder = 0;
 constexpr int kSliderLimitSwitch = 3;
 
+//leds
+constexpr int kLeds = 12;
+
