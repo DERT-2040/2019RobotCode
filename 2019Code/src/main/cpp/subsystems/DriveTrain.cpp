@@ -80,14 +80,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
   masterRightMotor->Config_kD(0, 0, 30);
   masterRightMotor->Config_kF(0, 0.0786, 30);
 
-  
-
 }
-void DriveTrain::InitDefaultCommand() {
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
-  //SetDefaultCommand(new DriveWithJoySticks);
-  //std::cout << "started" << std::endl;
+
+void DriveTrain::InitDefaultCommand() 
+{
   masterLeftMotor->GetSensorCollection().SetQuadraturePosition(0);
   masterRightMotor->GetSensorCollection().SetQuadraturePosition(0);
 }
