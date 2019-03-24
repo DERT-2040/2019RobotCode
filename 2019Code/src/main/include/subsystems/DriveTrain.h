@@ -37,7 +37,7 @@ class DriveTrain : public frc::Subsystem {
   float speedMultiplier;
   float calcSpeedMultiplier();
   
-  double maxTurnSpeed = 10000;
+  double maxTurnSpeed = 5000;
   double kP = 0;
   double kI = 0;
   double kD = 0;

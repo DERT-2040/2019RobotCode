@@ -20,6 +20,7 @@ Slider::Slider() : Subsystem("Slider")
   distanceTraveled->SetUpDownCounterMode();*/
   distanceTraveled->Reset();
   sliderMotor = new WPI_TalonSRX(kSliderMotorPort);
+  sliderMotor->SetInverted(true);
 }
 
 void Slider::InitDefaultCommand() {

@@ -26,10 +26,10 @@
 
 //Talons
     //DriveTrain
-        constexpr int kMasterLeftMotorPort = 2;
-        constexpr int kMasterRightMotorPort = 1;
-        constexpr int kSecondLeftMotorPort = 4;
-        constexpr int kSecondRightMotorPort = 3;
+        constexpr int kMasterLeftMotorPort = 1;
+        constexpr int kMasterRightMotorPort = 2;
+        constexpr int kSecondLeftMotorPort = 3;
+        constexpr int kSecondRightMotorPort = 4;
     //Intake
         constexpr int kRightIntakeWheel = 10;
         constexpr int kLeftIntakeWheel = 11;
@@ -52,10 +52,10 @@ constexpr int kPickupRetractedSwitch = 1;
 constexpr int kPickupDeployedSwitch = 2;
 
 //Pneumatics
-constexpr int kForwardDriveSolenoid = 0;
-constexpr int kReverseDriveSolenoid = 1;
-constexpr int kForwardIntakeSolenoid = 2;
-constexpr int kReverseIntakeSolenoid = 3;
+constexpr int kForwardDriveSolenoid = 3;
+constexpr int kReverseDriveSolenoid = 2;
+constexpr int kForwardIntakeSolenoid = 1;
+constexpr int kReverseIntakeSolenoid = 0;
 constexpr int kCompressor = 0;
 
 //slider

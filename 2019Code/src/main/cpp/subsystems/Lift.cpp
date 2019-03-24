@@ -19,7 +19,7 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->ConfigNominalOutputReverse(0, talonTimeoutMs);
   masterLiftMotor->ConfigNominalOutputForward(0, talonTimeoutMs);
   masterLiftMotor->ConfigPeakOutputForward(1, talonTimeoutMs);
-  masterLiftMotor->ConfigPeakOutputReverse(-1, talonTimeoutMs);
+  masterLiftMotor->ConfigPeakOutputReverse(-0.5, talonTimeoutMs);
 
   masterLiftMotor->Config_kP(kElevatorMotionSlotIdx, mLiftkP, talonTimeoutMs);
   masterLiftMotor->Config_kI(kElevatorMotionSlotIdx, mLiftkI, talonTimeoutMs);
@@ -96,7 +96,7 @@ void Lift::Periodic()
   }
   else if(getFourBarAngle() > 40)
   {
-    fbFeedForward = fbFeedForward*0.7;
+    fbFeedForward = fbFeedForward;
     //fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180))*0;
   }
   //std::cout << "fourbar angle: " << getFourBarAngle() << std::endl;
@@ -128,7 +128,7 @@ void Lift::setElevatorHeight(double height)
 void Lift::elevatorManualControl(double output)
 {
   float slowDown = 1;
-  if(!eMotionMagicActive || fabs(output) > 0.07)
+  if(!eMotionMagicActive || fabs(output) > 0.05)
   {
     eMotionMagicActive = false;
     double maxTicks = maxSlowDownHeight/inchesPerRotationElevator*ticksPerRotation;
@@ -193,7 +193,7 @@ void Lift::velocityFourBarControl(double speed)
   {
     fourBarMotor->SelectProfileSlot(kFourBarVelocitySlotIdx, kPIDLoopIdx);
     fourBarMotor->Set(ControlMode::Velocity, speed*maxFourBarVelocity);
-    std::cout << fourBarMotor->GetClosedLoopError() << std::endl;
+    //std::cout << fourBarMotor->GetClosedLoopError() << std::endl;
   }
   else
   {

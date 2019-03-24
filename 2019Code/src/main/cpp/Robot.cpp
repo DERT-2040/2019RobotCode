@@ -43,8 +43,9 @@ void Robot::VisionThread()
     }
 }
 void Robot::RobotInit() {
-    std::thread visionThread(VisionThread);
-    visionThread.detach();
+    //std::thread visionThread(VisionThread);
+    //visionThread.detach();
+    cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
 }
 //test
 /**

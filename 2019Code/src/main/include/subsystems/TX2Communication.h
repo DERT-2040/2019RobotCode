@@ -19,7 +19,7 @@
 #include "RobotMap.h"
 #include "ctre/Phoenix.h"
 
-#define PORT 2040
+#define PORT 5805
 #define NUMOFVALUES 1024
 
 class TX2Communication : public frc::Subsystem 
@@ -35,7 +35,8 @@ class TX2Communication : public frc::Subsystem
   float values[3];
   float pixel, angle, distance;
 
-  WPI_TalonSRX *leds;
+  WPI_VictorSPX *leds;
+  bool ledsOn = false;
 
  public:
   TX2Communication();

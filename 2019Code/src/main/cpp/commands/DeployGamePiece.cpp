@@ -22,7 +22,7 @@ void DeployGamePiece::Initialize() {
   if(Robot::m_intake.IsClosed()){ 
     closed = true;
   }
-  std::cout << "initialized" << std::endl;
+  //std::cout << "initialized" << std::endl;
 }
 
 // Called repeatedly when this Command is scheduled to run

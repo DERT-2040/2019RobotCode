@@ -11,7 +11,7 @@ using namespace std;
 
 TX2Communication::TX2Communication() : Subsystem("TX2Communication") 
 {
-  leds = new WPI_TalonSRX(kLeds);
+  leds = new WPI_VictorSPX(kLeds);
 
   if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
   {
@@ -44,6 +44,7 @@ void TX2Communication::Periodic()
   
   recvlen = recvfrom(sockfd, buffer, sizeof(buffer), MSG_DONTWAIT, (struct sockaddr *)&cliaddr, &cliaddrlen);
   int index = 2;
+  //std::cout << "Running" << std::endl;
   if(recvlen > 0)
   {
     isVisionDetected = true;
@@ -61,23 +62,32 @@ void TX2Communication::Periodic()
       values[i] = (float)atof(cstr);
       index+=3;
     }
-    
+    std::cout << "values" << std::endl;
     for(int i = 0; i < 3; i++)
     {
       std::cout << values[i] << " ";
     }
-    std::cout << " " << std::endl;
 
     pixel = values[0];
     angle = values[1];
     distance = values[2];
-    leds->Set(1);
   }
   else
   {
-    leds->Set(0);
     isVisionDetected = false;
   }
+
+  if(!ledsOn && recvlen > 0)
+  {
+    ledsOn = true;
+    leds->Set(1);
+  }
+  else if(leds && recvlen <= 0)
+  {
+    ledsOn = false;
+    leds->Set(0);
+  }
+  
 }
 
 float TX2Communication::getPixel()
