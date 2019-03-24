@@ -21,6 +21,9 @@ Lift::Lift() : Subsystem("Lift")
   masterLiftMotor->ConfigPeakOutputForward(1, talonTimeoutMs);
   masterLiftMotor->ConfigPeakOutputReverse(-0.5, talonTimeoutMs);
 
+  masterLiftMotor->ConfigOpenloopRamp(0.2);
+  masterLiftMotor->ConfigClosedloopRamp(0.2);
+
   masterLiftMotor->Config_kP(kElevatorMotionSlotIdx, mLiftkP, talonTimeoutMs);
   masterLiftMotor->Config_kI(kElevatorMotionSlotIdx, mLiftkI, talonTimeoutMs);
   masterLiftMotor->Config_kD(kElevatorMotionSlotIdx, mLiftkD, talonTimeoutMs);
@@ -50,8 +53,11 @@ Lift::Lift() : Subsystem("Lift")
   secondLiftMotor->ConfigNominalOutputReverse(0, talonTimeoutMs);
   secondLiftMotor->ConfigNominalOutputForward(0, talonTimeoutMs);
   secondLiftMotor->ConfigPeakOutputForward(1, talonTimeoutMs);
-  secondLiftMotor->ConfigPeakOutputReverse(-1, talonTimeoutMs);
+  secondLiftMotor->ConfigPeakOutputReverse(-0.5, talonTimeoutMs);
   secondLiftMotor->ConfigForwardSoftLimitEnable(false);
+
+  secondLiftMotor->ConfigOpenloopRamp(0.2);
+  secondLiftMotor->ConfigClosedloopRamp(0.2);
 
   fourBarMotor = new WPI_TalonSRX(kFourBarMotorPort);
   fourBarMotor->SetInverted(true);
@@ -89,6 +95,16 @@ Lift::Lift() : Subsystem("Lift")
 
 void Lift::Periodic()
 { 
+  if(masterLiftMotor->GetSelectedSensorPosition() < 2000){
+    masterLiftMotor->ConfigPeakOutputReverse(-0.1);
+    secondLiftMotor->ConfigPeakOutputReverse(-0.1);
+  }
+  else{
+    masterLiftMotor->ConfigPeakOutputReverse(-0.5);
+    secondLiftMotor->ConfigPeakOutputReverse(-0.5);
+
+  }
+
   fbFeedForward = fabs(horizontalHoldingPercent *cos(getFourBarAngle() * M_PI / 180));
   if(fabs(getFourBarAngle()) < 20)
   {
