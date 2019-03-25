@@ -49,12 +49,14 @@ TeleOp::TeleOp()
   }
   else if(Robot::m_oi.gamepad->GetPOV(0) == 90)
   {
-    //high ball
+    AddParallel(new SetLiftState(1));
+    //Low Hatch Pickup
   }
   else if(Robot::m_oi.gamepad->GetPOV(0)==270)
   {
     //Ground ball pickup
-    AddParallel(new SetLiftHeight(5.5, -15));
+    AddParallel(new SetLiftState(0));
+    AddParallel(new ResetSlider());
   }
   else
   {
