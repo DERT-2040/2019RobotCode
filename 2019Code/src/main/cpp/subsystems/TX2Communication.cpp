@@ -7,6 +7,7 @@
 
 #include "subsystems/TX2Communication.h"
 #include <iostream>
+#include <frc/smartdashboard/SmartDashboard.h>
 using namespace std;
 
 TX2Communication::TX2Communication() : Subsystem("TX2Communication") 
@@ -81,11 +82,13 @@ void TX2Communication::Periodic()
   {
     ledsOn = true;
     leds->Set(1);
+    frc::SmartDashboard::PutBoolean("Vision", true);
   }
   else if(leds && recvlen <= 0)
   {
     ledsOn = false;
     leds->Set(0);
+    frc::SmartDashboard::PutBoolean("Vision", false);
   }
   
 }

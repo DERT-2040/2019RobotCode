@@ -7,7 +7,7 @@
 
 #include "commands/SetLiftState.h"
 
-SetLiftState::SetLiftState(int level,bool onApproach) {
+SetLiftState::SetLiftState(int level) {
   if (level==1){
     level = 3;
   }
@@ -16,12 +16,6 @@ SetLiftState::SetLiftState(int level,bool onApproach) {
     level = level+3;//The level now stretches between 0 to 5 to signify whether the intake has a hatch or cargo
   }
   
-  if(onApproach){
-    xDist = 4;//Four bar is straight up
-  }
-  else{
-    xDist = 5;//Four bar is extended and ready to place
-  }
 
   switch (level)
   {
@@ -30,16 +24,16 @@ SetLiftState::SetLiftState(int level,bool onApproach) {
     case 2://Starting State
       AddSequential(new SetLiftHeight(5,4),4);//Replace with height and distance
     case 3://Hatch Low Goal (Rocket and Cargo Ship) and pickup
-      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height
     case 4://Hatch Medium Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height
     case 5://Hatch Tall Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height
     case 6:// Cargo Low Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height
     case 7:// Cargo Medium Goal (Rocket and Cargo Ship)
-      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height
     case 8:// Cargo Tall Goal (Rocket)
-      AddSequential(new SetLiftHeight(5,xDist),4);//Replace with height
+      AddSequential(new SetLiftHeight(5,4),4);//Replace with height
   }
 }
