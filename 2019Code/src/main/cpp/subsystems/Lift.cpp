@@ -214,7 +214,7 @@ void Lift::setFourBarHeight(double height)
   fourBarMotor->Set(ControlMode::MotionMagic, ticks);
 }
 
-//tune enough its not very good
+//tuned enough its not very good
 void Lift::setFourBarAngle(double angle)
 {
   fbMotionMagicActive = true;
@@ -227,7 +227,7 @@ void Lift::setFourBarAngle(double angle)
   }
   else if(angle <= getFourBarAngle())
   {
-    fourBarMotor  ->Config_kP(kFourBarMotionSlotIdx, downMMFourBarkP, talonTimeoutMs);
+    fourBarMotor->Config_kP(kFourBarMotionSlotIdx, downMMFourBarkP, talonTimeoutMs);
     fourBarMotor->Config_kI(kFourBarMotionSlotIdx, downMMFourBarkI, talonTimeoutMs);
     fourBarMotor->Config_kD(kFourBarMotionSlotIdx, downMMFourBarkD, talonTimeoutMs);
     fourBarMotor->Config_kF(kFourBarMotionSlotIdx, downMMFourBarkF, talonTimeoutMs);

@@ -90,16 +90,14 @@ void DriveTrain::InitDefaultCommand()
 
 void DriveTrain::Periodic()
 {
-  //std::cout << masterLeftMotor->GetSelectedSensorVelocity() << std::endl;
-  //std::cout << masterRightMotor->GetSelectedSensorVelocity() << std::endl;
-  //std::cout << "closed loop error" <<masterLeftMotor->GetClosedLoopError() << std::endl;
+
 }
+
+
 
 void DriveTrain::CurveDrive()
 { 
-
   float forwardSpeed = Robot::m_oi.joystickR->GetRawAxis(1);
-  //float forwardSpeedL = -1*Robot::m_oi.joystickL->GetRawAxis(1);
   float turnSpeed = Robot::m_oi.joystickL->GetRawAxis(0);
   forwardSpeed*= abs(-1*Robot::m_oi.joystickR->GetRawAxis(1));
   turnSpeed *= abs(Robot::m_oi.joystickL->GetRawAxis(0));
@@ -116,8 +114,10 @@ void DriveTrain::assistDrive()
   
   float turnError = 0 - Robot::m_TX2Communication.getAngle();
   float turnD = (turnError - previousError)/.02;
-  turnI += turnError*0;
   float turnSpeed;
+
+  turnI += turnError*0;
+  
   if(Robot::m_TX2Communication.getDistance() > 53  )
   {
     turnSpeed = turnError*0.0055*(65/Robot::m_TX2Communication.getDistance()) + turnD * 0 + turnI * 0.0001;
@@ -131,17 +131,15 @@ void DriveTrain::assistDrive()
   if(fabs(turnSpeed) > 0.5)
   {
     turnSpeed = 0.5*turnSpeed/fabs(turnSpeed);
-    //std::cout << "limited" << std::endl;
   }
 
-  //std::cout << "TurnSpeed: " << turnSpeed << std::endl;
   previousError = turnError;
-  //drive->ArcadeDrive(forwardSpeed, -turnSpeed);
   velDrive(forwardSpeed, -turnSpeed);
 
 }
 
-void DriveTrain::DriveSpeed(float speed){
+void DriveTrain::DriveSpeed(float speed)
+{
   //drive->CurvatureDrive(0.5,0,false);
 }
 
@@ -205,8 +203,6 @@ void DriveTrain::velDrive(float _forwardValue, float _turnValue)
     rightSpeed = forwardValue * highRight - turnValue * maxTurnSpeed;
     leftSpeed = forwardValue * highLeft + turnValue * maxTurnSpeed;
   }
-
-  //std::cout << "turn" << turnValue * maxTurnSpeed << std::endl;
 
   masterLeftMotor->SelectProfileSlot(0,0);
   masterRightMotor->SelectProfileSlot(0,0);
