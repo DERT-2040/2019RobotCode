@@ -47,7 +47,7 @@ class Lift : public frc::Subsystem
       const int kElevatorVelocitySlotIdx = 1;
       const int kElevatorPositionSlotIdx = 2;
       
-      double mLiftkP = 4;
+      double mLiftkP = 2;
       double mLiftkI = 0;
       double mLiftkD = 0;
       double mLiftkF = .8;
@@ -62,7 +62,7 @@ class Lift : public frc::Subsystem
       double vLiftkD = 0;
       double vLiftkF = 0.5;
 
-      double pLiftkP = 0;
+      double pLiftkP = 2;
       double pLiftkI = 0;
       double pLiftkD = 0;
       double pLiftkF = 0;
@@ -70,13 +70,14 @@ class Lift : public frc::Subsystem
       double liftCruiseVelocity = 1000;
       double liftAcceleration = 2000;
 
+    double currentPos = 0;
     const double maxLiftSpeed = 500;
     const double liftStartingHeight = 5.5;
     const float maxElevatorHeight =  32;
     const float minElevatorHeight = 0;
     const float maxElevatorTickHeight = maxElevatorHeight/inchesPerRotationElevator*ticksPerRotation;
     const float minElevatorTickHeight = 0;
-    const float kFeedforwardElevator = 0.10;
+    float kFeedforwardElevator = 0.10;
     const float maxSlowDownHeight = 25;
     const float minSlowDownHeight = 10;
     const float slowDownConstant = 0.16;
@@ -98,25 +99,25 @@ class Lift : public frc::Subsystem
       double motionMagicFourBarkP = 0;
       double motionMagicFourBarkI = 0;
       double motionMagicFourBarkD = 0;
-      double motionMagicFourBarkF = 0;
+      double motionMagicFourBarkF = 5;
 
       double upMMFourBarkP = 2;
       double upMMFourBarkI = 0.0;
       double upMMFourBarkD = 0;
-      double upMMFourBarkF = 32;
+      double upMMFourBarkF = 25;
       
       double downMMFourBarkP = 15;
       double downMMFourBarkI = 0;
       double downMMFourBarkD = 0;
-      double downMMFourBarkF = 12;
+      double downMMFourBarkF = 5;
 
       double vFourBarkP = 0;
       double vFourBarkI = 0;
       double vFourBarkD = 0;
       double vFourBarkF = 0;
       
-      double fourBarCruiseVelocity = 60;
-      double fourBarAcceleration = 60;
+      double fourBarCruiseVelocity = 50;
+      double fourBarAcceleration = 50;
 
     double horizontalHoldingPercent = 0.195;
     double fbFeedForward = 0;

@@ -12,7 +12,10 @@
 class setFourBarAngle : public frc::Command {
  private:
   double angle;
- 
+  double error;
+  double previousError;
+  double integral = 0;
+  double deriv = 0;
  public:
   setFourBarAngle(double _angle);
   void Initialize() override;

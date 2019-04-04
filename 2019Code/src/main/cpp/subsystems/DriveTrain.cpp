@@ -208,9 +208,17 @@ void DriveTrain::velDrive(float _forwardValue, float _turnValue)
   masterRightMotor->SelectProfileSlot(0,0);
 
   if(fabs(turnValue) > 0 || fabs(forwardValue) > 0)
-  {
-    masterLeftMotor->Set(ControlMode::Velocity, leftSpeed);
-    masterRightMotor->Set(ControlMode::Velocity, -rightSpeed);
+  { 
+    if(gear == 0)
+    {
+      masterLeftMotor->Set(ControlMode::Velocity, leftSpeed);
+      masterRightMotor->Set(ControlMode::Velocity, -rightSpeed);
+    }
+    else if(gear == 1)
+    {
+      masterLeftMotor->Set(ControlMode::Velocity, leftSpeed, DemandType_ArbitraryFeedForward, turnValue*0.25);
+      masterRightMotor->Set(ControlMode::Velocity, -rightSpeed, DemandType_ArbitraryFeedForward, -turnValue*0.25);
+    }
   }
   else
   {

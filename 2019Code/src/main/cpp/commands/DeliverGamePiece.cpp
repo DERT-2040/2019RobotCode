@@ -13,14 +13,14 @@
 #include "commands/DeployGamePiece.h"
 
 DeliverGamePiece::DeliverGamePiece(int level) {
-  AddSequential(new SetLiftState(level + 2,false));
-  AddSequential(new WaitForButtonPress(2,false));// CHANGE TO READY BUTTON POSITION
-  AddSequential(new SetLiftState(level + 1,true));
+  //AddSequential(new SetLiftState(level + 2,false));
+  //AddSequential(new WaitForButtonPress(2,false));// CHANGE TO READY BUTTON POSITION
+  //AddSequential(new SetLiftState(level + 1,true));
   //AddSequential(new SliderLineTracker());
-  AddSequential(new WaitForButtonPress(3,false));// CHANGE TO DEPLOY BUTTON POSITION
-  AddSequential(new DeployGamePiece());
-  AddSequential(new WaitForButtonPress(3,true));// CHANGE TO RESET BUTTON POSITION
-  AddParallel(new SetLiftState(2, false));
+  //AddSequential(new WaitForButtonPress(3,false));// CHANGE TO DEPLOY BUTTON POSITION
+  //AddSequential(new DeployGamePiece());
+  //AddSequential(new WaitForButtonPress(3,true));// CHANGE TO RESET BUTTON POSITION
+  //AddParallel(new SetLiftState(2, false));
   //AddSequential(new ResetSlider());
 
   // Add Commands here:

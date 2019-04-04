@@ -18,7 +18,7 @@ class Intake : public frc::Subsystem {
   WPI_TalonSRX *leftIntake;
   WPI_TalonSRX *rightIntake;
   frc::DoubleSolenoid *intakeSolenoid;
-  bool state;
+  bool state;//when true open
   int deploy;
   bool deploying = false;
  public:

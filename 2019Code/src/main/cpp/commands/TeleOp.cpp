@@ -17,20 +17,29 @@ TeleOp::TeleOp()
   if(Robot::m_oi.gamepad->GetRawButton(1))
   {
     //Hatch pickup and low rocket
-    AddParallel(new SetLiftHeight(21, -45));
-    //AddParallel(new setFourBarAngle(-45));
+    //AddParallel(new SetLiftHeight(1, 0));
+    //Test Command
+    AddParallel(new setFourBarAngle(-45));
+    //AddParallel(new SetLiftState(3));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(2))
   {
     //Middle rocket
-    AddParallel(new SetLiftHeight(34, -45));
-    //AddParallel(new setFourBarAngle(45));
+    //AddParallel(new SetLiftHeight(35, 0));
+    //Test Commands
+    AddParallel(new setFourBarAngle(0));
+    //AddParallel(new SetLiftHeight(30, 0));
+
+    //AddParallel(new SetLiftState(4));
   } 
   else if(Robot::m_oi.gamepad->GetRawButton(4))
   {
     //High rocket
-    AddParallel(new SetLiftHeight(55, 45));
-    //AddParallel(new setFourBarAngle(45));
+    //AddParallel(new SetLiftHeight(55, 45));
+    //Test Commands
+    AddParallel(new setFourBarAngle(45));
+    //AddParallel(new SetLiftHeight(50, 0));
+    //AddParallel(new SetLiftState(5));
   }
   else if(Robot::m_oi.gamepad->GetRawButton(10))
   {
@@ -49,14 +58,14 @@ TeleOp::TeleOp()
   }
   else if(Robot::m_oi.gamepad->GetPOV(0) == 90)
   {
-    AddParallel(new SetLiftState(1));
+    //AddParallel(new SetLiftState(1));
     //Low Hatch Pickup
   }
   else if(Robot::m_oi.gamepad->GetPOV(0)==270)
   {
     //Ground ball pickup
-    AddParallel(new SetLiftState(0));
-    AddParallel(new ResetSlider());
+    //AddParallel(new SetLiftState(0));
+    //AddParallel(new ResetSlider());
   }
   else
   {
@@ -68,11 +77,7 @@ TeleOp::TeleOp()
   {
     AddParallel(new DeployGamePiece());
   }
-
-  if(Robot::m_oi.gamepad->GetRawButton(9)){
-    frc::Scheduler::GetInstance()->RemoveAll();
+  if(Robot::m_oi.gamepad->GetPOV(0)!=0 && Robot::m_oi.gamepad->GetPOV(0) != 180){
+      AddParallel(new manualSpatula(0));
   }
- if(Robot::m_oi.gamepad->GetPOV(0)!=0 && Robot::m_oi.gamepad->GetPOV(0) != 180){
-    AddParallel(new manualSpatula(0));
- }
 }
